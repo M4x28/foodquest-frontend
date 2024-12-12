@@ -22,18 +22,18 @@ function App() {
         }
     },[]);
 
-    //Updater function: updete [paramName] in state to be [value]
-    const editState = (paramName,value) => {
+    //Updater function: updete [key] in state to be [value]
+    const editState = (key:string, value:any):void => {
         
         setAppState(currState => {
             
-            if(currState[paramName] === value){
+            if(currState[key] === value){
                 return currState;
             }
 
             console.log("edit");
 
-            const newState = {...currState,[paramName] : value};
+            const newState = {...currState,[key] : value};
 
             //Store State in browser session storage
             if(hasStorage){
@@ -48,7 +48,7 @@ function App() {
         <AppStateCtx.Provider value={[appState,editState]}>
             <BrowserRouter>
                 <Routes>
-                    <Route path='/test' element={<Test></Test>}/>
+                    <Route path='/test' element={<Test></Test>}/>   {/*Test per vedere se funzionava*/}
                 </Routes>
             </BrowserRouter>
         </AppStateCtx.Provider>
@@ -57,6 +57,7 @@ function App() {
 
 export default App;
 
+//Test per vedere se funzionava
 function Test(){
     const [state,edit] = useContext(AppStateCtx);
 
