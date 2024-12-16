@@ -1,56 +1,58 @@
-import React , {createContext, useState, useEffect,useContext} from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
-
+import FoodBuilderComponent from './FoodBuilderComponent';
 import Header, { Pages } from "./components/Header.tsx"
 
 interface AppState{ [key:string] : any};
+
 export const AppStateCtx = createContext<AppState>();
 
 //Check if browser support storage
-const hasStorage = typeof(Storage) !== undefined;
+const hasStorage = typeof (Storage) !== undefined;
 
 function App() {
-    
-    const [appState,setAppState] = useState<[AppState,Function]>({});
+
+    const [appState, setAppState] = useState<[AppState, Function]>({});
 
     //Check on mount if a previous state is been saved
     useEffect(() => {
-        if(hasStorage){
+        if (hasStorage) {
             const item = sessionStorage.getItem("appState");
-            if(item){
+            if (item) {
                 setAppState(JSON.parse(item));      //Restore Saved State
             }
         }
-    },[]);
+    }, []);
 
     //Updater function: updete [key] in state to be [value]
-    const editState = (key:string, value:any):void => {
-        
+    const editState = (key: string, value: any): void => {
+
         setAppState(currState => {
-            
-            if(currState[key] === value){
+
+            if (currState[key] === value) {
                 return currState;
             }
 
             console.log("edit");
 
-            const newState = {...currState,[key] : value};
+            const newState = { ...currState, [key]: value };
 
             //Store State in browser session storage
-            if(hasStorage){
-                sessionStorage.setItem("appState",JSON.stringify(newState));
+            if (hasStorage) {
+                sessionStorage.setItem("appState", JSON.stringify(newState));
             }
 
             return newState;
         });
     }
-    
+
     return (
-        <AppStateCtx.Provider value={[appState,editState]}>
+        <AppStateCtx.Provider value={[appState, editState]}>
             <BrowserRouter>
                 <Routes>
-                    <Route path='/test' element={<Test></Test>}/>   {/*Test per vedere se funzionava*/}
+                    <Route path='/test' element={<Test></Test>} />   {/*Test per vedere se funzionava*/}
+                    <Route path='/testt' element={<FoodBuilderComponent></FoodBuilderComponent>} />   {/*Test per vedere se funzionava*/}
                 </Routes>
             </BrowserRouter>
         </AppStateCtx.Provider>
@@ -60,10 +62,10 @@ function App() {
 export default App;
 
 //Test per vedere se funzionava
-function Test(){
-    const [state,edit] = useContext(AppStateCtx);
+function Test() {
+    const [state, edit] = useContext(AppStateCtx);
 
-    return(
+    return (
         <>
             <Header pageName='TEST' current={Pages.Check}/>
             <p> {state.time || 0 }</p>
