@@ -2,6 +2,8 @@ import React , {createContext, useState, useEffect,useContext} from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 
+import Header, { Pages } from "./components/Header.tsx"
+
 interface AppState{ [key:string] : any};
 export const AppStateCtx = createContext<AppState>();
 
@@ -63,8 +65,11 @@ function Test(){
 
     return(
         <>
+            <Header pageName='TEST' current={Pages.Check}/>
             <p> {state.time || 0 }</p>
             <button onClick = {() => edit("time",new Date().getTime())} > HEY </button>
+            <p style={{fontSize:"50px"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio dolor, id, quae velit voluptas tempore perferendis eveniet sint ullam ratione ea, reprehenderit sit rerum perspiciatis facilis voluptatibus sunt facere libero!</p>
+            <p style={{fontSize:"50px"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio dolor, id, quae velit voluptas tempore perferendis eveniet sint ullam ratione ea, reprehenderit sit rerum perspiciatis facilis voluptatibus sunt facere libero!</p>
         </>
     )
 }

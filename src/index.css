@@ -1,0 +1,17 @@
+body{
+    margin: 0;
+    font-family: Helvetica, sans-serif;
+    background-image: url("./assets/bg.webp"), linear-gradient(#34c300,#b9d4b4);
+    background-attachment: fixed;
+    background-size: cover;
+    animation-iteration-count: infinite;
+}
+
+#root{
+    /* GENERAL COLOR */
+    --very-dark-col: #1e1e1e;
+    --dark-col: #067513;
+    --medium-col: #34c300;
+    --light-col: #b9d4b4;
+    --very-light-col: #f2f2ff;
+}

@@ -1,0 +1,74 @@
+.header-container{
+    top: 0px;
+    position: fixed;
+    width: 100%;
+}
+
+header{
+    width: 100%;
+    display: flex;
+    height: 80px;
+    align-items: center;
+    border-bottom: 3px solid var(--dark-col);
+    background-color: var(--very-light-col);
+}
+
+header h1{
+    font-size: 2.2rem;
+    color: var(--very-dark-col);
+    margin: auto;
+}
+
+.menu-btn{
+    border: none;
+    width: fit-content;
+    height: fit-content;
+    background: none;
+}
+
+.menu-btn svg, .home-btn svg{
+    margin: 10px;
+    height: 50px;
+    width: 50px;
+    fill: var(--dark-col);
+}
+
+.solid-snake{
+    /* When you cant even say
+        My Name */
+        display: none;
+}
+
+.dropdown-voice{
+    display: flex;
+    align-items: center;
+    height: 80px;
+    width: 100%;
+    font-size: 1.7rem;
+    text-decoration: none;
+    color: var(--very-dark-col);
+    border-bottom: 3px solid var(--dark-col);
+    background-color: var(--very-light-col);
+}
+
+.dropdown-voice svg{
+    height: 50px;
+    width: 50px;
+    fill: var(--dark-col);
+    margin: 10px;
+}
+
+.dropdown-voice.current{
+    color: var(--very-light-col);
+    background-color: var(--dark-col);
+}
+
+.dropdown-voice.current svg{
+    fill: var(--very-light-col);
+}
+
+.glass{
+    height: 100vh;
+    backdrop-filter: blur(10px);
+    background-color: hsla(0, 0%, 50%, 0.527);
+}
