@@ -1,10 +1,12 @@
 import React , {createContext, useState, useEffect,useContext} from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 import './App.css';
 
 import Header, { Pages } from "./components/Header.tsx"
 import Popup from './components/Popup.tsx';
 import ButtonWithPrompt from './components/ButtonWithPrompt.tsx';
+import FoodBuilderComponent from './FoodBuilderComponent.tsx';
 
 interface AppState{ [key:string] : any};
 export const AppStateCtx = createContext<[AppState,Function]>();
@@ -73,6 +75,7 @@ function Test(){
     return(
         <>
             <Header pageName='TEST' current={Pages.Check}/>
+            <FoodBuilderComponent/>
             <p style={{paddingTop:100}}> {state.time || 0 }</p>
             <button onClick = {() => edit("time",new Date().getTime())} > HEY </button><br></br>
             <button onClick = {() => setpopUp(true)}>Hey</button>
