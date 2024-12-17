@@ -1,0 +1,32 @@
+.popup-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-content{
+    background-color: var(--very-light-col);
+    border-radius: 10px;
+    padding: 10px;
+    width: 80%;
+    border: 3px solid var(--dark-col);
+}
+
+.close-btn{
+    border: none;
+    width: fit-content;
+    height: fit-content;
+    background: none;
+    float: right;
+}
+
+.close-btn svg{
+    height: 40px;
+    width: 40px;
+    fill: var(--error-col);
+}

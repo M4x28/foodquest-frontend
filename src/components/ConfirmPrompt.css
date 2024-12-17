@@ -1,0 +1,33 @@
+.confirm-prompt{
+    background-color: var(--very-light-col);
+    border-radius: 10px;
+    padding: 10px;
+    width: 80%;
+    border: 3px solid var(--dark-col);
+}
+
+.confirm-prompt h3{
+    font-size: 2rem;
+    margin: 10px;
+}
+
+.confirm-prompt p{
+    font-size: 1.2rem;
+    margin: 10px;
+}
+
+.confirm-btn{
+    width: 80%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 12px;
+    margin: 10px 10%;
+    text-align: center;
+}
+
+.confirm-btn svg{
+    float: left;
+    height: 30px;
+    width: 30px;
+}

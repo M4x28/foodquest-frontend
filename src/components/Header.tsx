@@ -1,9 +1,9 @@
 import React,{useState} from "react"
 import { Link } from "react-router-dom";
 
-import { ReactComponent as HomeBtn } from "../assets/home.svg"
-import { ReactComponent as MenuBtn } from "../assets/menu.svg"
-import { ReactComponent as CloseBtn } from "../assets/close.svg"
+import { ReactComponent as HomeIcon } from "../assets/home.svg"
+import { ReactComponent as MenuIcon } from "../assets/menu.svg"
+import { ReactComponent as CloseIcon } from "../assets/close.svg"
 
 import { ReactComponent as PizzaIcon } from "../assets/pizza.svg"
 import { ReactComponent as CartIcon } from "../assets/shoppingCart.svg"
@@ -34,16 +34,16 @@ function Header({pageName, current}:PropType){
     }
 
     return(
-        <div className="header-container">
+        <div className="header-container" >
             <header>
                 <Link className="home-btn">   
-                    <HomeBtn/>
+                    <HomeIcon/>
                 </Link>
                 <h1>
                     {pageName}
                 </h1>
                 <button className="menu-btn" onClick={toggleDropdown} title="menu">
-                    { !displayDropdown ? <MenuBtn/> : <CloseBtn/>}
+                    { !displayDropdown ? <MenuIcon/> : <CloseIcon/>}
                 </button>
             </header>
             <div className={displayDropdown ? "" : "solid-snake"}>

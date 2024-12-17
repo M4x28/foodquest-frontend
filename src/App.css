@@ -1,0 +1,20 @@
+.glass{
+    height: 100vh;
+    backdrop-filter: blur(10px);
+    background-color: hsla(0, 0%, 85%, 0.20);
+}
+
+.solid-snake{
+    /* When you cant even say
+        My Name */
+        display: none;
+}
+
+.btn{
+    font-size: 2rem;
+    width: 80%;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 10px;
+    border-width: 3px;
+}

@@ -5,6 +5,7 @@ body{
     background-attachment: fixed;
     background-size: cover;
     animation-iteration-count: infinite;
+    color: #1e1e1e;
 }
 
 #root{
@@ -14,4 +15,30 @@ body{
     --medium-col: #34c300;
     --light-col: #b9d4b4;
     --very-light-col: #f2f2ff;
+    --error-col: #c41818;
+
+    /* BUTTONS THEMES */
+    /* Dark button color */
+    --dark-btn-bg: #067513;
+    --dark-btn-text: #f2f2ff;
+    --dark-btn-border: #f2f2ff;
+    --dark-btn-inv-text: #1e1e1e;
+}
+
+.dark-btn{
+    border-style: solid;
+    background-color: var(--dark-btn-bg);
+    color: var(--dark-btn-text);
+    border-color: var(--dark-btn-border);
+}
+
+.dark-btn svg{
+    fill: var(--dark-btn-text);
+}
+
+.dark-btn-inverse{
+    border-style: solid;
+    background-color: var(--dark-btn-text);
+    color: var(--dark-btn-inv-text);
+    border-color: var(--dark-btn-bg);
 }

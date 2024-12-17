@@ -33,12 +33,6 @@ header h1{
     fill: var(--dark-col);
 }
 
-.solid-snake{
-    /* When you cant even say
-        My Name */
-        display: none;
-}
-
 .dropdown-voice{
     display: flex;
     align-items: center;
@@ -67,8 +61,3 @@ header h1{
     fill: var(--very-light-col);
 }
 
-.glass{
-    height: 100vh;
-    backdrop-filter: blur(10px);
-    background-color: hsla(0, 0%, 50%, 0.527);
-}
