@@ -23,8 +23,14 @@ body{
     --dark-btn-text: #f2f2ff;
     --dark-btn-border: #f2f2ff;
     --dark-btn-inv-text: #1e1e1e;
+    /* light button color */
+    --light-btn-bg: #32a10a;
+    --light-btn-text: #f2f2ff;
+    --light-btn-border: #f2f2ff;
+    --light-btn-inv-text: #1e1e1e;
 }
 
+/* DARK BUTTON */
 .dark-btn{
     border-style: solid;
     background-color: var(--dark-btn-bg);
@@ -45,4 +51,27 @@ body{
 
 .dark-btn-inverse svg{
     fill: var(--dark-btn-bg);
+}
+
+/* LIGHT BUTTON */
+.light-btn{
+    border-style: solid;
+    background-color: var(--light-btn-bg);
+    color: var(--light-btn-text);
+    border-color: var(--light-btn-border);
+}
+
+.light-btn svg{
+    fill: var(--light-btn-text);
+}
+
+.light-btn-inverse{
+    border-style: solid;
+    background-color: var(--light-btn-text);
+    color: var(--light-btn-inv-text);
+    border-color: var(--light-btn-bg);
+}
+
+.light-btn-inverse svg{
+    fill: var(--light-btn-bg);
 }

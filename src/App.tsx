@@ -2,12 +2,11 @@ import React , {createContext, useState, useEffect} from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import useRefresh from './utility/useRefresh.ts';
 
-
+import ButtonWithPrompt from './components/ButtonWithPrompt.tsx';
 import Header, { Pages } from "./components/Header.tsx"
 
 import './App.css';
-import Popup from './components/Popup.tsx';
-import ButtonWithPrompt from './components/ButtonWithPrompt.tsx';
+
 interface AppState{ [key:string] : any};
 
 export const AppStateCtx = createContext<[AppState,Function]>([{}, () => 0]);
@@ -76,7 +75,7 @@ function Test(){
             <Header pageName='Test' current={Pages.FC}/>
             <h1 style={{paddingTop:100}}>{time && time.getTime()}</h1>
             <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur voluptates ipsum quae neque obcaecati facere animi eos repellat, placeat ducimus saepe, corrupti qui laudantium cum ipsam esse consectetur voluptatum et.</h1>
-            <button className = "dark-btn-inverse btn" onClick={refreshTime}> Che ore sono? </button>
+            <button className = "light-btn btn" onClick={refreshTime}> Che ore sono? </button>
             <ButtonWithPrompt onClick={test} popupTitle='Azione Irreversibile' 
                 popupText='Questa azione non può essere annullata, proseguire?'>
                 <h1> Test Irreversibile </h1>

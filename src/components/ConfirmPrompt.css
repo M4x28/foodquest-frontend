@@ -1,17 +1,9 @@
-.confirm-prompt{
-    background-color: var(--very-light-col);
-    border-radius: 10px;
-    padding: 10px;
-    width: 80%;
-    border: 3px solid var(--dark-col);
-}
-
-.confirm-prompt h3{
+.prompt-title{
     font-size: 2rem;
     margin: 10px;
 }
 
-.confirm-prompt p{
+.prompt-text{
     font-size: 1.2rem;
     margin: 10px;
 }

@@ -6,16 +6,23 @@ import {ReactComponent as ConfirmIcon} from "../assets/confirm.svg"
 import "./ConfirmPrompt.css"
 
 interface PropType{
+    //Functional
     children: React.ReactNode,
     onClick: () => void, 
-
+    //Aestetic
     className?:string,
-    popupTitle?: string,
-    popupText?: string,
+    //Popup Aestetic
+    popupClass?:string,
+    confirmClass?:string,
+    popupTitle?:string,
+    popupText?:string,
+    confirmText?:string,
+    confirmSvg?: React.ReactElement
 }
 
-function ButtonWithPrompt({children, onClick, className,
-     popupTitle = "Sei sicuro?", popupText = "Questa azione non può essere annullata"} : PropType){
+function ButtonWithPrompt({children, onClick, className, popupClass, confirmClass = "dark-btn confirm-btn",
+        popupTitle = "Sei sicuro?", popupText = "Questa azione non può essere annullata",
+        confirmText = "CONFERMA", confirmSvg=<ConfirmIcon/> } : PropType){
 
     const [popup,setPopup] = useState(false);
 
@@ -30,11 +37,11 @@ function ButtonWithPrompt({children, onClick, className,
         <button onClick={togglePopup} className={className}>
             {children}
         </button>
-        <Popup isOpen={popup} close={togglePopup} popupClass="confirm-prompt">
-            <h3> {popupTitle} </h3>
-            <p> {popupText} </p>
-            <button className="dark-btn confirm-btn" onClick={confirmAction}>
-                <ConfirmIcon/> CONFERMA
+        <Popup isOpen={popup} close={togglePopup} popupClass={popupClass}>
+            <h3 className="prompt-title"> {popupTitle} </h3>
+            <p  className="prompt-text"> {popupText} </p>
+            <button className={confirmClass} onClick={confirmAction}>
+                {confirmSvg} {confirmText}
             </button>
         </Popup>
         </>
