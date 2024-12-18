@@ -1,5 +1,6 @@
 import React,{useState} from "react"
 import { Link } from "react-router-dom";
+import { stopPropagation } from "../utility/generic.ts";
 
 import { ReactComponent as HomeIcon } from "../assets/home.svg"
 import { ReactComponent as MenuIcon } from "../assets/menu.svg"
@@ -30,7 +31,7 @@ function Header({pageName, current}:PropType){
     const [displayDropdown,setDisplayDropdown] = useState<boolean>(false);
 
     function toggleDropdown( event ){
-        setDisplayDropdown( d => !d);
+        setDisplayDropdown( d => !d );
     }
 
     return(
@@ -46,22 +47,21 @@ function Header({pageName, current}:PropType){
                     { !displayDropdown ? <MenuIcon/> : <CloseIcon/>}
                 </button>
             </header>
-            <div className={displayDropdown ? "" : "solid-snake"}>
-                <nav>
-                    <Link className={"dropdown-voice" + (current === Pages.Home ? " current" : "")}> 
-                        <PizzaIcon/> Ordina 
-                    </Link>
-                    <Link className={"dropdown-voice" + (current === Pages.Order ? " current" : "")}> 
-                        <CartIcon/> Visualizza il tuo ordine 
-                    </Link>
-                    <Link className={"dropdown-voice" + (current === Pages.Check ? " current" : "")}> 
-                        <OrderIcon/> Resoconto ordini 
-                    </Link>
-                    <Link className={"dropdown-voice" + (current === Pages.FC ? " current" : "")}>
-                        <AccountIcon/> Fidelity Card 
-                    </Link>
-                </nav>
-                <div className="glass" onClick={toggleDropdown}/>
+            <div className={"dropdown-overlay glass" + (displayDropdown ? "" : " solid-snake")} onClick={toggleDropdown}>
+            <nav className={"dropdown" + (displayDropdown ? "" : " solid-snake")} onClick={stopPropagation}>
+                <Link className={"dropdown-voice" + (current === Pages.Home ? " current" : "")}> 
+                    <PizzaIcon/> Ordina 
+                </Link>
+                <Link className={"dropdown-voice" + (current === Pages.Order ? " current" : "")}> 
+                    <CartIcon/> Visualizza il tuo ordine 
+                </Link>
+                <Link className={"dropdown-voice" + (current === Pages.Check ? " current" : "")}> 
+                    <OrderIcon/> Resoconto ordini 
+                </Link>
+                <Link className={"dropdown-voice" + (current === Pages.FC ? " current" : "")}>
+                    <AccountIcon/> Fidelity Card 
+                </Link>
+            </nav>
             </div>
         </div>
     )

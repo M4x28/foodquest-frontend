@@ -30,3 +30,9 @@
     width: 40px;
     fill: var(--error-col);
 }
+
+.solid-snake{
+    /* When you cant even say
+        My Name */
+    display: none;
+}

@@ -1,22 +1,23 @@
-import React , {createContext, useState, useEffect,useContext} from 'react';
+import React , {createContext, useState, useEffect} from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import useRefresh from './utility/useRefresh.ts';
 
-import './App.css';
 
 import Header, { Pages } from "./components/Header.tsx"
+
+import './App.css';
 import Popup from './components/Popup.tsx';
 import ButtonWithPrompt from './components/ButtonWithPrompt.tsx';
-import FoodBuilderComponent from './FoodBuilderComponent.tsx';
-
 interface AppState{ [key:string] : any};
-export const AppStateCtx = createContext<[AppState,Function]>();
+
+export const AppStateCtx = createContext<[AppState,Function]>([{}, () => 0]);
 
 //Check if browser support storage
 const hasStorage = typeof(Storage) !== undefined;
 
 function App() {
     
-    const [appState,setAppState] = useState<[AppState,Function]>({});
+    const [appState,setAppState] = useState<AppState>({});
 
     //Check on mount if a previous state is been saved
     useEffect(() => {
@@ -65,30 +66,21 @@ export default App;
 
 //Test per vedere se funzionava
 function Test(){
-    const [state,edit] = useContext(AppStateCtx);
-    const [popUp,setpopUp] = useState(false);
+    
+    const [time,refreshTime] = useRefresh<Date>(async () => new Date(),new Date());
 
-    const test = () => {
-        alert("Ciao io sono un azione non reversibile");
-    }
+    const test = () => { alert("Ciao sono una azione irreversibile")}
 
     return(
         <>
-            <Header pageName='TEST' current={Pages.Check}/>
-            <FoodBuilderComponent/>
-            <p style={{paddingTop:100}}> {state.time || 0 }</p>
-            <button onClick = {() => edit("time",new Date().getTime())} > HEY </button><br></br>
-            <button onClick = {() => setpopUp(true)}>Hey</button>
-            <ButtonWithPrompt onClick={test} className='dark-btn-inverse btn'
-                popupTitle='Test' popupText='Questa azione non è reversibile, continuare?'>
-                Test
+            <Header pageName='Test' current={Pages.FC}/>
+            <h1 style={{paddingTop:100}}>{time && time.getTime()}</h1>
+            <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur voluptates ipsum quae neque obcaecati facere animi eos repellat, placeat ducimus saepe, corrupti qui laudantium cum ipsam esse consectetur voluptatum et.</h1>
+            <button className = "dark-btn-inverse btn" onClick={refreshTime}> Che ore sono? </button>
+            <ButtonWithPrompt onClick={test} popupTitle='Azione Irreversibile' 
+                popupText='Questa azione non può essere annullata, proseguire?'>
+                <h1> Test Irreversibile </h1>
             </ButtonWithPrompt>
-            <p style={{fontSize:"50px"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio dolor, id, quae velit voluptas tempore perferendis eveniet sint ullam ratione ea, reprehenderit sit rerum perspiciatis facilis voluptatibus sunt facere libero!</p>
-            <p style={{fontSize:"50px"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio dolor, id, quae velit voluptas tempore perferendis eveniet sint ullam ratione ea, reprehenderit sit rerum perspiciatis facilis voluptatibus sunt facere libero!</p>
-            <Popup open={popUp} close={() => setpopUp(false)}>
-                <h1> Lorem </h1>
-                <h3> Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis consequatur, beatae nemo, magni dignissimos molestias dolore id, doloribus vitae omnis libero commodi nihil aperiam? Nulla laborum quas vel aliquam doloremque! </h3>
-            </Popup>
         </>
     )
 }

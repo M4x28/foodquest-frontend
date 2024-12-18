@@ -42,3 +42,7 @@ body{
     color: var(--dark-btn-inv-text);
     border-color: var(--dark-btn-bg);
 }
+
+.dark-btn-inverse svg{
+    fill: var(--dark-btn-bg);
+}

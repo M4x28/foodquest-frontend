@@ -6,8 +6,8 @@ import {ReactComponent as ConfirmIcon} from "../assets/confirm.svg"
 import "./ConfirmPrompt.css"
 
 interface PropType{
-    children?: React.ReactNode,
-    onClick?: Function,
+    children: React.ReactNode,
+    onClick: () => void, 
 
     className?:string,
     popupTitle?: string,
@@ -21,9 +21,7 @@ function ButtonWithPrompt({children, onClick, className,
 
     const togglePopup = () => setPopup((p) => !p);
     const confirmAction = () => {
-        if(onClick){
-            onClick();
-        }
+        onClick();
         togglePopup();
     }
 
@@ -32,7 +30,7 @@ function ButtonWithPrompt({children, onClick, className,
         <button onClick={togglePopup} className={className}>
             {children}
         </button>
-        <Popup open={popup} close={togglePopup} popupClass="confirm-prompt">
+        <Popup isOpen={popup} close={togglePopup} popupClass="confirm-prompt">
             <h3> {popupTitle} </h3>
             <p> {popupText} </p>
             <button className="dark-btn confirm-btn" onClick={confirmAction}>
