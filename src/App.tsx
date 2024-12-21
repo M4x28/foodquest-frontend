@@ -6,6 +6,7 @@ import ButtonWithPrompt from './components/ButtonWithPrompt.tsx';
 import Header, { Pages } from "./components/Header.tsx"
 
 import './App.css';
+import Page from './pages/Page.tsx';
 
 interface AppState{ [key:string] : any};
 
@@ -67,19 +68,26 @@ export default App;
 function Test(){
     
     const [time,refreshTime] = useRefresh<Date>(async () => new Date(),new Date());
+    const [err,setErr] = useState(false)
 
-    const test = () => { alert("Ciao sono una azione irreversibile")}
+    const test = () => { alert("Ciao sono una azione irreversibile")};
+
+    const eT = 'Qualcosa non è andato storto';
+    const eM = 'Dato che hai cliccato un tasto di errore se questa pagina non ci fosse allora qualcosa sarebbe andato storto';
 
     return(
-        <>
+        <Page error = {err} errorTitle={eT} errorMessage= {eM}>
             <Header pageName='Test' current={Pages.FC}/>
-            <h1 style={{paddingTop:100}}>{time && time.getTime()}</h1>
+            <h1>{time && time.getTime()}</h1>
             <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur voluptates ipsum quae neque obcaecati facere animi eos repellat, placeat ducimus saepe, corrupti qui laudantium cum ipsam esse consectetur voluptatum et.</h1>
             <button className = "light-btn btn" onClick={refreshTime}> Che ore sono? </button>
-            <ButtonWithPrompt onClick={test} popupTitle='Azione Irreversibile' 
+            <ButtonWithPrompt className = "dark-btn btn" onClick={test} popupTitle='Azione Irreversibile' 
                 popupText='Questa azione non può essere annullata, proseguire?'>
-                <h1> Test Irreversibile </h1>
+                <p style={{margin: "0px"}}> Test Irreversibile </p>
             </ButtonWithPrompt>
-        </>
+            <button className='err-btn btn' onClick={() => setErr(true)}>
+                Errore
+            </button>
+        </Page>
     )
 }

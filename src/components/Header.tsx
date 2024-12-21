@@ -48,20 +48,20 @@ function Header({pageName, current}:PropType){
                 </button>
             </header>
             <div className={"dropdown-overlay glass" + (displayDropdown ? "" : " solid-snake")} onClick={toggleDropdown}>
-            <nav className={"dropdown" + (displayDropdown ? "" : " solid-snake")} onClick={stopPropagation}>
-                <Link className={"dropdown-voice" + (current === Pages.Home ? " current" : "")}> 
-                    <PizzaIcon/> Ordina 
-                </Link>
-                <Link className={"dropdown-voice" + (current === Pages.Order ? " current" : "")}> 
-                    <CartIcon/> Visualizza il tuo ordine 
-                </Link>
-                <Link className={"dropdown-voice" + (current === Pages.Check ? " current" : "")}> 
-                    <OrderIcon/> Resoconto ordini 
-                </Link>
-                <Link className={"dropdown-voice" + (current === Pages.FC ? " current" : "")}>
-                    <AccountIcon/> Fidelity Card 
-                </Link>
-            </nav>
+                <nav className={"dropdown" + (displayDropdown ? "" : " solid-snake")} onClick={stopPropagation}>
+                    <Link className={"dropdown-voice" + (current === Pages.Home ? " current" : "")}> 
+                        <PizzaIcon/> Ordina 
+                    </Link>
+                    <Link className={"dropdown-voice" + (current === Pages.Order ? " current" : "")}> 
+                        <CartIcon/> Visualizza il tuo ordine 
+                    </Link>
+                    <Link className={"dropdown-voice" + (current === Pages.Check ? " current" : "")}> 
+                        <OrderIcon/> Resoconto ordini 
+                    </Link>
+                    <Link className={"dropdown-voice" + (current === Pages.FC ? " current" : "")}>
+                        <AccountIcon/> Fidelity Card 
+                    </Link>
+                </nav>
             </div>
         </div>
     )

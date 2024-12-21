@@ -1,8 +1,4 @@
 .header-container{
-    /*Var for header height*/
-    --header-height: 80px;
-
-    /*Style*/
     top: 0px;
     height: calc(var(--header-height) + 3px);
     position: fixed;

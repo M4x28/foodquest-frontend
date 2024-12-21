@@ -9,69 +9,71 @@ body{
 }
 
 #root{
+
+    --header-height: 80px;
+
     /* GENERAL COLOR */
     --very-dark-col: #1e1e1e;
     --dark-col: #067513;
-    --medium-col: #34c300;
+    --medium-col: #32a10a;
     --light-col: #b9d4b4;
     --very-light-col: #f2f2ff;
     --error-col: #c41818;
-
-    /* BUTTONS THEMES */
-    /* Dark button color */
-    --dark-btn-bg: #067513;
-    --dark-btn-text: #f2f2ff;
-    --dark-btn-border: #f2f2ff;
-    --dark-btn-inv-text: #1e1e1e;
-    /* light button color */
-    --light-btn-bg: #32a10a;
-    --light-btn-text: #f2f2ff;
-    --light-btn-border: #f2f2ff;
-    --light-btn-inv-text: #1e1e1e;
 }
 
 /* DARK BUTTON */
 .dark-btn{
     border-style: solid;
-    background-color: var(--dark-btn-bg);
-    color: var(--dark-btn-text);
-    border-color: var(--dark-btn-border);
+    background-color: var(--dark-col);
+    color: var(--very-light-col);
+    border-color: var(--very-light-col);
 }
 
 .dark-btn svg{
-    fill: var(--dark-btn-text);
+    fill: var(--very-light-col);
 }
 
 .dark-btn-inverse{
     border-style: solid;
-    background-color: var(--dark-btn-text);
-    color: var(--dark-btn-inv-text);
-    border-color: var(--dark-btn-bg);
+    background-color: var(--very-light-col);
+    color: var(--very-dark-col);
+    border-color: var(--dark-col);
 }
 
 .dark-btn-inverse svg{
-    fill: var(--dark-btn-bg);
+    fill: var(--dark-col);
 }
 
 /* LIGHT BUTTON */
 .light-btn{
     border-style: solid;
-    background-color: var(--light-btn-bg);
-    color: var(--light-btn-text);
-    border-color: var(--light-btn-border);
+    background-color: var(--medium-col);
+    color: var(--very-light-col);
+    border-color: var(--very-light-col);
 }
 
 .light-btn svg{
-    fill: var(--light-btn-text);
+    fill: var(--very-light-col);
 }
 
 .light-btn-inverse{
     border-style: solid;
-    background-color: var(--light-btn-text);
-    color: var(--light-btn-inv-text);
-    border-color: var(--light-btn-bg);
+    background-color: var(--very-light-col);
+    color: var(--very-dark-col);
+    border-color: var(--medium-col);
 }
 
 .light-btn-inverse svg{
-    fill: var(--light-btn-bg);
+    fill: var(--medium-col);
+}
+
+.err-btn{
+    border-style: solid;
+    background-color: var(--error-col);
+    color: var(--very-light-col);
+    border-color: var(--very-light-col);
+}
+
+.err-btn svg{
+    fill: var(--very-light-col);
 }

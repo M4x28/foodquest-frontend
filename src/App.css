@@ -4,6 +4,8 @@
 }
 
 .btn{
+    display: block;
+    margin: 20px auto;
     font-size: 2rem;
     width: 80%;
     padding: 10px;
