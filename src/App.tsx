@@ -6,7 +6,8 @@ import ButtonWithPrompt from './components/ButtonWithPrompt.tsx';
 import Header, { Pages } from "./components/Header.tsx"
 
 import './App.css';
-import Page from './pages/Page.tsx';
+import Page, {Error} from './pages/Page.tsx';
+import ProductPage from './pages/ProductPage.tsx';
 
 interface AppState{ [key:string] : any};
 
@@ -55,7 +56,8 @@ function App() {
         <AppStateCtx.Provider value={[appState,editState]}>
             <BrowserRouter>
                 <Routes>
-                    <Route path='/test' element={<Test></Test>}/>   {/*Test per vedere se funzionava*/}
+                    <Route path="/products/:categoryID" element={<ProductPage/>}/>
+                    <Route path='/test' element={<Test></Test>}/>
                 </Routes>
             </BrowserRouter>
         </AppStateCtx.Provider>
@@ -72,11 +74,14 @@ function Test(){
 
     const test = () => { alert("Ciao sono una azione irreversibile")};
 
-    const eT = 'Qualcosa non è andato storto';
-    const eM = 'Dato che hai cliccato un tasto di errore se questa pagina non ci fosse allora qualcosa sarebbe andato storto';
+    const error:Error = {
+        error: err,
+        errorTitle: 'Qualcosa non è andato storto',
+        errorMessage: 'Dato che hai cliccato un tasto di errore se questa pagina non ci fosse allora qualcosa sarebbe andato storto'
+    }
 
     return(
-        <Page error = {err} errorTitle={eT} errorMessage= {eM}>
+        <Page error = {error}>
             <Header pageName='Test' current={Pages.FC}/>
             <h1>{time && time.getTime()}</h1>
             <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur voluptates ipsum quae neque obcaecati facere animi eos repellat, placeat ducimus saepe, corrupti qui laudantium cum ipsam esse consectetur voluptatum et.</h1>

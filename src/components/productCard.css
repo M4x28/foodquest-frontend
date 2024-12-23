@@ -1,0 +1,165 @@
+.product-card{
+    width: 80%;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: hsla(0, 0%, 100%, 0.7);
+    border: 3px solid var(--dark-col);
+    margin: 10px auto;
+}
+
+.product-header{
+    display: grid;
+    grid-template-columns: 40% 60%;
+    grid-template-areas: "img ."
+    "img .";
+}
+
+.product-header img{
+    grid-area: img;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.product-name {
+    font-size: 2rem;
+    margin: 0px;
+    color: var(--very-dark-col);
+    font-weight: bold;
+    text-align: center;
+}
+
+.product-price {
+    font-size: 2rem;
+    text-align: center;
+    margin: 0px;
+    font-weight: normal;
+}
+
+.product-description {
+    font-size: 1.5rem;
+}
+
+.product-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.allergen-btn, .edit-btn, .buy-btn{
+    display: flex;
+    margin: 0px auto;
+    align-items: center;
+    font-size: 1.2rem;
+    width: 30%; 
+}
+
+.allergen-btn{
+    padding: 10px 0px;
+    border:none;
+    color: var(--very-dark-col);
+    background-color: hsla(0, 0%, 71%, 0.5);
+    border-radius: 10px;
+}
+
+.allergen-btn svg{
+    height: 1.5rem;
+    width: 1.5rem;
+    fill: var(--very-dark-col);
+}
+
+.edit-btn{
+    padding: 10px 0px;
+    height: 1.5rem;
+    border:none;
+    color: #333CFF;
+    background-color: hsla(232, 98%, 76%, 0.50);
+    border-radius: 10px;
+}
+
+.edit-btn svg{
+    fill: #333CFF;
+}
+
+.buy-btn{
+    position: relative;
+    height: 4rem;
+    width: 4rem;
+    border-radius: 50%;
+    border: none;
+    background-color: #3cff00;
+}
+
+.buy-btn .cart-icon{
+    width: 2rem;
+    height: 2rem;
+    display: inline-block;
+    margin: auto;
+}
+
+.buy-btn .tic-icon{
+    display: inline-block;
+    position: absolute;
+    width: 2.5rem;
+    height: 2.5rem;
+    top: 2.5rem;
+    left: 0.75rem;
+    opacity: 0;
+}
+
+.buy-anim .cart-icon{
+    animation-name: buy-cart;
+    animation-duration: 2s;
+}
+
+.buy-anim .tic-icon{
+    animation-name: buy-tic;
+    animation-duration: 2s;
+}
+
+@keyframes buy-tic {
+    0%{
+        transform: scale(.1,.1);
+    }
+    10%{
+        opacity: 1;
+    }
+    25%{
+        transform: scale(1,1);
+        translate: 0px -3rem;
+        opacity: 1;
+    }
+    55%{
+        transform: scale(1,1);
+        translate: 0px -3rem;
+        opacity: 1;
+    }
+    85%{
+        transform: scale(0,0);
+        translate: 0px 4rem;
+    }
+    95%{
+        opacity: 0;
+    }
+}
+
+@keyframes buy-cart {
+    25%{
+        translate: 0px 1rem;
+    }
+    65%{
+        transform: scale(1,1);
+    }
+    70%{
+        transform: scale(1.1,0.9);
+    }
+    85%{
+        transform: scale(1,1);
+        opacity: 1;
+        translate: 0px 1rem;
+    }
+}
+
+.product-allergen{
+    font-size: 1.5rem;
+}

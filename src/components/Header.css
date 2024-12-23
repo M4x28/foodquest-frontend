@@ -3,6 +3,7 @@
     height: calc(var(--header-height) + 3px);
     position: fixed;
     width: 100%;
+    z-index: 1000;
 }
 
 header{

@@ -3,24 +3,28 @@ import React from 'react';
 import "./page.css"
 import ErrorPage from './ErrorPage.tsx';
 
-interface PropType {
-    children?: React.ReactNode;
-    error?:boolean;
+export interface Error{
+    error:boolean
 
     errorTitle?:string;
     errorMessage?:string;
 }
 
-function Page ({ children, error = false, errorTitle, errorMessage}:PropType){
+interface PropType {
+    children?: React.ReactNode;
+    error?: Error;
+}
+
+function Page ({ children, error}:PropType){
     
-    if(!error)
+    if(!error || !error.error)
         return (
             <div className='page'>
                 {children}
             </div>
         );
     else
-        return <ErrorPage errorMessage={errorMessage} errorTitle={errorTitle}/>
+        return <ErrorPage errorMessage={error.errorMessage} errorTitle={error.errorTitle}/>
 };
 
 export default Page;

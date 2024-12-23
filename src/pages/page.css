@@ -2,11 +2,22 @@
     padding-top: calc(var(--header-height) + 3px);
 }
 
-.err-page{
-    background-image: url("../assets/BgOverlay.svg");
+.err-page {
+    position: relative;
+    z-index: 0;
+}
+
+.err-page::before{
+    content: "";
+    position: absolute;
+    height: 50vh;
+    width: 100vw;
+    z-index: -1;
+    
+    background-color: var(--very-light-col);
+    border-bottom: 5px solid var(--dark-col);
     background-repeat: no-repeat;
-    background-size: 100%;
-    height: 100vh;
+    background-size: cover;
 }
 
 .err-page svg{
@@ -19,27 +30,40 @@
 }
 
 .err-page h1{
-    margin: 0px;
-    font-size: 3.5rem;
+    position: absolute;
+    top: 200px;
+    font-size: 3rem;
     padding: 0px 30px;
+    height: calc(50vh - 230px);
     color: var(--very-dark-col);
 
 }
 
+@media (max-width: 400px){
+    .err-page h1{
+        font-size: 2.5rem;
+    }
+}
+
 .err-page p{
+    position: absolute;
+    top: 50vh;
     margin: 0px;
-    height: 20%;
+    height: 30vh;
     font-size: 2rem;
-    padding: 25% 30px;
+    padding: 20px 30px;
     color: var(--very-dark-col);
 }
 
 .retry-btn{
+    position: absolute;
+
+    inset: 90vh 0px;
+    margin: auto;
+    max-width: 400px;
+
     width: 80%;
     height: 80px;
     border-radius: 20px;
     font-size: 3rem;
-    position: absolute;
-    top: 85%;
-    left: 10%;
 }
