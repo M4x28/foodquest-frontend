@@ -1,0 +1,50 @@
+.products{
+    margin-bottom: 10vh;
+}
+
+@media (max-width: 500px) {
+    .products{
+        display: grid;
+        grid-template-columns: auto;
+    }
+}
+
+@media (min-width: 500px) {
+    .products{
+        margin: 0px auto 10vh auto;
+        display: grid;
+        grid-template-columns: auto auto;
+        max-width: 1000px;
+    }
+}
+
+.create-btn-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: fit-content;
+    background: linear-gradient(to top, white 40%, rgba(255, 255, 255, 0) 100%);
+    z-index: 10;
+    pointer-events: none;
+    padding-top: 20px;
+}
+
+.create-btn{
+    pointer-events: visible;
+    display: block;
+    width: 80%;
+    max-width: 400px;
+    margin: 0px auto 5px auto;
+    font-size: 2.2rem;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 20px;
+    display: flex;
+}
+
+.create-btn svg{
+    height: 2.5rem;
+    width: 2.5rem;
+    margin-right: 5px;
+}

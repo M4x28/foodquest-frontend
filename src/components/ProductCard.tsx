@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import "./productCard.css";
 import AnimatedButton from "./AnimatedButton.tsx";
+import { Link } from "react-router-dom";
 
 import placeholder from "../assets/pizzaPlacehoder.webp";
 import { ReactComponent as DownIcon} from "../assets/down.svg";
 import { ReactComponent as UpIcon} from "../assets/up.svg";
 import { ReactComponent as CartIcon } from "../assets/shoppingCart.svg"
 import { ReactComponent as TicIcon } from "../assets/tic.svg"
-import { Link } from "react-router-dom";
+import { ReactComponent as EditIcon } from "../assets/edit.svg"
+
+import "./productCard.css";
 
 interface PropType{
     product:{
@@ -53,16 +55,19 @@ function ProductCard({product,ingredients,allergens,editable, imgUrl = placehold
                 <h3 className="product-name">{product.Name}</h3>
                 <h3 className="product-price">{formatPrice(product.Price)} €</h3>
             </section>
-            { description && <p className="product-description">{description}</p>}
+            { description && <p className="product-description">{description}</p> }
             <section className="product-buttons">
                 <button className="allergen-btn" onClick={toggleAllergen}> 
-                    {showAllergen ? <UpIcon/> : <DownIcon/>} Allergeni 
+                    {showAllergen ? <DownIcon/> : <UpIcon/>} Allergeni 
                 </button>
-                {editable && <Link className="edit-btn"> Modifica </Link>}
-                <AnimatedButton className="buy-btn" animationClass="buy-anim" OnClick={buyItem}>
+                <AnimatedButton className={editable ? "buy-btn" : "buy-btn double-col-size"} 
+                    animationClass="buy-anim" OnClick={buyItem}>
                     <CartIcon className="cart-icon"/>
                     <TicIcon className="tic-icon"/>
                 </AnimatedButton>
+                {editable && <Link className="edit-btn"> 
+                   <EditIcon/> Modifica 
+                </Link>}
             </section>
             {showAllergen &&
                 <section className="product-allergen">

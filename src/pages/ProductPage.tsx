@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Page from "./Page.tsx";
 import Header, { Pages } from "../components/Header.tsx";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { backendUrl } from "../utility/constants.ts";
 import ProductCard from "../components/ProductCard.tsx";
-import { exdendImgUrl } from "../utility/generic.ts";
+import { exdendImgUrl, stopPropagation } from "../utility/generic.ts";
+
+import { ReactComponent as PizzaIcon } from "../assets/pizzaFull.svg"
+
+import "./productPage.css"
 
 function ProductPage(){
 
@@ -60,12 +64,22 @@ function ProductPage(){
     return(
         <Page error={err}>
             <Header pageName={catName} current={Pages.Home}/>
-            {
-                products.map(p => <ProductCard 
-                    product={p} key={p.documentId}
-                    ingredients={p.ingredients ? ingredients.filter(i => p.ingredients.includes(i.documentId)) : undefined }
-                    allergens={p.allergens ? allergens.filter(a => p.allergens.includes(a.documentId)) : undefined }
-                    imgUrl={p.image ? exdendImgUrl(p.image) : undefined} editable={customizable}/>)
+            <section className="products">
+                {
+                    products.map(p => <ProductCard 
+                        product={p} key={p.documentId}
+                        ingredients={p.ingredients ? ingredients.filter(i => p.ingredients.includes(i.documentId)) : undefined }
+                        allergens={p.allergens ? allergens.filter(a => p.allergens.includes(a.documentId)) : undefined }
+                        imgUrl={p.image ? exdendImgUrl(p.image) : undefined} editable={customizable}/>)
+                }
+            </section>
+            { customizable && 
+                <section className="create-btn-container">
+                    <Link className="dark-btn create-btn" >
+                        <PizzaIcon/>
+                        Crea la tua pizza
+                    </Link>
+                </section>
             }
         </Page>
     );

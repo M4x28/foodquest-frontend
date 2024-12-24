@@ -9,9 +9,6 @@ body{
 }
 
 #root{
-
-    --header-height: 80px;
-
     /* GENERAL COLOR */
     --very-dark-col: #1e1e1e;
     --dark-col: #067513;
@@ -19,6 +16,18 @@ body{
     --light-col: #b9d4b4;
     --very-light-col: #f2f2ff;
     --error-col: #c41818;
+
+    --header-height: 80px;
+}
+
+@media (max-height: 700px) {
+    html{
+        font-size: 12px;
+    }
+
+    #root{
+        --header-height: 60px;
+    }
 }
 
 /* DARK BUTTON */
