@@ -4,6 +4,9 @@ export const stopPropagation = (e) => {
     e.stopPropagation();
 }
 
-export const exdendImgUrl = (url:string):string => {
-    return `${backendUrl}${url}`;
+type ImgSize = "thumbnail" | "small" | "medium";
+
+export const exdendImgUrl = (url:string,size?:ImgSize):string => {
+    
+    return `${backendUrl}/uploads/${size ? size + "_" : ""}${url}`;
 }

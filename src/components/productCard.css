@@ -114,7 +114,6 @@
     position: absolute;
     width: 2.5rem;
     height: 2.5rem;
-    top: 2.5rem;
     left: 0.75rem;
     opacity: 0;
 }
@@ -132,6 +131,7 @@
 @keyframes buy-tic {
     0%{
         transform: scale(.1,.1);
+        top: 2.5rem;
     }
     10%{
         opacity: 1;
@@ -152,6 +152,7 @@
     }
     95%{
         opacity: 0;
+        top: 2.5rem;
     }
 }
 

@@ -70,7 +70,7 @@ function ProductPage(){
                         product={p} key={p.documentId}
                         ingredients={p.ingredients ? ingredients.filter(i => p.ingredients.includes(i.documentId)) : undefined }
                         allergens={p.allergens ? allergens.filter(a => p.allergens.includes(a.documentId)) : undefined }
-                        imgUrl={p.image ? exdendImgUrl(p.image) : undefined} editable={customizable}/>)
+                        imgUrl={p.image ? exdendImgUrl(p.image,"thumbnail") : undefined} editable={customizable}/>)
                 }
             </section>
             { customizable && 
