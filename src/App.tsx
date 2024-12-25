@@ -1,4 +1,4 @@
-import React , {createContext, useState, useEffect} from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import useRefresh from './utility/useRefresh.ts';
 
@@ -6,58 +6,64 @@ import ButtonWithPrompt from './components/ButtonWithPrompt.tsx';
 import Header, { Pages } from "./components/Header.tsx"
 
 import './App.css';
-import Page, {Error} from './pages/Page.tsx';
+import Page, { Error } from './pages/Page.tsx';
 import ProductPage from './pages/ProductPage.tsx';
+import LoginPage from './login.tsx';
+import Registrazione from './registrazione.tsx';
+import AccountPage from './account.tsx';
 
-interface AppState{ [key:string] : any};
+interface AppState { [key: string]: any };
 
-export const AppStateCtx = createContext<[AppState,Function]>([{}, () => 0]);
+export const AppStateCtx = createContext<[AppState, Function]>([{}, () => 0]);
 
 //Check if browser support storage
-const hasStorage = typeof(Storage) !== undefined;
+const hasStorage = typeof (Storage) !== undefined;
 
 function App() {
-    
-    const [appState,setAppState] = useState<AppState>({});
+
+    const [appState, setAppState] = useState<AppState>({});
 
     //Check on mount if a previous state is been saved
     useEffect(() => {
-        if(hasStorage){
+        if (hasStorage) {
             const item = sessionStorage.getItem("appState");
-            if(item){
+            if (item) {
                 setAppState(JSON.parse(item));      //Restore Saved State
             }
         }
-    },[]);
+    }, []);
 
     //Updater function: updete [key] in state to be [value]
-    const editState = (key:string, value:any):void => {
-        
+    const editState = (key: string, value: any): void => {
+
         setAppState(currState => {
-            
-            if(currState[key] === value){
+
+            if (currState[key] === value) {
                 return currState;
             }
 
             console.log("edit");
 
-            const newState = {...currState,[key] : value};
+            const newState = { ...currState, [key]: value };
 
             //Store State in browser session storage
-            if(hasStorage){
-                sessionStorage.setItem("appState",JSON.stringify(newState));
+            if (hasStorage) {
+                sessionStorage.setItem("appState", JSON.stringify(newState));
             }
 
             return newState;
         });
     }
-    
+
     return (
-        <AppStateCtx.Provider value={[appState,editState]}>
+        <AppStateCtx.Provider value={[appState, editState]}>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/products/:categoryID" element={<ProductPage/>}/>
-                    <Route path='/test' element={<Test></Test>}/>
+                    <Route path="/products/:categoryID" element={<ProductPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/registrazione" element={<Registrazione />} />
+                    <Route path="/account" element={<AccountPage />} />
+                    <Route path='/test' element={<Test></Test>} />
                 </Routes>
             </BrowserRouter>
         </AppStateCtx.Provider>
@@ -67,28 +73,28 @@ function App() {
 export default App;
 
 //Test per vedere se funzionava
-function Test(){
-    
-    const [time,refreshTime] = useRefresh<Date>(async () => new Date(),new Date());
-    const [err,setErr] = useState(false)
+function Test() {
 
-    const test = () => { alert("Ciao sono una azione irreversibile")};
+    const [time, refreshTime] = useRefresh<Date>(async () => new Date(), new Date());
+    const [err, setErr] = useState(false)
 
-    const error:Error = {
+    const test = () => { alert("Ciao sono una azione irreversibile") };
+
+    const error: Error = {
         error: err,
         errorTitle: 'Qualcosa non è andato storto',
         errorMessage: 'Dato che hai cliccato un tasto di errore se questa pagina non ci fosse allora qualcosa sarebbe andato storto'
     }
 
-    return(
-        <Page error = {error}>
-            <Header pageName='Test' current={Pages.FC}/>
+    return (
+        <Page error={error}>
+            <Header pageName='Test' current={Pages.FC} />
             <h1>{time && time.getTime()}</h1>
             <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur voluptates ipsum quae neque obcaecati facere animi eos repellat, placeat ducimus saepe, corrupti qui laudantium cum ipsam esse consectetur voluptatum et.</h1>
-            <button className = "light-btn btn" onClick={refreshTime}> Che ore sono? </button>
-            <ButtonWithPrompt className = "dark-btn btn" onClick={test} popupTitle='Azione Irreversibile' 
+            <button className="light-btn btn" onClick={refreshTime}> Che ore sono? </button>
+            <ButtonWithPrompt className="dark-btn btn" onClick={test} popupTitle='Azione Irreversibile'
                 popupText='Questa azione non può essere annullata, proseguire?'>
-                <p style={{margin: "0px"}}> Test Irreversibile </p>
+                <p style={{ margin: "0px" }}> Test Irreversibile </p>
             </ButtonWithPrompt>
             <button className='err-btn btn' onClick={() => setErr(true)}>
                 Errore
