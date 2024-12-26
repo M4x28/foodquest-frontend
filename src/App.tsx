@@ -67,6 +67,7 @@ function App() {
                     <Route path="/registrazione" element={<Registrazione />} />
                     <Route path="/account" element={<AccountPage />} />
                     <Route path='/test' element={<Test></Test>} />
+                    <Route path='/test' element={<Test></Test>} />   {/*Test per vedere se funzionava*/}
                     <Route path='/creazionepizza' element={<FoodBuilderComponent></FoodBuilderComponent>} />
                     <Route path='/landingpage' element={<LandingPage></LandingPage>} />
                     <Route path='/home' element={<Home></Home>} />
