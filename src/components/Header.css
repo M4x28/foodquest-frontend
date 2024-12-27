@@ -4,6 +4,7 @@
     position: fixed;
     width: 100%;
     z-index: 1000;
+    box-sizing: content-box;
 }
 
 header{
@@ -15,12 +16,14 @@ header{
     
     border-bottom: 3px solid var(--dark-col);
     background-color: var(--very-light-col);
+    box-sizing: content-box;
 }
 
 header h1{
     font-size: 2.2rem;
     color: var(--very-dark-col);
     margin: auto;
+    font-weight: bold;
 }
 
 .menu-btn{

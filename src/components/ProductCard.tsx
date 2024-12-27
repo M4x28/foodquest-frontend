@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AnimatedButton from "./AnimatedButton.tsx";
 import { Link } from "react-router-dom";
+
+import axios from "axios";
+import { backendUrl } from "../utility/constants.ts";
 
 import placeholder from "../assets/pizzaPlacehoder.webp";
 import { ReactComponent as DownIcon} from "../assets/down.svg";
@@ -10,21 +13,26 @@ import { ReactComponent as TicIcon } from "../assets/tic.svg"
 import { ReactComponent as EditIcon } from "../assets/edit.svg"
 
 import "./productCard.css";
+import { AppStateCtx } from "../App.tsx";
+import { formatPrice } from "../utility/generic.ts";
 
 interface PropType{
     product:{
         Name: string;
         Price: number;
-    },
+        documentId:string
+    };
     editable?:boolean;
     imgUrl?:string,
-    ingredients?:{documentID:string,Type:string,Name:string}[];
-    allergens?:any[];
+    ingredients?:{ documentId:string, Type:string, Name:string }[];
+    allergens?:{ documentId:string, Name:string }[];
+    setErr?:Function;
 }
 
-function ProductCard({product,ingredients,allergens,editable, imgUrl = placeholder}:PropType){
+function ProductCard({product,ingredients,allergens,editable, imgUrl = placeholder, setErr}:PropType){
 
     const [showAllergen,setShowAllergen] = useState(false);
+    const [appState,_] = useContext(AppStateCtx);
 
     let description = "";
     if(ingredients){
@@ -32,24 +40,27 @@ function ProductCard({product,ingredients,allergens,editable, imgUrl = placehold
             .reduce((desc,ig) => desc + ig.Name + ", ","")
     }
 
-    function formatPrice(price:number):string{
-        if(isNaN(price)){
-            return "Nan"
-        }
-
-        return price.toFixed(2)
-    }
-
     function toggleAllergen(){
         setShowAllergen(s => !s)
     }
 
     function buyItem(){
-        console.log("Placehoder per aver acquistato",product.Name);
+        console.log(product)
+        axios.post(`${backendUrl}/api/partial-orders`,{ data: {
+            productID: product.documentId,
+            accessCode: appState.table.accessCode,
+            sessionCode: appState.table.sessionCode
+        }}).then((res) => {
+            console.log(product.Name, "Acquistata");
+        }).catch((err) => {
+            if(setErr)
+                setErr(true);
+            console.log("Error:\n",err)
+        })
     }
 
     return(
-        <div className="product-card">
+        <div className="my-card">
             <section className="product-header">
                 <img src={imgUrl} alt="Foto del prodotto"/>
                 <h3 className="product-name">{product.Name}</h3>

@@ -37,7 +37,7 @@ function Header({pageName, current}:PropType){
     return(
         <div className="header-container" >
             <header>
-                <Link className="home-btn">   
+                <Link to="/test" className="home-btn">   
                     <HomeIcon/>
                 </Link>
                 <h1>
@@ -55,7 +55,7 @@ function Header({pageName, current}:PropType){
                     <Link className={"dropdown-voice" + (current === Pages.Order ? " current" : "")}> 
                         <CartIcon/> Visualizza il tuo ordine 
                     </Link>
-                    <Link className={"dropdown-voice" + (current === Pages.Check ? " current" : "")}> 
+                    <Link to="/orders" className={"dropdown-voice" + (current === Pages.Check ? " current" : "")}> 
                         <OrderIcon/> Resoconto ordini 
                     </Link>
                     <Link className={"dropdown-voice" + (current === Pages.FC ? " current" : "")}>
