@@ -9,6 +9,11 @@ export const Button = ({ variant, size, onClick, ...props }) => {
             className={`btn ${variantClass} ${sizeClass}`}
             type="button"
             onClick={onClick}
+            style={{
+                fontFamily: "Luckiest Guy, cursive",
+                letterSpacing: "0.1rem",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
+            }}
             {...props}
         >
         </button>

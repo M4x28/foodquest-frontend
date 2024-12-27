@@ -9,6 +9,12 @@ import './App.css';
 import FoodBuilderComponent from './components/FoodBuilderComponent.tsx';
 import LandingPage from './landingpage.tsx';
 import Home from './home.tsx';
+import Login from './login.tsx';
+import RegisterPage from './registrazione.tsx';
+import OrderPage from './pages/OrderPage.tsx';
+import Account from './account.tsx';
+
+
 
 interface AppState { [key: string]: any };
 
@@ -61,6 +67,10 @@ function App() {
                     <Route path='/creazionepizza' element={<FoodBuilderComponent></FoodBuilderComponent>} />
                     <Route path='/landingpage' element={<LandingPage></LandingPage>} />
                     <Route path='/home' element={<Home></Home>} />
+                    <Route path='/login' element={<Login></Login>} />
+                    <Route path='/register' element={<RegisterPage></RegisterPage>} />
+                    <Route path='/order' element={<OrderPage></OrderPage>} />
+                    <Route path='/account' element={<Account></Account>} />
                 </Routes>
             </BrowserRouter>
         </AppStateCtx.Provider>
@@ -89,6 +99,6 @@ function Test() {
             <button className='err-btn btn' onClick={() => setErr(true)}>
                 Errore
             </button>
-        </Page>
+        </>
     )
 }

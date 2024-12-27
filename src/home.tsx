@@ -1,5 +1,8 @@
 import React from 'react';
-import pizzaLogo from './assets/Home/pizza.png'; // Percorso dell'immagine del logo
+import pizzaLogo from './assets/Home/pizza.png';
+import Header, { Pages } from "./components/Header.tsx";
+import { ReactComponent as OrderIcon } from "./assets/order.svg";
+import { ReactComponent as CartIcon } from "./assets/cart.svg";
 import { Button } from './components/Button.tsx';
 
 const Home: React.FC = () => {
@@ -8,34 +11,24 @@ const Home: React.FC = () => {
             className="d-flex flex-column align-items-center"
         >
             {/* Header */}
-            <div
-                className="d-flex justify-content-between align-items-center w-100"
-                style={{
-                    backgroundColor: 'white',
-                    padding: '10px 20px',
-                    borderBottom: '2px solid #ccc',
-                }}
-            >
-                <i className="bi bi-house-door-fill" style={{ fontSize: '2rem', color: '#28a745' }}></i>
-                <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', margin: 0 }}>HOME</h1>
-                <i className="bi bi-list" style={{ fontSize: '2rem', color: '#28a745' }}></i>
-            </div>
+            <Header pageName="HOME" current={Pages.NULL} />
 
             {/* Logo */}
-            <div className="my-4">
+            <div className="my-5"> {/* Aggiunto margine per abbassare l'immagine */}
                 <img
                     src={pizzaLogo}
                     alt="Pizza Logo"
-                    style={{ width: '150px', height: '150px' }}
+                    style={{ width: '200px', height: '240px' }}
                 />
             </div>
 
             {/* Menu Items */}
             <div className="d-flex flex-column align-items-center w-100 px-3">
                 {['PIZZE', 'ANTIPASTI', 'BEVANDE', 'DOLCI'].map((item, index) => (
-                    <div
+                    <Button
                         key={index}
-                        className="btn btn-light text-dark fw-bold mb-3"
+                        variant="light text-dark fw-bold text-LG"
+                        size="lg"
                         style={{
                             width: '100%',
                             maxWidth: '300px',
@@ -43,40 +36,57 @@ const Home: React.FC = () => {
                             borderRadius: '10px',
                             fontSize: '1.2rem',
                             border: '2px solid #ccc',
-                        }}
-                    >
+                            marginBottom: '15px', // Spaziatura tra i pulsanti
+                        }} onClick={undefined}                    >
                         {item}
-                    </div>
+                    </Button>
                 ))}
             </div>
 
             {/* Footer */}
-            <div className="d-flex justify-content-between align-items-center w-100">
+            <div
+                className="position-fixed w-100 px-3 d-flex justify-content-between"
+                style={{
+                    bottom: '20px', // Posizionamento in fondo
+                    left: '0',
+                    zIndex: 1000,
+                }}
+            >
                 <Button
-                    variant="success"
-                    size="lg"
+                    variant="success text-LG"
+                    size=""
                     style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        borderRadius: '10px',
-                        padding: '10px 20px',
-                        fontSize: '1rem',
-                    }} onClick={undefined}                >
+                        border: "2px solid white",
+                        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
+                        fontSize: "1.3rem", // Adattamento dinamico
+                        marginRight: "10px", // Spaziatura tra i pulsanti
+                    }}
+                    onClick={undefined}
+                >
                     <i className="bi bi-wallet2" style={{ fontSize: '1.5rem', color: '#28a745' }}></i>
-                    <span className="ms-2">Conto</span>
+                    <CartIcon
+                        className="me-2"
+                        style={{ width: "30px", height: "30px" }}
+                    />
+                    Conto
                 </Button>
                 <Button
-                    variant="success"
-                    size="lg"
+                    variant="success text-LG"
+                    size=""
                     style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        borderRadius: '10px',
-                        padding: '10px 20px',
-                        fontSize: '1rem',
-                    }} onClick={undefined}                >
+                        border: "2px solid white",
+                        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
+                        fontSize: "1.3rem", // Adattamento dinamico
+                        marginLeft: "10px", // Spaziatura tra i pulsanti
+                    }}
+                    onClick={undefined}
+                >
                     <i className="bi bi-cart-fill" style={{ fontSize: '1.5rem', color: '#28a745' }}></i>
-                    <span className="ms-2">Ordine</span>
+                    <OrderIcon
+                        className="me-2"
+                        style={{ width: "30px", height: "30px" }}
+                    />
+                    Ordine
                 </Button>
             </div>
         </div>

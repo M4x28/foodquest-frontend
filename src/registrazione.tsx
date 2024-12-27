@@ -1,6 +1,8 @@
 import React from "react";
 import Header, { Pages } from "./components/Header.tsx"; // Assicurati di aggiornare il percorso corretto per Header.tsx
 import "./bootstrap.css"; // Assicurati di aggiornare il percorso del file bootstrap.css
+import { Button } from './components/Button.tsx'; // Importa il componente Button
+import Input from "./components/Input.tsx"; // Importa il nuovo componente Input
 
 const RegisterPage: React.FC = () => {
     return (
@@ -8,12 +10,22 @@ const RegisterPage: React.FC = () => {
             <Header pageName="FIDELITY CARD" current={Pages.FC} />
             <div className="container-fluid vh-100 d-flex flex-column align-items-center justify-content-center text-white">
                 {/* Immagine fissa */}
-                <div style={{ position: "fixed", top: "10%", zIndex: 1 }}>
+                <div
+                    style={{
+                        position: "fixed",
+                        top: "8vh",
+                        zIndex: 1,
+                    }}
+                >
                     <img
                         src="/pizza.png" // Sostituisci con il percorso corretto del logo
                         alt="Pizza Logo"
                         className="mb-4"
-                        style={{ width: "160px", height: "180px" }}
+                        style={{
+                            width: "70vw", // Adattamento dinamico
+                            maxWidth: "250px", // Limite massimo
+                            height: "auto",
+                        }}
                     />
                 </div>
 
@@ -22,10 +34,10 @@ const RegisterPage: React.FC = () => {
                     className="text-center"
                     style={{
                         position: "fixed",
-                        top: "35%",
+                        top: "35vh",
                         zIndex: 1,
-                        width: "100%",
-                        maxWidth: "250px",
+                        width: "90vw", // Adattamento dinamico
+                        maxWidth: "300px", // Limite massimo
                     }}
                 >
                     <h2
@@ -40,80 +52,79 @@ const RegisterPage: React.FC = () => {
                     </h2>
                     <form className="w-100">
                         <div className="mb-3">
-                            <input
+                            <Input
                                 type="email"
-                                className="form-control"
                                 placeholder="Inserisci email"
-                                style={{
-                                    fontFamily: "Luckiest Guy, cursive",
-                                    letterSpacing: "0.1rem",
-                                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
-                                }}
+                                
                             />
                         </div>
                         <div className="mb-3">
-                            <input
+                            <Input
                                 type="password"
-                                className="form-control"
                                 placeholder="Inserisci Password"
-                                style={{
-                                    fontFamily: "Luckiest Guy, cursive",
-                                    letterSpacing: "0.1rem",
-                                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
-
-                                }}
+                                
                             />
                         </div>
                         <div className="mb-3">
-                            <input
+                            <Input
                                 type="password"
-                                className="form-control"
                                 placeholder="Conferma Password"
-                                style={{
-                                    fontFamily: "Luckiest Guy, cursive",
-                                    letterSpacing: "0.1rem",
-                                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
-                                }}
+                                //style={{ padding: "1.2em" }} // Stile aggiuntivo (opzionale)
                             />
                         </div>
                     </form>
                 </div>
 
                 {/* Pulsanti fissi */}
-                <div style={{ position: "fixed", bottom: "1%", zIndex: 1, width: "100%", maxWidth: "250px" }}>
-                    <button
+                <div
+                    style={{
+                        position: "fixed",
+                        bottom: "5vh",
+                        zIndex: 1,
+                        width: "90vw", // Adattamento dinamico
+                        maxWidth: "300px", // Limite massimo
+                    }}
+                >
+                    <Button
                         type="submit"
-                        className="btn btn-success w-100"
+                        variant="success w-100"
+                        size="lg"
                         style={{
                             fontFamily: "Luckiest Guy, cursive",
                             letterSpacing: "0.1rem",
                             border: "2px solid white",
                             boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
+                            fontSize: "1rem", // Adattamento dinamico
                         }}
+                        onClick={undefined}
                     >
-                        REGISTRATI
-                    </button>
+                        REGISTRAZIONE
+                    </Button>
                     <p
-                        className="text-white text-center mb-0"
+                        className="text-white text-center mb-1"
                         style={{
                             fontFamily: "Luckiest Guy, cursive",
                             letterSpacing: "0.1rem",
+                            fontSize: "1rem", // Adattamento dinamico
                         }}
                     >
                         Oppure
                     </p>
-                    <button
+                    <Button
                         type="button"
-                        className="btn btn-light w-100"
+                        variant="light w-100"
+                        size="lg"
                         style={{
                             fontFamily: "Luckiest Guy, cursive",
                             letterSpacing: "0.1rem",
                             border: "2px solid white",
                             boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
+                            fontSize: "1rem", // Adattamento dinamico
                         }}
+                        onClick={undefined}
                     >
                         LOGIN
-                    </button>
+                    </Button>
                 </div>
             </div>
         </>

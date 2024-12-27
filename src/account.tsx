@@ -3,6 +3,7 @@ import Header, { Pages } from "./components/Header.tsx";
 import "./bootstrap.css";
 import { ReactComponent as PizzaIcon } from "./assets/pizza.svg"; // Sostituisci con il percorso corretto per l'icona della pizza
 import { ReactComponent as LogoutIcon } from "./assets/logout.svg"; // Aggiungi l'icona del logout con il percorso corretto
+import { Button } from './components/Button.tsx';
 
 const AccountPage: React.FC = () => {
     return (
@@ -68,36 +69,42 @@ const AccountPage: React.FC = () => {
 
                     }}
                 >
-                    <button
+                    <Button
+                        variant="success"
                         className="btn btn-success w-100 mb-2 d-flex align-items-center justify-content-center"
+                        size="lg"
                         style={{
                             border: "2px solid white",
                             fontFamily: "Luckiest Guy, cursive",
                             letterSpacing: "0.1rem",
                             boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
                         }}
+                        onClick={undefined}
                     >
                         <PizzaIcon
                             className="me-2"
                             style={{ width: "20px", height: "20px" }}
                         />
                         INIZIA A ORDINARE
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                        variant="success"
                         className="btn btn-danger w-100 d-flex align-items-center justify-content-center"
+                        size="lg"
                         style={{
                             border: "2px solid white",
                             fontFamily: "Luckiest Guy, cursive",
                             letterSpacing: "0.1rem",
                             boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
                         }}
+                        onClick={undefined}
                     >
                         <LogoutIcon
                             className="me-2"
                             style={{ width: "20px", height: "20px" }}
                         />
                         LOGOUT
-                    </button>
+                    </Button>
                 </div>
             </div>
         </>

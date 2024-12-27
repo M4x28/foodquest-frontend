@@ -54,7 +54,7 @@
   --bs-danger-rgb: 255, 65, 54;
   --bs-light-rgb: 246, 246, 246;
   --bs-dark-rgb: 85, 85, 85;
-  --bs-primary-text-emphasis: #08384a;
+  --bs-primary-text-emphasis: #212529;
   --bs-secondary-text-emphasis: #606060;
   --bs-success-text-emphasis: #104912;
   --bs-info-text-emphasis: #2f515e;
@@ -84,6 +84,7 @@
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-body-font-family: "Luckiest Guy", serif;
+  --title-letter-spacing: 0.1rem;
   --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.7;
@@ -150,7 +151,7 @@
   --bs-tertiary-color-rgb: 222, 226, 230;
   --bs-tertiary-bg: #2b2b2b;
   --bs-tertiary-bg-rgb: 43, 43, 43;
-  --bs-primary-text-emphasis: #73bad6;
+  --bs-primary-text-emphasis: #212529;
   --bs-secondary-text-emphasis: #f6f6f6;
   --bs-success-text-emphasis: #7ed380;
   --bs-info-text-emphasis: #acdff3;
@@ -204,8 +205,8 @@
 
 body {
   margin: 0;
-  font-family: var(--bs-body-font-family);
   font-size: var(--bs-body-font-size);
+  letter-spacing: var(--title-letter-spacing);
   font-weight: var(--bs-body-font-weight);
   line-height: var(--bs-body-line-height);
   color: var(--bs-body-color);
@@ -213,6 +214,11 @@ body {
   background-color: var(--bs-body-bg);
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.text-LG {
+  font-family: "Luckiest Guy", serif !important;
+  letter-spacing: var(--title-letter-spacing);
 }
 
 hr {

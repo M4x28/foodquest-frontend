@@ -10,20 +10,47 @@ const LandingPage: React.FC = () => {
         >
             {/* Intestazione con il numero del tavolo */}
             <div className="text-end w-100" style={{ height: '200px' }}>
-                <span className="badge bg-secondary p-3" style={{ fontSize: '1.2rem' }}>
+                <span className="badge p-3 bg-white" style={{
+                    fontFamily: "Luckiest Guy, cursive",
+                    fontSize: "1.2rem",
+                    letterSpacing: "0.1rem",
+                    border: "2px solid #000", // Bordo nero
+                    borderRadius: "8px", // Angoli arrotondati
+                }}>
                     TAVOLO 4
                 </span>
             </div>
 
             {/* Contenuto centrale */}
-            <div className="d-flex flex-column align-items-center justify-content-center flex-grow-1">
-                <h1 className="mb-4 text-center" style={{ fontSize: '3.7rem', fontWeight: 'bold', lineHeight: '1.2' }}>
+            <div className="d-flex flex-column align-items-center justify-content-center flex-grow-1"
+                style={{
+                    position: "fixed",
+                    top: "15%",
+                    zIndex: 1,
+                    width: "100%",
+                    maxWidth: "250px",
+                }}
+            >
+                <h1 className="mb-4 text-center"
+                    style={{
+                        fontFamily: "Luckiest Guy, cursive",
+                        fontSize: "3rem",
+                        letterSpacing: "0.1rem",
+                    }}>
                     Pizzeria <br /> da <br /> Mimmo
                 </h1>
+            </div>
+            <div style={{
+                position: "fixed",
+                top: "30%",
+                zIndex: 1,
+
+
+            }}>
                 <img
                     src={pizza}
                     alt="Pizzeria Logo"
-                    style={{ width: '400px', height: '500px', marginBottom: '20px' }}
+                    style={{ width: '400px', height: '450px' }}
                 />
             </div>
 
@@ -41,12 +68,13 @@ const LandingPage: React.FC = () => {
                         variant="success"
                         size="lg"
                         style={{
-                            borderRadius: '50px',
-                            padding: '15px 30px',
-                            fontSize: '1.5rem',
-                        }}
-                    >
-                        <i className="bi bi-play-circle-fill me-2"></i> INIZIA A ORDINARE
+                            fontFamily: "Luckiest Guy, cursive",
+                            letterSpacing: "0.1rem",
+                            border: "4px solid white",
+                            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
+                            fontSize: "1.8rem", // Adattamento dinamico
+                        }} onClick={undefined}                    >
+                        INIZIA A ORDINARE
                     </Button>
                 </div>
             </div>
