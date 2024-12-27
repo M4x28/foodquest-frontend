@@ -1,4 +1,3 @@
-// Concept for a page wrapper
 import React from 'react';
 import "./page.css";
 
@@ -14,7 +13,7 @@ const defaultMessage = "Si è verificato un errore. Per favore, riprova."
 
 function ErrorPage ({ errorTitle = defaultTitle, errorMessage = defaultMessage}:PropType){
     return (
-        <div className='err-page'>
+        <div className='page-box-bg err-page'>
             <ErrorIcon/>
             <h1>{errorTitle}</h1>
             <p>{errorMessage}</p>

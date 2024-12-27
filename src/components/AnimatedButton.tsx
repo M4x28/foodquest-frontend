@@ -17,7 +17,9 @@ function AnimatedButton({className = "", OnClick = () => {}, animated = true, an
         if(!anim && animated){
             setAnim(true);
         }
-        OnClick();
+        if(!anim){
+            OnClick();
+        }
     }
 
     const onAnimEnd = () => {

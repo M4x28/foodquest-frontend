@@ -3,7 +3,7 @@
     background-color: hsla(0, 0%, 85%, 0.20);
 }
 
-.btn{
+.my-btn{
     display: block;
     margin: 20px auto;
     font-size: 2rem;
@@ -12,4 +12,22 @@
     font-weight: bold;
     border-radius: 10px;
     border-width: 3px;
+}
+
+.my-card{
+    width: 80%;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--very-light-col);
+    border: 3px solid var(--dark-col);
+    margin: 10px auto;
+    max-width: 500px;
+    box-sizing: content-box;
+    height: fit-content;
+}
+
+@media (min-width: 500px) {
+    .my-card{
+        width: 90%;
+    }
 }

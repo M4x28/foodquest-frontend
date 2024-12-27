@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { backendUrl } from "../utility/constants.ts";
 import ProductCard from "../components/ProductCard.tsx";
-import { exdendImgUrl, stopPropagation } from "../utility/generic.ts";
+import {exdendImgUrl, stopPropagation } from "../utility/generic.ts";
 
 import { ReactComponent as PizzaIcon } from "../assets/pizzaFull.svg"
 
@@ -67,7 +67,7 @@ function ProductPage(){
             <section className="products">
                 {
                     products.map(p => <ProductCard 
-                        product={p} key={p.documentId}
+                        product={p} key={p.documentId} setErr={setError}
                         ingredients={p.ingredients ? ingredients.filter(i => p.ingredients.includes(i.documentId)) : undefined }
                         allergens={p.allergens ? allergens.filter(a => p.allergens.includes(a.documentId)) : undefined }
                         imgUrl={p.image ? exdendImgUrl(p.image,"thumbnail") : undefined} editable={customizable}/>)

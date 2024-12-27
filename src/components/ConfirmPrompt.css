@@ -1,6 +1,7 @@
 .prompt-title{
     font-size: 2rem;
     margin: 10px;
+    font-weight: bold;
 }
 
 .prompt-text{
