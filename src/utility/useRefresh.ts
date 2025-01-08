@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 
-function useRefresh<T>( refresh:(() => T) | (() => Promise<T>), defaultValue:T,time?: number, ) : [T,() => void] {
+function useRefresh<T>( refresh:(() => T) | (() => Promise<T>), defaultValue:T,
+    time?: number, dependencies: any[] =  [] ) : [T,() => void] {
 
     //State containig the value
     const [value,setValue] = useState<T>(defaultValue);
@@ -20,7 +21,7 @@ function useRefresh<T>( refresh:(() => T) | (() => Promise<T>), defaultValue:T,t
             const intervalID = setInterval( refreshCallback, time);
             return () => clearInterval(intervalID);
         }
-    } ,[]);
+    } ,dependencies);
 
     return [value,refreshCallback];
 }

@@ -1,6 +1,6 @@
 .check-page svg{
-    height: 300px;
-    width: 300px;
+    height: 19rem;
+    width: 19rem;
     display: block;
     margin: 0px auto;
     padding-top: 30px;
@@ -8,8 +8,9 @@
 
 .check-page h1{
     position: absolute;
-    top: 300px;
+    top: 19rem;
     font-size: 3rem;
+    font-weight: bold;
     padding: 0px 30px;
     height: calc(50vh - 330px);
     color: var(--very-dark-col);
@@ -32,12 +33,11 @@
     color: var(--very-dark-col);
 }
 
-.check-page #total{
+.check-page .check-total{
     position: absolute;
     text-align: center;
     top: 80vh;
     margin: 0px;
-    height: 25vh;
     font-size: 3rem;
     padding: 20px 30px;
     width: 100%;

@@ -1,5 +1,5 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
+import '../bootstrap.css';
 import { Button } from '../components/Button.tsx';
 import Header, { Pages } from "../components/Header.tsx";
 import { OrderCategoryComponent } from '../components/OrderItemComponent.tsx';

@@ -206,7 +206,6 @@
 body {
   margin: 0;
   font-size: var(--bs-body-font-size);
-  letter-spacing: var(--title-letter-spacing);
   font-weight: var(--bs-body-font-weight);
   line-height: var(--bs-body-line-height);
   color: var(--bs-body-color);

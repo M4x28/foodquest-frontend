@@ -15,6 +15,7 @@ import { ReactComponent as EditIcon } from "../assets/edit.svg"
 import "./productCard.css";
 import { AppStateCtx } from "../App.tsx";
 import { formatPrice } from "../utility/generic.ts";
+import CollapseElement from "./CollapseElement.tsx";
 
 interface PropType{
     product:{
@@ -61,13 +62,13 @@ function ProductCard({product,ingredients,allergens,editable, imgUrl = placehold
 
     return(
         <div className="my-card">
-            <section className="product-header">
+            <div className="product-header">
                 <img src={imgUrl} alt="Foto del prodotto"/>
                 <h3 className="product-name">{product.Name}</h3>
                 <h3 className="product-price">{formatPrice(product.Price)} €</h3>
-            </section>
+            </div>
             { description && <p className="product-description">{description}</p> }
-            <section className="product-buttons">
+            <div className="product-buttons">
                 <button className="allergen-btn" onClick={toggleAllergen}> 
                     {showAllergen ? <DownIcon/> : <UpIcon/>} Allergeni 
                 </button>
@@ -79,20 +80,18 @@ function ProductCard({product,ingredients,allergens,editable, imgUrl = placehold
                 {editable && <Link className="edit-btn"> 
                    <EditIcon/> Modifica 
                 </Link>}
-            </section>
-            {showAllergen &&
-                <section className="product-allergen">
-                    {allergens && allergens?.length > 0 ?
-                        <ul>
-                            {allergens.map(a => 
-                                <li key={a.documentId}>{a.Name}</li>
-                            )}           
-                        </ul>
-                        :
-                        <p>Nessun allergene comune presente</p>
-                    }
-                </section>
-            }
+            </div>
+            <CollapseElement open={showAllergen} className="product-allergen">
+                {allergens && allergens?.length > 0 ?
+                    <ul>
+                        {allergens.map(a => 
+                            <li key={a.documentId}>{a.Name}</li>
+                        )}           
+                    </ul>
+                    :    
+                    <p>Nessun allergene comune presente</p>
+                }
+            </CollapseElement>
         </div>
     )
 }

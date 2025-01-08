@@ -1,0 +1,14 @@
+.collapse-el{
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.collapse-el.open{
+    max-height: 100vh;
+    opacity: 1;
+}
+
+.collapse-el.closed{
+    max-height: 0vh;
+    opacity: 0;
+}

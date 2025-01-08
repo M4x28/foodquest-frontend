@@ -42,35 +42,35 @@ const loadAppState = () => {
 function App() {
 
     const [appState, setAppState] = useState<AppState>(loadAppState);
+    
+    //eslint-disable-next-line 
+    const [tableStatus,_] = useRefresh<string>(async () => {
+        
+        //Stop if no table is selected
+        if(!appState.table)
+            return "";
 
-    //Periodacally check table status
+        //Fetch table status
+        return await axios.post(`${backendUrl}/api/table/status`,{
+            data:{
+                accessCode: appState.table.accessCode,
+                sessionCode: appState.table.sessionCode,
+            }
+        }).then((res) => res.data);
+
+    },"",5000,[appState.table]);
+    
     useEffect(() => {
-        const intervalID = setInterval(
-            () => {
-                if(!appState.table)
-                    return;
-                
-                axios.post(`${backendUrl}/api/table/status`,{
-                    data:{
-                        accessCode: appState.table.accessCode,
-                        sessionCode: appState.table.sessionCode,
-                    }
-                }).then((res) => {
-                    //Navigate to coorect page based on the status
-                    const status:string = res.data;
-                    const url:string = window.location.pathname;
-                    console.log(status,url)
-                    if(status === "CHECK" && url !== "/check" ){
-                        window.location.replace('/check');
-                    }
-                    if(status === "EXPIRED" && url !== "/expired" ){
-                        window.location.replace('/expired');
-                    }
-                })
-            }, 5000)
-
-        return () => clearInterval(intervalID);
-    },[])
+        //When table Status change move to correct page
+        const url:string = window.location.pathname;
+        console.log(tableStatus,url)
+        if(tableStatus === "CHECK" && url !== "/check" ){
+            window.location.replace('/check');
+        }
+        if(tableStatus === "EXPIRED" && url !== "/expired" ){
+            window.location.replace('/expired');
+        }
+    },[tableStatus])
 
     //Updater function: updete [key] in state to be [value]
     const editState = (key: string, value: any): void => {
@@ -87,7 +87,6 @@ function App() {
             if (hasStorage) {
                 sessionStorage.setItem("appState", JSON.stringify(newState));
             }
-
             return newState;
         });
     }
@@ -97,8 +96,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/products/:categoryID" element={<ProductPage />} />
-                    <Route path="/orders" element={<OrderPage />} />
-                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/orders" element={<ContoPage />} />
                     <Route path='/creazionepizza' element={<FoodBuilderComponent></FoodBuilderComponent>} />
                     <Route path='/landingpage' element={<LandingPage></LandingPage>} />
                     <Route path='/home' element={<Home></Home>} />
@@ -109,7 +107,7 @@ function App() {
                     <Route path='/account' element={<Account></Account>} />
                     <Route path='/test' element={<Test></Test>} />
                     <Route path='/check' element={<CheckPage/>}/>
-                    <Route path='/expired' element={<ErrorPage errorTitle='Sessione Scaduta' 
+                    <Route path='/expired' element={<ErrorPage errorTitle='Sessione Scaduta' retryBtn={false}
                         errorMessage='Sembra che la tua sessione di acquisto sia terminta, se ritieni sia un errore chiedi ad un cameriere'/>}/>
                 </Routes>
             </BrowserRouter>
@@ -151,6 +149,9 @@ function Test() {
             </button>
             <button className='dark-btn-inverse my-btn' onClick={() => setState("table",{accessCode:"abcd",sessionCode:"3"})}>
                 Log to table
+            </button>
+            <button className='err-btn my-btn' onClick={() => setState("table",{accessCode:"abcd",sessionCode:"4"})}>
+                Log to expired table
             </button>
         </Page>
     )

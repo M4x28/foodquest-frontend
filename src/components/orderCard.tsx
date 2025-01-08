@@ -8,6 +8,7 @@ import { ReactComponent as UpIcon} from "../assets/up.svg";
 
 import "./orderCard.css"
 import { formatPrice } from '../utility/generic.ts';
+import CollapseElement from './CollapseElement.tsx';
 
 interface OrderCardProps {
     order:Order,
@@ -36,21 +37,21 @@ function OrderCard({ order,index }: OrderCardProps) {
 
     return (
         <div className="my-card">
-            <section className={'order-header' + (showItem ? " bottom-line" : "")}>
+            <div className='order-header'>
                 <h2 className='order-name'>Ordine #{index}</h2>
                 {order.status === "Done" ? 
                     <ConfirmIcon className="done-icon"/> : 
                     <ClockIcon className="wip-icon"/>
                 }
                 <p className='time'>{order.status === "Done" ? "Completato" : order.time + "m"}</p>
-            </section>
-            {showItem &&
+            </div>
+            <CollapseElement open={showItem}>
                 <dl className='item-list'>
                 {
                     products.map(p => <Item key={p.documentId} name={p.Name} quantity={p.quantity} price={p.Price}/>)
                 }
                 </dl>
-            }
+            </CollapseElement>
             <button className="item-toggle" onClick={toggleItem}>
                 {showItem ? <DownIcon /> : <UpIcon />}
             </button>

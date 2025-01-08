@@ -33,7 +33,6 @@
 .create-btn{
     pointer-events: visible;
     align-items: center;
-    display: block;
     width: 80%;
     max-width: 400px;
     margin: 0px auto 5px auto;
