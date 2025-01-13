@@ -3,7 +3,7 @@ import Page from "./Page.tsx";
 import Header, { Pages } from "../components/Header.tsx";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import { backendUrl } from "../utility/constants.ts";
+import { API_BASE_URL } from "../utility/constants.ts";
 import ProductCard from "../components/ProductCard.tsx";
 import {exdendImgUrl, stopPropagation } from "../utility/generic.ts";
 
@@ -25,7 +25,7 @@ function ProductPage(){
     //Fetch on page load all category detail
     useEffect(() => {
         //Fetch product
-        axios.get(`${backendUrl}/api/categories/${categoryID}`)
+        axios.get(`${API_BASE_URL}/categories/${categoryID}`)
             .then((res) => {
                 const {Name,products} = res.data.data;
                 setCatName(Name);
@@ -34,7 +34,7 @@ function ProductPage(){
             }).then((prod:any[]) => {
                 //Load ingredients if needed
                 if(prod.filter((p) => p.ingredients !== undefined).length !== 0){
-                    axios.get(`${backendUrl}/api/ingredients`).then((res) => {
+                    axios.get(`${API_BASE_URL}/ingredients`).then((res) => {
                         setIngredient(res.data.data);
                         setCustomizable(true);
                     })
@@ -45,7 +45,7 @@ function ProductPage(){
             });
         
         //Fetch Allergen
-        axios.get(`${backendUrl}/api/allergens`)
+        axios.get(`${API_BASE_URL}/allergens`)
             .then((res) => {
                 setAllergens(res.data.data)
             }).catch((err) => {

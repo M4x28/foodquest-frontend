@@ -1,20 +1,23 @@
-import React from 'react';
-import pizzaLogo from './assets/Home/pizza.png';
-import Header, { Pages } from "./components/Header.tsx";
-import { ReactComponent as OrderIcon } from "./assets/order.svg";
-import { ReactComponent as CartIcon } from "./assets/cart.svg";
-import { Button } from './components/Button.tsx';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import pizzaLogo from '../assets/Home/pizza.png';
+import Header, { Pages } from "../components/Header.tsx";
+import { ReactComponent as OrderIcon } from "../assets/order.svg";
+import { ReactComponent as CartIcon } from "../assets/cart.svg";
+import CategoriesList from "../components/CategoriesList.tsx";
+import { Button } from '../components/Button.tsx';
+import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
+    const navigate = useNavigate();
+
     return (
-        <div
-            className="d-flex flex-column align-items-center"
-        >
+        <div className="d-flex flex-column align-items-center">
             {/* Header */}
-            <Header pageName="HOME" current={Pages.NULL} />
+            <Header pageName="HOME" current={Pages.Home} />
 
             {/* Logo */}
-            <div className="my-5"> {/* Aggiunto margine per abbassare l'immagine */}
+            <div className="my-5">
                 <img
                     src={pizzaLogo}
                     alt="Pizza Logo"
@@ -22,26 +25,9 @@ const Home: React.FC = () => {
                 />
             </div>
 
+
             {/* Menu Items */}
-            <div className="d-flex flex-column align-items-center w-100 px-3">
-                {['PIZZE', 'ANTIPASTI', 'BEVANDE', 'DOLCI'].map((item, index) => (
-                    <Button
-                        key={index}
-                        variant="light text-dark fw-bold text-LG"
-                        size="lg"
-                        style={{
-                            width: '100%',
-                            maxWidth: '300px',
-                            padding: '15px',
-                            borderRadius: '10px',
-                            fontSize: '1.2rem',
-                            border: '2px solid #ccc',
-                            marginBottom: '15px', // Spaziatura tra i pulsanti
-                        }} onClick={undefined}                    >
-                        {item}
-                    </Button>
-                ))}
-            </div>
+            <CategoriesList></CategoriesList>
 
             {/* Footer */}
             <div
@@ -79,7 +65,7 @@ const Home: React.FC = () => {
                         fontSize: "1.3rem", // Adattamento dinamico
                         marginLeft: "10px", // Spaziatura tra i pulsanti
                     }}
-                    onClick={undefined}
+                    onClick={() => navigate("/order")}
                 >
                     <i className="bi bi-cart-fill" style={{ fontSize: '1.5rem', color: '#28a745' }}></i>
                     <OrderIcon

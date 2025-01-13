@@ -5,9 +5,13 @@ interface InputProps {
     placeholder: string; // Testo segnaposto
     style?: React.CSSProperties; // Stili personalizzati opzionali
     className?: string; // Classe CSS opzionale
+    value?: string; // Valore input
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; // Gestore del cambiamento
+    onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void; // Gestore del focus
+    onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void; // Gestore della perdita di focus
 }
 
-const Input: React.FC<InputProps> = ({ type, placeholder, style, className }) => {
+const Input: React.FC<InputProps> = ({ type, placeholder, style, className, value, onChange, onFocus, onBlur, }) => {
     // Stile predefinito
     const defaultStyle: React.CSSProperties = {
         fontFamily: "Montserrat",
@@ -23,9 +27,13 @@ const Input: React.FC<InputProps> = ({ type, placeholder, style, className }) =>
     return (
         <input
             type={type}
+            value={value}
             className={`form-control ${className || ""}`} // Supporto per classi CSS opzionali
             placeholder={placeholder}
             style={{ ...defaultStyle, ...style }} // Unione di stili predefiniti e personalizzati
+            onChange={onChange} // Callback opzionale per il cambiamento
+            onFocus={onFocus} // Callback opzionale per il focus
+            onBlur={onBlur} // Callback opzionale per la perdita di focus
         />
     );
 };

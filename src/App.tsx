@@ -8,17 +8,16 @@ import Header, { Pages } from "./components/Header.tsx"
 import './App.css';
 import Page, { Error } from './pages/Page.tsx';
 import ProductPage from './pages/ProductPage.tsx';
-import LoginPage from './login.tsx';
 import OrderPage from './pages/OrderPage.tsx';
 import FoodBuilderComponent from './components/FoodBuilderComponent.tsx';
-import LandingPage from './landingpage.tsx';
-import Home from './home.tsx';
-import Login from './login.tsx';
-import RegisterPage from './registrazione.tsx';
-import Account from './account.tsx';
+import LandingPage from './pages/landingpage.tsx';
+import Home from './pages/home.tsx';
+import Login from './pages/login.tsx';
+import RegisterPage from './pages/registrazione.tsx';
+import Account from './pages/account.tsx';
 import CheckPage from './pages/CheckPage.tsx';
 import axios from 'axios';
-import { backendUrl } from './utility/constants.ts';
+import { API_BASE_URL } from './utility/constants.ts';
 import ErrorPage from './pages/ErrorPage.tsx';
 import ContoPage from './pages/ContoPage.tsx';
 
@@ -42,35 +41,35 @@ const loadAppState = () => {
 function App() {
 
     const [appState, setAppState] = useState<AppState>(loadAppState);
-    
-    //eslint-disable-next-line 
-    const [tableStatus,_] = useRefresh<string>(async () => {
-        
-        //Stop if no table is selected
-        if(!appState.table)
-            return "";
 
-        //Fetch table status
-        return await axios.post(`${backendUrl}/api/table/status`,{
-            data:{
-                accessCode: appState.table.accessCode,
-                sessionCode: appState.table.sessionCode,
-            }
-        }).then((res) => res.data);
-
-    },"",5000,[appState.table]);
-    
+    //Periodacally check table status
     useEffect(() => {
-        //When table Status change move to correct page
-        const url:string = window.location.pathname;
-        console.log(tableStatus,url)
-        if(tableStatus === "CHECK" && url !== "/check" ){
-            window.location.replace('/check');
-        }
-        if(tableStatus === "EXPIRED" && url !== "/expired" ){
-            window.location.replace('/expired');
-        }
-    },[tableStatus])
+        const intervalID = setInterval(
+            () => {
+                if(!appState.table)
+                    return;
+                
+                axios.post(`${API_BASE_URL}/table/status`,{
+                    data:{
+                        accessCode: appState.table.accessCode,
+                        sessionCode: appState.table.sessionCode,
+                    }
+                }).then((res) => {
+                    //Navigate to coorect page based on the status
+                    const status:string = res.data;
+                    const url:string = window.location.pathname;
+                    console.log(status,url)
+                    if(status === "CHECK" && url !== "/check" ){
+                        window.location.replace('/check');
+                    }
+                    if(status === "EXPIRED" && url !== "/expired" ){
+                        window.location.replace('/expired');
+                    }
+                })
+            }, 5000)
+
+        return () => clearInterval(intervalID);
+    },[])
 
     //Updater function: updete [key] in state to be [value]
     const editState = (key: string, value: any): void => {
@@ -96,7 +95,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/products/:categoryID" element={<ProductPage />} />
-                    <Route path="/orders" element={<ContoPage />} />
+                    <Route path="/orders" element={<OrderPage />} />
                     <Route path='/creazionepizza' element={<FoodBuilderComponent></FoodBuilderComponent>} />
                     <Route path='/landingpage' element={<LandingPage></LandingPage>} />
                     <Route path='/home' element={<Home></Home>} />
@@ -136,7 +135,7 @@ function Test() {
 
     return (
         <Page error={error}>
-            <Header pageName='Test' current={Pages.FC} />
+            <Header pageName='Test' current={Pages.NULL} />
             <h1 style={{ paddingTop: 100 }}>{time && time.getTime()}</h1>
             <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur voluptates ipsum quae neque obcaecati facere animi eos repellat, placeat ducimus saepe, corrupti qui laudantium cum ipsam esse consectetur voluptatum et.</h1>
             <button className="light-btn btn" onClick={refreshTime}> Che ore sono? </button>

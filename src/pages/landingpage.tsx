@@ -1,8 +1,11 @@
 import React from 'react';
-import pizza from './assets/Home/pizza.png';
-import { Button } from './components/Button.tsx'; // Importa il componente Button
+import { useNavigate } from 'react-router-dom';
+import pizza from '../assets/Home/pizza.png';
+import { Button } from '../components/Button.tsx'; // Importa il componente Button
 
 const LandingPage: React.FC = () => {
+    const navigate = useNavigate();
+
     return (
         <div
             className="d-flex flex-column align-items-center justify-content-between text-center p-3"
@@ -16,6 +19,7 @@ const LandingPage: React.FC = () => {
                     letterSpacing: "0.1rem",
                     border: "2px solid #000", // Bordo nero
                     borderRadius: "8px", // Angoli arrotondati
+                    color: "#212529",
                 }}>
                     TAVOLO 4
                 </span>
@@ -44,8 +48,6 @@ const LandingPage: React.FC = () => {
                 position: "fixed",
                 top: "30%",
                 zIndex: 1,
-
-
             }}>
                 <img
                     src={pizza}
@@ -73,7 +75,9 @@ const LandingPage: React.FC = () => {
                             border: "4px solid white",
                             boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
                             fontSize: "1.8rem", // Adattamento dinamico
-                        }} onClick={undefined}                    >
+                        }}
+                        onClick={() => navigate('/home')}
+                    >
                         INIZIA A ORDINARE
                     </Button>
                 </div>

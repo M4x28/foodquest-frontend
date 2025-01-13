@@ -3,7 +3,7 @@ import Page, { Error } from './Page.tsx';
 import Header, { Pages } from '../components/Header.tsx';
 import useRefresh from '../utility/useRefresh.ts';
 import axios from 'axios';
-import { backendUrl } from '../utility/constants.ts';
+import { API_BASE_URL } from '../utility/constants.ts';
 import { AppStateCtx } from '../App.tsx';
 import ButtonWithPrompt from '../components/ButtonWithPrompt.tsx';
 import OrderCard from '../components/orderCard.tsx';
@@ -44,8 +44,8 @@ function ContoPage() {
             return [];
         }
 
-        return await axios.post(`${backendUrl}/api/order/get_orders`,{
-            data:{
+        return await axios.post(`${API_BASE_URL}/order/get_orders`, {
+            data: {
                 accessCode: appState.table.accessCode,
                 sessionCode: appState.table.sessionCode,
             }

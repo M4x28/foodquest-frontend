@@ -49,16 +49,16 @@ function Header({pageName, current}:PropType){
             </header>
             <div className={"dropdown-overlay glass" + (displayDropdown ? "" : " solid-snake")} onClick={toggleDropdown}>
                 <nav className={"dropdown" + (displayDropdown ? "" : " solid-snake")} onClick={stopPropagation}>
-                    <Link className={"dropdown-voice" + (current === Pages.Home ? " current" : "")}> 
+                    <Link className={"dropdown-voice" + (current === Pages.Home ? " current" : "")} to={"/home"}> 
                         <PizzaIcon/> Ordina 
                     </Link>
-                    <Link className={"dropdown-voice" + (current === Pages.Order ? " current" : "")}> 
+                    <Link className={"dropdown-voice" + (current === Pages.Order ? " current" : "")} to={"/order"}> 
                         <CartIcon/> Visualizza il tuo ordine 
                     </Link>
-                    <Link to="/orders" className={"dropdown-voice" + (current === Pages.Check ? " current" : "")}> 
-                        <OrderIcon/> Resoconto ordini 
+                    <Link className={"dropdown-voice" + (current === Pages.Check ? " current" : "")} to={"/conto"}> 
+                        <OrderIcon/> Resoconto ordini
                     </Link>
-                    <Link className={"dropdown-voice" + (current === Pages.FC ? " current" : "")}>
+                    <Link className={"dropdown-voice" + (current === Pages.FC ? " current" : "")} to={"/account"}>
                         <AccountIcon/> Fidelity Card 
                     </Link>
                 </nav>

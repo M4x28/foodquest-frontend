@@ -1,11 +1,32 @@
-import React from "react";
-import Header, { Pages } from "./components/Header.tsx";
-import "./bootstrap.css";
-import { ReactComponent as PizzaIcon } from "./assets/pizza.svg"; // Sostituisci con il percorso corretto per l'icona della pizza
-import { ReactComponent as LogoutIcon } from "./assets/logout.svg"; // Aggiungi l'icona del logout con il percorso corretto
-import { Button } from './components/Button.tsx';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Header, { Pages } from "../components/Header.tsx";
+import "../bootstrap.css";
+import { ReactComponent as PizzaIcon } from "../assets/pizza.svg"; // Sostituisci con il percorso corretto per l'icona della pizza
+import { ReactComponent as LogoutIcon } from "../assets/logout.svg"; // Aggiungi l'icona del logout con il percorso corretto
+import { Button } from '../components/Button.tsx';
 
 const AccountPage: React.FC = () => {
+    const navigate = useNavigate();
+    const [username, setUsername] = useState<string>("");
+    const [points, setPoints] = useState<number>(0);
+
+    useEffect(() => {
+        const userData = localStorage.getItem("user");
+        if (!userData) {
+            navigate("/login");
+            return;
+        }
+        const parsedData = JSON.parse(userData);
+        setUsername(parsedData.user.username || "Utente");
+        setPoints(parsedData.user.Points || 0);
+    }, [navigate]);
+
+    const handleLogout = () => {
+        localStorage.removeItem("user");
+        window.location.href = "/login"; // Reindirizza alla pagina di login
+    };
+
     return (
         <>
             <Header pageName="FIDELITY CARD" current={Pages.FC} />
@@ -13,7 +34,7 @@ const AccountPage: React.FC = () => {
                 {/* Immagine fissa */}
                 <div style={{ position: "fixed", top: "10%", zIndex: 1 }}>
                     <img
-                        src="/pizza.png" // Sostituisci con il percorso corretto del logo
+                        src="/pizza.png"
                         alt="Pizza Logo"
                         className="mb-4"
                         style={{ width: "160px", height: "180px" }}
@@ -38,7 +59,7 @@ const AccountPage: React.FC = () => {
                             letterSpacing: "0.1rem",
                         }}
                     >
-                        Benvenuto Giuseppe
+                        Benvenut@ {username}
                     </h2>
                     <div
                         className="bg-light text-dark rounded p-3 my-3"
@@ -48,8 +69,7 @@ const AccountPage: React.FC = () => {
                         }}
                     >
                         <h4>
-                            Hai{" "}
-                            <span className="text-success">4000 punti</span>
+                            Hai <span className="text-success">{points} punti</span>
                         </h4>
                         <p>
                             Ottieni punti acquistando da noi e poi convertili in
@@ -65,21 +85,18 @@ const AccountPage: React.FC = () => {
                         bottom: "4%",
                         zIndex: 1,
                         width: "100%",
-                        maxWidth: "250px",
-
+                        maxWidth: "350px",
                     }}
                 >
                     <Button
-                        variant="success"
-                        className="btn btn-success w-100 mb-2 d-flex align-items-center justify-content-center"
+                        variant="success w-100 text-LG"
+                        className="mb-2 d-flex align-items-center justify-content-center"
                         size="lg"
                         style={{
                             border: "2px solid white",
-                            fontFamily: "Luckiest Guy, cursive",
-                            letterSpacing: "0.1rem",
-                            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
+                            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
                         }}
-                        onClick={undefined}
+                        onClick={() => window.location.href = "/home"}
                     >
                         <PizzaIcon
                             className="me-2"
@@ -88,16 +105,14 @@ const AccountPage: React.FC = () => {
                         INIZIA A ORDINARE
                     </Button>
                     <Button
-                        variant="success"
-                        className="btn btn-danger w-100 d-flex align-items-center justify-content-center"
+                        variant="danger w-100 text-LG"
+                        className="d-flex align-items-center justify-content-center"
                         size="lg"
                         style={{
                             border: "2px solid white",
-                            fontFamily: "Luckiest Guy, cursive",
-                            letterSpacing: "0.1rem",
-                            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
+                            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
                         }}
-                        onClick={undefined}
+                        onClick={handleLogout}
                     >
                         <LogoutIcon
                             className="me-2"

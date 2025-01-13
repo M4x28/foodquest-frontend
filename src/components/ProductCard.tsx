@@ -3,7 +3,7 @@ import AnimatedButton from "./AnimatedButton.tsx";
 import { Link } from "react-router-dom";
 
 import axios from "axios";
-import { backendUrl } from "../utility/constants.ts";
+import { API_BASE_URL } from "../utility/constants.ts";
 
 import placeholder from "../assets/pizzaPlacehoder.webp";
 import { ReactComponent as DownIcon} from "../assets/down.svg";
@@ -47,7 +47,7 @@ function ProductCard({product,ingredients,allergens,editable, imgUrl = placehold
 
     function buyItem(){
         console.log(product)
-        axios.post(`${backendUrl}/api/partial-orders`,{ data: {
+        axios.post(`${API_BASE_URL}/partial-orders`,{ data: {
             productID: product.documentId,
             accessCode: appState.table.accessCode,
             sessionCode: appState.table.sessionCode

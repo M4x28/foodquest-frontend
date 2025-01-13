@@ -1,10 +1,45 @@
-import React from "react";
-import Header, { Pages } from "./components/Header.tsx"; 
-import "./bootstrap.css"; 
-import { Button } from './components/Button.tsx'; // Importa il componente Button
-import Input from "./components/Input.tsx"; // Importa il nuovo componente Input
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Header, { Pages } from "../components/Header.tsx"; // Assicurati di aggiornare il percorso corretto per Header.tsx
+import "../bootstrap.css"; // Assicurati di aggiornare il percorso del file bootstrap.css
+import { Button } from '../components/Button.tsx'; // Importa il componente Button
+import Input from "../components/Input.tsx"; // Importa il nuovo componente Input
+import { userService } from "../services/userService.ts";
 
 const RegisterPage: React.FC = () => {
+    const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+
+    useEffect(() => {
+            const userData = localStorage.getItem("user");
+            if (userData) {
+                navigate("/account");
+            }
+    }, [navigate]);
+    
+    const handleRegister = async () => {
+        if (password !== confirmPassword) {
+            alert("Le password non coincidono");
+            return;
+        }
+
+        try {
+            const username = email.split("@")[0]; // Genera un nome utente base dall'email
+            const response = await userService.register(username, email, password);
+            console.log(response);
+            // Salva la risposta nello stato dell'app (localStorage per questo esempio)
+            localStorage.setItem("user", JSON.stringify(response));
+
+            // Reindirizza l'utente su /account
+            navigate("/account");
+        } catch (error) {
+            alert("Errore durante la registrazione. Riprova.");
+            console.error(error);
+        }
+    };
+
     return (
         <>
             <Header pageName="FIDELITY CARD" current={Pages.FC} />
@@ -48,24 +83,33 @@ const RegisterPage: React.FC = () => {
                             letterSpacing: "0.1rem",
                         }}
                     >
-                        Accedi al tuo account
+                        Crea un nuovo account
                     </h2>
                     <form className="w-100">
                         <div className="mb-3">
                             <Input
                                 type="email"
                                 placeholder="Inserisci email"
-
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
                         <div className="mb-3">
                             <Input
                                 type="password"
                                 placeholder="Inserisci Password"
-
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
-                        
+                        <div className="mb-3">
+                            <Input
+                                type="password"
+                                placeholder="Conferma Password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
+                        </div>
                     </form>
                 </div>
 
@@ -90,9 +134,9 @@ const RegisterPage: React.FC = () => {
                             boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
                             fontSize: "1rem", // Adattamento dinamico
                         }}
-                        onClick={undefined}
+                        onClick={handleRegister}
                     >
-                        LOGIN
+                        REGISTRAZIONE
                     </Button>
                     <p
                         className="text-white text-center mb-1"
@@ -115,9 +159,11 @@ const RegisterPage: React.FC = () => {
                             boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
                             fontSize: "1rem", // Adattamento dinamico
                         }}
-                        onClick={undefined}
+                        onClick={() => {
+                            window.location.href = "/login"; // Modifica il percorso in base alla tua app
+                        }}
                     >
-                        REGISTRAZIONE
+                        LOGIN
                     </Button>
                 </div>
             </div>

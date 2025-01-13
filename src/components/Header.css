@@ -1,39 +1,48 @@
-.header-container{
+.header-container {
     top: 0px;
     height: calc(var(--header-height) + 3px);
     position: fixed;
     width: 100%;
     z-index: 1000;
     box-sizing: content-box;
+
+    --bs-body-font-family: "Luckiest Guy", serif;
+    --letter-spacing: 0.1rem;
+    --bs-header-font-size: 2.2rem;
+    --bs-voice-font-size: 1.4rem;
 }
 
-header{
+header {
     width: 100%;
     height: var(--header-height);
-    
+
     display: flex;
     align-items: center;
-    
+
     border-bottom: 3px solid var(--dark-col);
     background-color: var(--very-light-col);
     box-sizing: content-box;
+
+    font-family: var(--bs-body-font-family);
 }
 
-header h1{
-    font-size: 2.2rem;
+header h1 {
+    font-size: var(--bs-header-font-size);
+    letter-spacing: var(--letter-spacing);
     color: var(--very-dark-col);
     margin: auto;
     font-weight: bold;
 }
 
-.menu-btn{
+.menu-btn {
     border: none;
     width: fit-content;
     height: fit-content;
     background: none;
 }
 
-.menu-btn svg, .home-btn svg{
+.menu-btn svg,
+.home-btn svg {
     margin: 10px;
     height: 3.1rem;
     width: 3.1rem;
@@ -41,18 +50,18 @@ header h1{
 }
 
 /* Overlay for the screen when the dropdown is open*/
-.dropdown-overlay{
+.dropdown-overlay {
     height: 100vh;
 }
 
 /* Overlay when hidden, fade only out, in my opinion looked better*/
-.dropdown-overlay.solid-snake{
+.dropdown-overlay.solid-snake {
     display: block;
     height: 0%;
 }
 
 /*Base dropdown menù voice style*/
-.dropdown-voice{
+.dropdown-voice {
     display: flex;
     align-items: center;
     height: var(--header-height);
@@ -61,47 +70,50 @@ header h1{
     color: var(--very-dark-col);
     border-bottom: 3px solid var(--dark-col);
     background-color: var(--very-light-col);
+    font-family: var(--bs-body-font-family);
+    letter-spacing: var(--letter-spacing);
+    font-size: var(--bs-voice-font-size);
 }
 
-.dropdown-voice svg{
+.dropdown-voice svg {
     height: 3.1rem;
     width: 3.1rem;
     fill: var(--dark-col);
     margin: 10px;
 }
 
-.dropdown-voice.current{
+.dropdown-voice.current {
     color: var(--very-light-col);
     background-color: var(--dark-col);
 }
 
-.dropdown-voice.current svg{
+.dropdown-voice.current svg {
     fill: var(--very-light-col);
 }
 
 @media (max-width: 500px) {
-    .dropdown{
+    .dropdown {
         display: block;
         transition: 0.5s;
         overflow: hidden;
         height: fit-content;
         max-height: 100vh;
     }
-    
+
     /*Dropdown when idden*/
-    .dropdown.solid-snake{
+    .dropdown.solid-snake {
         display: block;
         max-height: 0vh;
         opacity: 0;
     }
-    
-    .dropdown-voice{
+
+    .dropdown-voice {
         width: 100%;
     }
 }
 
-@media (min-width: 500px){
-    .dropdown{
+@media (min-width: 500px) {
+    .dropdown {
         display: block;
         transition: max-width 0.5s, opacity 0.5s;
         width: fit-content;
@@ -111,18 +123,16 @@ header h1{
         height: 100vh;
         border-left: 3px solid var(--dark-col);
     }
-    
+
     /*Dropdown when idden*/
-    .dropdown.solid-snake{
+    .dropdown.solid-snake {
         display: block;
         max-width: 0vh;
         opacity: 0;
-    }     
+    }
 
-    .dropdown-voice{
+    .dropdown-voice {
         width: 30%;
         min-width: 400px;
     }
 }
-
-

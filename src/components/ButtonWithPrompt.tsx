@@ -1,52 +1,63 @@
-import React,{useState} from "react"
-import Popup from "./Popup.tsx";
+import React, { useState } from 'react';
+import { Button } from './Button.tsx'; // Importa il tuo componente Button
+import Popup from './Popup.tsx'; // Supponendo che tu abbia un componente Popup
 
-import {ReactComponent as ConfirmIcon} from "../assets/confirm.svg"
-
-import "./ConfirmPrompt.css"
-
-interface PropType{
-    //Functional
-    children: React.ReactNode,
-    onClick: () => void, 
-    //Aestetic
-    className?:string,
-    //Popup Aestetic
-    popupClass?:string,
-    confirmClass?:string,
-    popupTitle?:string,
-    popupText?:string,
-    confirmText?:string,
-    confirmSvg?: React.ReactElement
+interface PropType {
+    children: React.ReactNode;
+    onClick: () => void;
+    className?: string;
+    variant?: string;
+    size?: string;
+    popupClass?: string;
+    confirmClass?: string;
+    popupTitle?: string;
+    popupText?: string;
+    confirmText?: string;
+    confirmSvg?: React.ReactElement;
 }
 
-function ButtonWithPrompt({children, onClick, className, popupClass, confirmClass = "dark-btn confirm-btn",
-        popupTitle = "Sei sicuro?", popupText = "Questa azione non può essere annullata",
-        confirmText = "CONFERMA", confirmSvg=<ConfirmIcon/> } : PropType){
-
-    const [popup,setPopup] = useState(false);
+function ButtonWithPrompt({
+    children,
+    onClick,
+    className,
+    variant,
+    size,
+    popupClass,
+    confirmClass = "success w-100",
+    popupTitle = "Sei sicuro?",
+    popupText = "Questa azione non può essere annullata",
+    confirmText = "CONFERMA",
+    confirmSvg
+}: PropType) {
+    const [popup, setPopup] = useState(false);
 
     const togglePopup = () => setPopup((p) => !p);
     const confirmAction = () => {
         onClick();
         togglePopup();
-    }
+    };
 
-    return(
+    return (
         <>
-        <button onClick={togglePopup} className={className}>
-            {children}
-        </button>
-        <Popup isOpen={popup} close={togglePopup} popupClass={popupClass}>
-            <h3 className="prompt-title"> {popupTitle} </h3>
-            <p  className="prompt-text"> {popupText} </p>
-            <button className={confirmClass} onClick={confirmAction}>
-                {confirmSvg} {confirmText}
-            </button>
-        </Popup>
+            <Button onClick={togglePopup} variant={variant} size={size} className={className}>
+                {children}
+            </Button>
+            {popup && (
+                <Popup isOpen={popup} close={togglePopup} popupClass={popupClass}>
+                    <h3 className="prompt-title">{popupTitle}</h3>
+                    <p className="prompt-text">{popupText}</p>
+                    <Button
+                        
+                        onClick={confirmAction}
+                        className={confirmClass}
+                        variant="dark"
+                    >
+                        {confirmSvg} {confirmText}
+                    </Button>
+                </Popup>
+            )}
         </>
-    )
-
+    );
 }
 
 export default ButtonWithPrompt;
