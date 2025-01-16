@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Button } from './Button.tsx'; // Importa il tuo componente Button
-import Popup from './Popup.tsx'; // Supponendo che tu abbia un componente Popup
+import Popup from './Popup.tsx';
+
+import "./ConfirmPrompt.css";
 
 interface PropType {
     children: React.ReactNode;
@@ -23,7 +25,7 @@ function ButtonWithPrompt({
     variant,
     size,
     popupClass,
-    confirmClass = "success w-100",
+    confirmClass = "dark-btn confirm-btn",
     popupTitle = "Sei sicuro?",
     popupText = "Questa azione non può essere annullata",
     confirmText = "CONFERMA",
@@ -50,7 +52,6 @@ function ButtonWithPrompt({
                         
                         onClick={confirmAction}
                         className={confirmClass}
-                        variant="dark"
                     >
                         {confirmSvg} {confirmText}
                     </Button>

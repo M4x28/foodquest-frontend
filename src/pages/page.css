@@ -32,12 +32,17 @@
 .err-page h1{
     position: absolute;
     top: 200px;
+    margin: 0px;
     font-weight: bold;
     font-size: 3rem;
     padding: 0px 30px;
     height: calc(50vh - 230px);
     color: var(--very-dark-col);
-
+    max-width: 800px;
+    text-align: center;
+    margin-inline: auto;
+    left: 0; 
+    right: 0; 
 }
 
 @media (max-width: 400px){
@@ -48,13 +53,19 @@
 
 .err-page p{
     position: absolute;
+    margin-inline: auto;
     top: 50vh;
-    margin: 0px;
+    margin: 0px auto;
     height: 25vh;
     font-size: 2rem;
     padding: 20px 30px;
     color: var(--very-dark-col);
     line-height: normal;
+    max-width: 800px;
+    text-align: center;
+    margin-inline: auto;
+    left: 0; 
+    right: 0; 
 }
 
 .retry-btn{

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Order } from '../pages/orderPage';
+import { order, product } from '../server/server.ts';
 
-import {ReactComponent as ConfirmIcon} from "../assets/confirm.svg"
-import {ReactComponent as ClockIcon} from "../assets/clock.svg"
+import { ReactComponent as ConfirmIcon} from "../assets/confirm.svg"
+import { ReactComponent as ClockIcon} from "../assets/clock.svg"
 import { ReactComponent as DownIcon} from "../assets/down.svg";
 import { ReactComponent as UpIcon} from "../assets/up.svg";
 
@@ -11,17 +11,21 @@ import { formatPrice } from '../utility/generic.ts';
 import CollapseElement from './CollapseElement.tsx';
 
 interface OrderCardProps {
-    order:Order,
+    order:order,
     index:number
+}
+
+interface prodWithQuantity extends product{
+    quantity:number
 }
 
 function OrderCard({ order,index }: OrderCardProps) {
     
     const [showItem,setShowItem] = useState(false);
 
-    const productMap: { [key: string]: any } = {};
+    const productMap: { [key: string]: prodWithQuantity } = {};
 
-    order.products.forEach((p: any) => {
+    order.products.forEach((p) => {
         if (productMap[p.documentId]) {
             productMap[p.documentId].quantity += 1;
         } else {
@@ -48,7 +52,7 @@ function OrderCard({ order,index }: OrderCardProps) {
             <CollapseElement open={showItem}>
                 <dl className='item-list'>
                 {
-                    products.map(p => <Item key={p.documentId} name={p.Name} quantity={p.quantity} price={p.Price}/>)
+                    products.map(p => <Item key={p.documentId} name={p.name} quantity={p.quantity} price={p.price}/>)
                 }
                 </dl>
             </CollapseElement>

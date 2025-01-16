@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-function useRefresh<T>( refresh:(() => T) | (() => Promise<T>), defaultValue:T,
+function useRefresh<T>( refresh:((old:T) => T) | ((old:T) => Promise<T>), defaultValue:T,
     time?: number, dependencies: any[] =  [] ) : [T,() => void] {
 
     //State containig the value
@@ -8,7 +8,7 @@ function useRefresh<T>( refresh:(() => T) | (() => Promise<T>), defaultValue:T,
 
     //Function that perform the refresh, using await let me handle both sincronus and async call
     const refreshCallback = async () => {
-        let newVal = await refresh();
+        let newVal = await refresh(value);
         setValue(newVal);
     }
 
