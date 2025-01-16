@@ -1,6 +1,6 @@
 .check-page svg{
-    height: 19rem;
-    width: 19rem;
+    height: 17rem;
+    width: 17rem;
     display: block;
     margin: 0px auto;
     padding-top: 30px;
@@ -8,7 +8,7 @@
 
 .check-page h1{
     position: absolute;
-    top: 19rem;
+    top: 17rem;
     font-size: 3rem;
     font-weight: bold;
     padding: 0px 30px;
@@ -38,7 +38,7 @@
     text-align: center;
     top: 80vh;
     margin: 0px;
-    font-size: 3rem;
+    font-size: 2.5rem;
     padding: 20px 30px;
     width: 100%;
     color: var(--very-dark-col);

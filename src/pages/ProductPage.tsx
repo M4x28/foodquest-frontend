@@ -2,22 +2,21 @@ import React, { useEffect, useState } from "react";
 import Page from "./Page.tsx";
 import Header, { Pages } from "../components/Header.tsx";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
-import { API_BASE_URL } from "../utility/constants.ts";
 import ProductCard from "../components/ProductCard.tsx";
-import {exdendImgUrl, stopPropagation } from "../utility/generic.ts";
 
 import { ReactComponent as PizzaIcon } from "../assets/pizzaFull.svg"
 
 import "./productPage.css"
+import { backendServer } from '../App.tsx';
+import { allergen, detailProduct, ingredient} from "../server/server.ts";
 
 function ProductPage(){
 
     const {categoryID} = useParams()
     const [catName,setCatName] = useState("Loading...");
-    const [products,setProducts] = useState<any[]>([]);
-    const [ingredients,setIngredient] = useState<any[]>([]);
-    const [allergens,setAllergens] = useState<any[]>([]);
+    const [products,setProducts] = useState<detailProduct[]>([]);
+    const [ingredients,setIngredient] = useState<ingredient[]>([]);
+    const [allergens,setAllergens] = useState<allergen[]>([]);
     const [customizable,setCustomizable] = useState(false)
 
     const [error,setError] = useState(false);
@@ -25,29 +24,29 @@ function ProductPage(){
     //Fetch on page load all category detail
     useEffect(() => {
         //Fetch product
-        axios.get(`${API_BASE_URL}/categories/${categoryID}`)
-            .then((res) => {
-                const {Name,products} = res.data.data;
-                setCatName(Name);
-                setProducts(products);
-                return products
-            }).then((prod:any[]) => {
-                //Load ingredients if needed
-                if(prod.filter((p) => p.ingredients !== undefined).length !== 0){
-                    axios.get(`${API_BASE_URL}/ingredients`).then((res) => {
-                        setIngredient(res.data.data);
-                        setCustomizable(true);
-                    })
-                }
-            }).catch((err) => {
-                console.log(err);
-                setError(true)
-            });
+        backendServer.fetchProductByCategory(categoryID || "")
+        .then((catDetail) => {
+            
+            setCatName(catDetail.name);
+            setProducts(catDetail.products);
+
+            //Load ingredients if needed
+            if(catDetail.hasIg){
+                backendServer.fetchIngredient().then(ig => {
+                    setIngredient(ig);
+                    setCustomizable(true);
+                })
+            }
+
+        }).catch((err) => {
+            console.log(err);
+            setError(true)
+        });
         
         //Fetch Allergen
-        axios.get(`${API_BASE_URL}/allergens`)
+        backendServer.fetchAllergen()
             .then((res) => {
-                setAllergens(res.data.data)
+                setAllergens(res)
             }).catch((err) => {
                 console.log(err);
                 setError(true)
@@ -68,9 +67,9 @@ function ProductPage(){
                 {
                     products.map(p => <ProductCard 
                         product={p} key={p.documentId} setErr={setError}
-                        ingredients={p.ingredients ? ingredients.filter(i => p.ingredients.includes(i.documentId)) : undefined }
-                        allergens={p.allergens ? allergens.filter(a => p.allergens.includes(a.documentId)) : undefined }
-                        imgUrl={p.image ? exdendImgUrl(p.image,"thumbnail") : undefined} editable={customizable}/>)
+                        ingredients={p.ingredientsId ? ingredients.filter(i => p.ingredientsId.includes(i.documentId)) : undefined }
+                        allergens={p.allergensId ? allergens.filter(a => p.allergensId.includes(a.documentId)) : undefined }
+                        imgUrl={p.imgUrl ? backendServer.imageUrlFromServer(p.imgUrl,"thumbnail") : undefined} editable={customizable}/>)
                 }
             </section>
             { customizable && 

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import useRefresh from './utility/useRefresh.ts';
 
 import ButtonWithPrompt from './components/ButtonWithPrompt.tsx';
@@ -15,11 +15,13 @@ import Login from './pages/login.tsx';
 import RegisterPage from './pages/registrazione.tsx';
 import Account from './pages/account.tsx';
 import CheckPage from './pages/CheckPage.tsx';
-import axios from 'axios';
-import { API_BASE_URL } from './utility/constants.ts';
 import ErrorPage from './pages/ErrorPage.tsx';
 import ContoPage from './pages/ContoPage.tsx';
 import PizzaBuilder from './pages/PizzaBuilder.tsx';
+import StrapiServerConnector from './server/backendServerConnector.ts';
+import Server from './server/server.ts';
+
+export const backendServer:Server = new StrapiServerConnector("http://localhost:1337");
 
 interface AppState { [key: string]: any };
 
@@ -41,35 +43,30 @@ const loadAppState = () => {
 function App() {
 
     const [appState, setAppState] = useState<AppState>(loadAppState);
+    
+    //eslint-disable-next-line 
+    const [tableStatus,_] = useRefresh<string>(async () => {
+        
+        //Stop if no table is selected
+        if(!appState.table)
+            return "";
 
-    //Periodacally check table status
+        //Fetch table status
+        return await backendServer.fetchTableStatus(appState.table);
+
+    },"",5000,[appState.table]);
+    
     useEffect(() => {
-        const intervalID = setInterval(
-            () => {
-                if (!appState.table)
-                    return;
-
-                axios.post(`${API_BASE_URL}/table/status`, {
-                    data: {
-                        accessCode: appState.table.accessCode,
-                        sessionCode: appState.table.sessionCode,
-                    }
-                }).then((res) => {
-                    //Navigate to coorect page based on the status
-                    const status: string = res.data;
-                    const url: string = window.location.pathname;
-                    console.log(status, url)
-                    if (status === "CHECK" && url !== "/check") {
-                        window.location.replace('/check');
-                    }
-                    if (status === "EXPIRED" && url !== "/expired") {
-                        window.location.replace('/expired');
-                    }
-                })
-            }, 5000)
-
-        return () => clearInterval(intervalID);
-    }, [])
+        //When table Status change move to correct page
+        const url:string = window.location.pathname;
+        console.log(tableStatus,url)
+        if(tableStatus === "CHECK" && url !== "/check" ){
+            window.location.replace('/check');
+        }
+        if(tableStatus === "EXPIRED" && url !== "/expired" ){
+            window.location.replace('/expired');
+        }
+    },[tableStatus])
 
     //Updater function: updete [key] in state to be [value]
     const editState = (key: string, value: any): void => {
@@ -107,7 +104,10 @@ function App() {
                     <Route path='/test' element={<Test></Test>} />
                     <Route path='/check' element={<CheckPage />} />
                     <Route path='/expired' element={<ErrorPage errorTitle='Sessione Scaduta' retryBtn={false}
-                        errorMessage='Sembra che la tua sessione di acquisto sia terminta, se ritieni sia un errore chiedi ad un cameriere' />} />
+                        errorMessage='Sembra che la tua sessione di acquisto sia terminta, se ritieni sia un errore chiedi ad un cameriere'/>}/>
+                    
+                    <Route path='*' element={<ErrorPage errorTitle='Errore 404' retryBtn={false}
+                        errorMessage='La pagina che cerchi non è disponibile'/>}/>
                 </Routes>
             </BrowserRouter>
         </AppStateCtx.Provider>
@@ -136,7 +136,7 @@ function Test() {
 
     return (
         <Page error={error}>
-            <Header pageName='Test' current={Pages.NULL} />
+            <Header pageName='Test' current={Pages.FC} />
             <h1 style={{ paddingTop: 100 }}>{time && time.getTime()}</h1>
             <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur voluptates ipsum quae neque obcaecati facere animi eos repellat, placeat ducimus saepe, corrupti qui laudantium cum ipsam esse consectetur voluptatum et.</h1>
             <button className="light-btn btn" onClick={refreshTime}> Che ore sono? </button>
