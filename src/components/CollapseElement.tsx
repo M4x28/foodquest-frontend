@@ -9,7 +9,6 @@ interface PropType {
 }
 
 function CollapseElement({ open, children, className }: PropType) {
-
     return (
         <div className={'collapse-el ' + (open ? "open " : "closed ") + (className ? className : "")}>
             {children}

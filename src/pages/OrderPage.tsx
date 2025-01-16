@@ -6,12 +6,15 @@ import { OrderCategoryComponent } from '../components/OrderItemComponent.tsx';
 import { OrderToggle } from '../components/OrderToggle.tsx';
 import ButtonWithPrompt from '../components/ButtonWithPrompt.tsx';
 import { ReactComponent as CloseIcon } from "../assets/close.svg"
+import OrderCard from '../components/OrderCard.tsx';
+
+
 
 
 // Main OrderPage
 const OrderPage: React.FC = () => {
     const pizzaItems = [
-        { name: 'Margherita', quantity: 2, price: 80 },
+        { name: 'Margherita', quantity: 2, price: 4 },
         { name: 'Diavola', quantity: 1, price: 9, ingredients: [{ id: 6, name: 'Salsiccia di Norcia', price: 2 }] },
     ];
     const antipastiItems = [

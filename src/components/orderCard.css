@@ -1,65 +1,77 @@
-.order-header{
+.order-header {
     display: grid;
     grid-template-columns: 70% 30%;
-    grid-template-areas: "title ."
-    "title .";
+    grid-template-areas: "title ." "title .";
     width: 100%;
+    font-family: "Luckiest Guy", cursive;
+    letter-spacing: 0.1rem;
 }
 
-.order-name{
-    padding-top:1rem;
+.order-name {
+    padding-top: 1rem;
     grid-area: title;
     font-weight: bold;
     font-size: 2rem;
     margin: 0px;
+    font-family: "Luckiest Guy", cursive;
+    letter-spacing: 0.1rem;
 }
 
-.done-icon, .wip-icon{
+.done-icon,
+.wip-icon {
     height: 3rem;
     width: 3rem;
     margin: auto;
 }
 
-.done-icon{
+.done-icon {
     fill: var(--dark-col);
 }
 
-.wip-icon{
+.wip-icon {
     fill: #feaa00;
 }
 
-.time{
+.time {
     font-size: 1.2rem;
     text-align: center;
     margin: 0px;
+    font-family: "Luckiest Guy", cursive;
+    letter-spacing: 0.1rem;
 }
 
-.item-toggle{
+.item-toggle {
     display: block;
     border: none;
     margin: auto;
     background: none;
 }
 
-.item-toggle svg{
+.item-toggle svg {
     fill: #585b57;
     height: 2rem;
     width: 2rem;
 }
 
-.item-list{
+.item-list {
     font-size: 1.5rem;
     display: grid;
     grid-template-columns: auto auto;
     margin: 5px 0px 0px 0px;
     border-top: 3px solid var(--dark-col);
     padding-top: 5px;
+    font-family: "Luckiest Guy", cursive;
+    letter-spacing: 0.1rem;
 }
 
-.item-list dt{
+.item-list dt {
     font-weight: bold;
+    font-family: "Luckiest Guy", cursive;
+    letter-spacing: 0.1rem;
 }
 
-.item-list dd{
+.item-list dd {
     text-align: end;
+    font-family: "Luckiest Guy", cursive;
+    letter-spacing: 0.1rem;
 }

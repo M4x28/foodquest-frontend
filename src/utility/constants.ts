@@ -9,5 +9,9 @@ export const ENDPOINTS = {
     CATEGORY: {
         GET_CATEGORIES: "/categories",
     }, 
+
+    INGREDIENTS: {
+        GET_INGREDIENTS: "/ingredients",
+    }, 
     
 };
