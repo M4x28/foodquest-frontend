@@ -9,10 +9,10 @@ import OrderCard from '../components/orderCard.tsx';
 import { ReactComponent as CloseIcon } from "../assets/close.svg"
 
 import "./orderPage.css"
-import { formatPrice } from '../utility/generic.ts';
 import { useNavigate } from 'react-router-dom';
 import { backendServer } from '../App.tsx';
 import { order } from '../server/server.ts';
+import Total from '../components/Total.tsx';
 
 export interface Order{
     documentId:string,
@@ -111,7 +111,7 @@ function ContoPage() {
             <section className='orders-container'>
                 {orders.map((order,index) => <OrderCard key={order.documentId} order={order} index={index+1}/>)}
             </section>
-            <Total total={total.total} discount={total.discount} className='total'/>
+            <Total className='total'/>
             <ButtonWithPrompt onClick={checkRequest} className='dark-btn check-btn'
                 popupTitle='Chiedi il conto' popupText={checkText}
                 confirmText={canRequestCheck ? undefined : "CHIUDI"} confirmClass={canRequestCheck ? undefined : 'err-btn confirm-btn'} 
@@ -123,39 +123,3 @@ function ContoPage() {
 }
 
 export default ContoPage;
-
-export function Total({className}:{className?:string}){
-
-        // eslint-disable-next-line
-        const [appState,_] = useContext(AppStateCtx);
-
-        // eslint-disable-next-line
-        const [{total,discount},__] = useRefresh<{total:number,discount:number}>( async () => {
-
-            if(!appState.table){
-                return {total:NaN,discount:0};
-            }
-    
-            return await backendServer.fetchTotal(appState.table);
-        },
-        {total:0,discount:0}, 20000, [appState.table]);
-
-
-    if(!discount || discount === 0){
-        return(
-            <p className={className}>
-                <strong className='font-weight-bold'>Totale</strong>
-                : {formatPrice(total)}€
-            </p>
-        );
-    }
-    else{
-        return(
-            <p className={className}>
-                <strong className='font-weight-bold'>Totale</strong>
-                : <span className='discounted-price'>{formatPrice(total)} € </span> 
-                {formatPrice(total - discount)} €
-            </p>
-        );
-    }
-}

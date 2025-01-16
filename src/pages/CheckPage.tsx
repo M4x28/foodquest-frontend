@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 
 import {ReactComponent as BillIcon} from "../assets/bill.svg" ;
+import Total from '../components/Total.tsx';
 
 import "./page.css";
 import "./checkPage.css";
-import { Total } from './ContoPage.tsx';
 
 function CheckPage (){
 
     return (
         <div className='page-box-bg check-page'>
-            <BillIcon className=""/>
+            <BillIcon/>
             <h1>Richiesta conto effettuata</h1>
-            <p id='desk'>Il conto arriverà a breve</p>
+            <p>Il conto arriverà a breve</p>
             <Total className='check-total'/>
         </div>
     );
