@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "./Button.tsx";
+import { Button } from "./input/Button.tsx";
 import { backendServer } from "../App.tsx";
 import { Category } from "../server/server.ts";
 

@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler } from 'react';
 
-import { ReactComponent as TicIcon } from "../assets/tic.svg"
+import { ReactComponent as TicIcon } from "../../assets/tic.svg"
 
 import "./checkBox.css"
 

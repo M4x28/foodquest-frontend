@@ -1,17 +1,17 @@
 import React,{useState} from "react"
 import { Link } from "react-router-dom";
-import { stopPropagation } from "../utility/generic.ts";
+import { stopPropagation } from "../../utility/generic.ts";
 
-import { ReactComponent as HomeIcon } from "../assets/home.svg"
-import { ReactComponent as MenuIcon } from "../assets/menu.svg"
-import { ReactComponent as CloseIcon } from "../assets/close.svg"
+import { ReactComponent as HomeIcon } from "../../assets/home.svg"
+import { ReactComponent as MenuIcon } from "../../assets/menu.svg"
+import { ReactComponent as CloseIcon } from "../../assets/close.svg"
 
-import { ReactComponent as PizzaIcon } from "../assets/pizza.svg"
-import { ReactComponent as CartIcon } from "../assets/shoppingCart.svg"
-import { ReactComponent as OrderIcon } from "../assets/order.svg"
-import { ReactComponent as AccountIcon } from "../assets/account.svg"
+import { ReactComponent as PizzaIcon } from "../../assets/pizza.svg"
+import { ReactComponent as CartIcon } from "../../assets/shoppingCart.svg"
+import { ReactComponent as OrderIcon } from "../../assets/order.svg"
+import { ReactComponent as AccountIcon } from "../../assets/account.svg"
 
-import "../App.css"
+import "../../App.css"
 import "./Header.css"
 
 export enum Pages{

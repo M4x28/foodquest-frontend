@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Ingredient } from "./IngredientComponent.tsx";
 import { getBaseIngredients } from "../../services/ingredientService.ts";
-import CollapseElement from "../CollapseElement.tsx";
+import CollapseElement from "../utility/CollapseElement.tsx";
 
 interface BaseDropdownProps {
     handleReplaceBaseIngredient: (newBaseIngredient: Ingredient) => void; // Metodo per sostituire la base

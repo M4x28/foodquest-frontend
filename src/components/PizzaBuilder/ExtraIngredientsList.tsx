@@ -1,6 +1,6 @@
 import React from "react";
 import { Ingredient, sortIngredients } from "./IngredientComponent.tsx";
-import { Button } from "../Button.tsx";
+import { Button } from "../input/Button.tsx";
 
 interface ExtraIngredientsListProps {
     extraIngredients: Ingredient[];

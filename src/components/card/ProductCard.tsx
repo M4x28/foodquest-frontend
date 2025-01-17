@@ -1,20 +1,20 @@
 import React, { useContext, useState } from "react";
-import AnimatedButton from "./AnimatedButton.tsx";
+import AnimatedButton from "../input/AnimatedButton.tsx";
 import { Link, useNavigate } from "react-router-dom";
 
-import placeholder from "../assets/pizzaPlacehoder.webp";
-import { ReactComponent as DownIcon} from "../assets/down.svg";
-import { ReactComponent as UpIcon} from "../assets/up.svg";
-import { ReactComponent as CartIcon } from "../assets/shoppingCart.svg"
-import { ReactComponent as TicIcon } from "../assets/tic.svg"
-import { ReactComponent as EditIcon } from "../assets/edit.svg"
+import placeholder from "../../assets/pizzaPlacehoder.webp";
+import { ReactComponent as DownIcon} from "../../assets/down.svg";
+import { ReactComponent as UpIcon} from "../../assets/up.svg";
+import { ReactComponent as CartIcon } from "../../assets/shoppingCart.svg"
+import { ReactComponent as TicIcon } from "../../assets/tic.svg"
+import { ReactComponent as EditIcon } from "../../assets/edit.svg"
 
 import "./productCard.css";
-import { AppStateCtx } from "../App.tsx";
-import { formatPrice, toErrorPage } from "../utility/generic.ts";
-import CollapseElement from "./CollapseElement.tsx";
-import { allergen, ingredient, product } from "../server/server.ts";
-import { backendServer } from '../App.tsx';
+import { AppStateCtx } from "../../App.tsx";
+import { formatPrice, toErrorPage } from "../../utility/generic.ts";
+import CollapseElement from "../utility/CollapseElement.tsx";
+import { allergen, ingredient, product } from "../../server/server.ts";
+import { backendServer } from '../../App.tsx';
 
 interface PropType{
     product:product

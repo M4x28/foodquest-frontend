@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Page from "./Page.tsx";
-import Header, { Pages } from "../components/Header.tsx";
+import Header, { Pages } from "../components/utility/Header.tsx";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import ProductCard from "../components/ProductCard.tsx";
+import ProductCard from "../components/card/ProductCard.tsx";
 
 import { ReactComponent as PizzaIcon } from "../assets/pizzaFull.svg"
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import '../bootstrap.css'; // Importa il file CSS di Bootstrap
+import '../../bootstrap.css'; // Importa il file CSS di Bootstrap
 
 interface ButtonProps {
     variant?: string;

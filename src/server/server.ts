@@ -77,3 +77,8 @@ export interface CategoryEndpoint{
     fetchProductByCategory: (categoryId:string) => Promise<{products:detailProduct[],hasIg:boolean}>
     fetchCatergoryDetail: (categoryId:string) => Promise<{documentId:string,name:string}>
 }
+
+export interface UserEndpoint{
+    register: (username: string, email: string, password: string) => Promise<any>
+    login: (identifier: string, password: string) => Promise<any>
+}

@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Page, { Error } from './Page.tsx';
-import Header, { Pages } from '../components/Header.tsx';
+import Page from './Page.tsx';
+import Header, { Pages } from '../components/utility/Header.tsx';
 import useRefresh from '../utility/useRefresh.ts';
 import { AppStateCtx } from '../App.tsx';
-import ButtonWithPrompt from '../components/ButtonWithPrompt.tsx';
-import OrderCard from '../components/orderCard.tsx';
+import ButtonWithPrompt from '../components/popup/ButtonWithPrompt.tsx';
+import OrderCard from '../components/card/orderCard.tsx';
 import { useNavigate } from 'react-router-dom';
 import { backendServer } from '../App.tsx';
 import { order } from '../server/server.ts';
-import Total from '../components/Total.tsx';
+import Total from '../components/utility/Total.tsx';
 
 import { ReactComponent as CloseIcon } from "../assets/close.svg"
 import "./contoPage.css"
-import CheckBox from '../components/CheckBox.tsx';
+import CheckBox from '../components/input/CheckBox.tsx';
 import { toErrorPage } from '../utility/generic.ts';
 
 export interface Order{

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header, { Pages } from "../components/Header.tsx"; // Assicurati di aggiornare il percorso corretto per Header.tsx
+import Header, { Pages } from "../components/utility/Header.tsx"; // Assicurati di aggiornare il percorso corretto per Header.tsx
 import "../bootstrap.css"; // Assicurati di aggiornare il percorso del file bootstrap.css
-import { Button } from '../components/Button.tsx'; // Importa il componente Button
-import Input from "../components/Input.tsx"; // Importa il nuovo componente Input
+import { Button } from '../components/input/Button.tsx'; // Importa il componente Button
+import Input from "../components/input/Input.tsx"; // Importa il nuovo componente Input
 import { userService } from "../services/userService.ts";
 
 const RegisterPage: React.FC = () => {

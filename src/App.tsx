@@ -2,8 +2,8 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate} from 'react-router-dom';
 import useRefresh from './utility/useRefresh.ts';
 
-import ButtonWithPrompt from './components/ButtonWithPrompt.tsx';
-import Header, { Pages } from "./components/Header.tsx"
+import ButtonWithPrompt from './components/popup/ButtonWithPrompt.tsx';
+import Header, { Pages } from "./components/utility/Header.tsx"
 
 import './App.css';
 import Page, { Error } from './pages/Page.tsx';
@@ -20,7 +20,7 @@ import ContoPage from './pages/ContoPage.tsx';
 import PizzaBuilder from './pages/PizzaBuilder.tsx';
 import StrapiServerConnector from './server/backendServerConnector.ts';
 import Server from './server/server.ts';
-import CheckBox from './components/CheckBox.tsx';
+import CheckBox from './components/input/CheckBox.tsx';
 import { toErrorPage } from './utility/generic.ts';
 
 export const backendServer:Server = new StrapiServerConnector("http://localhost:1337");

@@ -1,7 +1,7 @@
 import React from "react"
 
-import { ReactComponent as CloseIcon } from "../assets/close.svg"
-import { stopPropagation } from "../utility/generic.ts";
+import { ReactComponent as CloseIcon } from "../../assets/close.svg"
+import { stopPropagation } from "../../utility/generic.ts";
 
 import "./Popup.css"
 

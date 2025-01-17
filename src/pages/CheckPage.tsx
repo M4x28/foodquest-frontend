@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import {ReactComponent as BillIcon} from "../assets/bill.svg" ;
-import Total from '../components/Total.tsx';
+import Total from '../components/utility/Total.tsx';
 
 import "./page.css";
 import "./checkPage.css";

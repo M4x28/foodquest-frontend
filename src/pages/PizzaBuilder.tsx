@@ -1,12 +1,12 @@
 import React, { useMemo, useState } from "react";
-import Header, { Pages } from "../components/Header.tsx";
+import Header, { Pages } from "../components/utility/Header.tsx";
 import "../bootstrap.css";
 import ImageStack from "../components/PizzaBuilder/ImageStack.tsx";
 import BaseDropdown from "../components/PizzaBuilder/BaseDropdown.tsx";
 import { Ingredient, initialBaseIngredient, defaultIngredients } from "../components/PizzaBuilder/IngredientComponent.tsx";
 import ExtraIngredientsList from "../components/PizzaBuilder/ExtraIngredientsList.tsx";
-import { Button } from "../components/Button.tsx";
-import Popup from "../components/Popup.tsx";
+import { Button } from "../components/input/Button.tsx";
+import Popup from "../components/popup/Popup.tsx";
 import IngredientSearchList from "../components/PizzaBuilder/IngredientSearchList.tsx";
 
 const PizzaBuilder: React.FC = () => {

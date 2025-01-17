@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { order, product } from '../server/server.ts';
+import { order, product } from '../../server/server.ts';
 
-import { ReactComponent as ConfirmIcon} from "../assets/confirm.svg"
-import { ReactComponent as ClockIcon} from "../assets/clock.svg"
-import { ReactComponent as DownIcon} from "../assets/down.svg";
-import { ReactComponent as UpIcon} from "../assets/up.svg";
+import { ReactComponent as ConfirmIcon} from "../../assets/confirm.svg"
+import { ReactComponent as ClockIcon} from "../../assets/clock.svg"
+import { ReactComponent as DownIcon} from "../../assets/down.svg";
+import { ReactComponent as UpIcon} from "../../assets/up.svg";
 
 import "./orderCard.css"
-import { formatPrice } from '../utility/generic.ts';
-import CollapseElement from './CollapseElement.tsx';
+import { formatPrice } from '../../utility/generic.ts';
+import CollapseElement from '../utility/CollapseElement.tsx';
 
 interface OrderCardProps {
     order:order,

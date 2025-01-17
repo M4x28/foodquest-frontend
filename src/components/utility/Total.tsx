@@ -1,5 +1,5 @@
 import React from "react";
-import { formatPrice } from "../utility/generic.ts";
+import { formatPrice } from "../../utility/generic.ts";
 
 export default function Total({total,discount=0,className}:{total:number,discount:number,className?:string}){
 

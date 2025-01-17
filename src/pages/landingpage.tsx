@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import pizza from '../assets/Home/pizza.png';
-import { Button } from '../components/Button.tsx'; // Importa il componente Button
+import { Button } from '../components/input/Button.tsx'; // Importa il componente Button
 
 const LandingPage: React.FC = () => {
     const navigate = useNavigate();

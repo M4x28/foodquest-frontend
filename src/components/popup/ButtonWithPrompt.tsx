@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from './Button.tsx'; // Importa il tuo componente Button
+import { Button } from '../input/Button.tsx'; // Importa il tuo componente Button
 import Popup from './Popup.tsx';
 
 import "./ConfirmPrompt.css";

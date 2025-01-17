@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import pizzaLogo from '../assets/Home/pizza.png';
-import Header, { Pages } from "../components/Header.tsx";
+import Header, { Pages } from "../components/utility/Header.tsx";
 import { ReactComponent as OrderIcon } from "../assets/order.svg";
 import { ReactComponent as CartIcon } from "../assets/cart.svg";
 import CategoriesList from "../components/CategoriesList.tsx";
-import { Button } from '../components/Button.tsx';
+import { Button } from '../components/input/Button.tsx';
 import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {

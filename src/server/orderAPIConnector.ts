@@ -1,7 +1,7 @@
 import axios from "axios";
-import { order, table } from "./server";
+import { order, OrderEndpoint, table } from "./server";
 
-export default class StrapiOrderAPI{
+export default class StrapiOrderAPI implements OrderEndpoint{
 
     private __endpoint__:string;
 

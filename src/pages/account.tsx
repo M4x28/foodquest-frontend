@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header, { Pages } from "../components/Header.tsx";
+import Header, { Pages } from "../components/utility/Header.tsx";
 import "../bootstrap.css";
 import { ReactComponent as PizzaIcon } from "../assets/pizza.svg"; // Sostituisci con il percorso corretto per l'icona della pizza
 import { ReactComponent as LogoutIcon } from "../assets/logout.svg"; // Aggiungi l'icona del logout con il percorso corretto
-import { Button } from '../components/Button.tsx';
+import { Button } from '../components/input/Button.tsx';
 
 const AccountPage: React.FC = () => {
     const navigate = useNavigate();
