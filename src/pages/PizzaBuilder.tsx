@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useMemo, useState } from "react";
 import Header, { Pages } from "../components/Header.tsx";
 import "../bootstrap.css";
 import ImageStack from "../components/PizzaBuilder/ImageStack.tsx";
@@ -17,12 +16,31 @@ const PizzaBuilder: React.FC = () => {
     ]);
 
     const [popupState, setPopupState] = useState<boolean>(false);
+    const [recommendedIngredient, setRecommendedIngredient] = useState<Ingredient | undefined>(undefined);
+    const [ingredientWithRecommendation, setIngredientWithRecommendation] = useState<Ingredient | null>(null);
 
     const handleAddIngredients = (newIngredients: Ingredient[]) => {
         const uniqueIngredients = newIngredients.filter(
             (newIng) => !allIngredients.some((ing) => ing.documentId === newIng.documentId)
         );
         setAllIngredients((prev) => [...prev, ...uniqueIngredients]);
+
+        // Controlla se l'ingrediente ha una raccomandazione
+        if (newIngredients[0]?.recommended_ingredient) {
+            setRecommendedIngredient(newIngredients[0].recommended_ingredient);
+            setIngredientWithRecommendation(newIngredients[0]);
+        } else {
+            setRecommendedIngredient(undefined);
+            setIngredientWithRecommendation(null);
+        }
+    };
+
+    const handleAddRecommendedIngredient = () => {
+        if (recommendedIngredient) {
+            handleAddIngredients([recommendedIngredient]);
+            setRecommendedIngredient(undefined);
+            setIngredientWithRecommendation(null);
+        }
     };
 
     const handleRemoveIngredients = (ingredientIds: string[]) => {
@@ -51,17 +69,34 @@ const PizzaBuilder: React.FC = () => {
 
             <BaseDropdown handleReplaceBaseIngredient={handleReplaceBaseIngredient} />
 
-            <ExtraIngredientsList
-                extraIngredients={allIngredients.filter((ing) => ing.type !== "pizza-base")}
-                handleRemoveIngredient={(ingredientId) => handleRemoveIngredients([ingredientId])}
-            ></ExtraIngredientsList>
+            <div className="bg-white pb-1 rounded-4 mx-3 border border-4 border-info shadow-lg">
+                <ExtraIngredientsList
+                    extraIngredients={allIngredients.filter((ing) => ing.type !== "pizza-base")}
+                    handleRemoveIngredient={(ingredientId) => handleRemoveIngredients([ingredientId])}
+                ></ExtraIngredientsList>
 
-            <div className="text-center bg-white">
-                <h3 className="text-LG">Totale: {totalPrice}</h3>
-            </div>
+                <div className="text-center mt-2">
+                    <h3><b>Totale: {totalPrice}€</b></h3>
+                </div>
 
-            <div className="mx-4 my-4 p-2 bg-white rounded-3 border border-3 border-info shadow-lg">
-                <h5 className="text-LG">Consiglio</h5>
+                {recommendedIngredient && ingredientWithRecommendation && (
+                    <div className="px-3 py-1">
+                        <div className="d-flex justify-content-between align-items-center">
+                            <h5>
+                                Abbina {ingredientWithRecommendation.name} con un tocco speciale di <span className="text-LG text-info" onClick={handleAddRecommendedIngredient}>{recommendedIngredient.name}</span>
+                                <Button
+                                    variant="info"
+                                    className="rounded-3"
+                                    size="sm"
+                                    onClick={handleAddRecommendedIngredient}
+                                    style={{ marginLeft: '10px' }}
+                                >
+                                    +
+                                </Button>
+                            </h5>
+                        </div>
+                    </div>
+                )}
             </div>
 
             <div
@@ -84,7 +119,7 @@ const PizzaBuilder: React.FC = () => {
             </div>
 
             <Popup isOpen={popupState} close={() => setPopupState(!popupState)}>
-                <IngredientSearchList handleAddIngredients={handleAddIngredients} setPopupState={setPopupState} popupState={popupState} />
+                <IngredientSearchList handleAddIngredients={handleAddIngredients} setPopupState={setPopupState} popupState={popupState} recommendedIngredient={recommendedIngredient} />
             </Popup>
         </>
     );

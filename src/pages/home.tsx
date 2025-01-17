@@ -21,7 +21,7 @@ const Home: React.FC = () => {
                 <img
                     src={pizzaLogo}
                     alt="Pizza Logo"
-                    style={{ width: '200px', height: '240px' }}
+                    style={{ width: '220px', height: '260px' }}
                 />
             </div>
 
@@ -44,7 +44,7 @@ const Home: React.FC = () => {
                     style={{
                         border: "2px solid white",
                         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
-                        fontSize: "1.3rem", // Adattamento dinamico
+                        fontSize: "1.8rem", // Adattamento dinamico
                         marginRight: "10px", // Spaziatura tra i pulsanti
                     }}
                     onClick={undefined}
@@ -62,7 +62,7 @@ const Home: React.FC = () => {
                     style={{
                         border: "2px solid white",
                         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
-                        fontSize: "1.3rem", // Adattamento dinamico
+                        fontSize: "1.8rem", // Adattamento dinamico
                         marginLeft: "10px", // Spaziatura tra i pulsanti
                     }}
                     onClick={() => navigate("/order")}

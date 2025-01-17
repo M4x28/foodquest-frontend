@@ -29,33 +29,42 @@ const BaseDropdown: React.FC<BaseDropdownProps> = ({
     }, []);
 
     return (
-        <div>
-            <button
-                className="btn btn-warning dropdown-toggle"
-                type="button"
-                onClick={() => setElementState(!elementState)}
-            >
-                {loading ? "Caricamento..." : "Sostituisci Impasto"}
-            </button>
+        <div className="mb-5" style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+            <div className="position-absolute">
+                <button
+                    className="btn btn-warning dropdown-toggle"
+                    type="button"
+                    onClick={() => setElementState(!elementState)}
+                >
+                    {loading ? "Caricamento..." : "Sostituisci Impasto"}
+                </button>
+            </div>
 
-            <CollapseElement open={elementState} className="bg-white">
-                {bases.length > 0 ? (
-                    bases.map((base) => (
-                        <button
-                            key={base.documentId}
-                            className="dropdown-item"
-                            onClick={() => handleReplaceBaseIngredient(base)}
-                        >
-                            {base.name} - {base.price.toFixed(2)}€
-                        </button>
-                    ))
-                ) : (
-                    !loading && (
-                        <li className="dropdown-item text-muted">Nessuna base disponibile</li>
-                    )
-                )}
-            </CollapseElement>
-
+            <div className="position-fixed" style={{ top: '468px' }}>
+                <CollapseElement
+                    open={elementState}
+                    className="bg-white border border-warning border-3 rounded-4 pt-2"
+                >
+                    {bases.length > 0 ? (
+                        bases.map((base) => (
+                            <button
+                                key={base.documentId}
+                                className="dropdown-item px-4 py-2"
+                                onClick={() => {
+                                    handleReplaceBaseIngredient(base);
+                                    setElementState(!elementState);
+                                }}
+                            >
+                                <h5><b>{base.name} {base.price.toFixed(2)}€</b></h5>
+                            </button>
+                        ))
+                    ) : (
+                        !loading && (
+                            <li className="dropdown-item">Nessuna base disponibile</li>
+                        )
+                    )}
+                </CollapseElement>
+            </div>
         </div>
     );
 };

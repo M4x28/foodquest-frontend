@@ -1,5 +1,5 @@
 import React from "react";
-import { Ingredient, mozzarella, salsaDiPomodoro, sortIngredients } from "./IngredientComponent.tsx";
+import { Ingredient, sortIngredients } from "./IngredientComponent.tsx";
 import { Button } from "../Button.tsx";
 
 interface ExtraIngredientsListProps {
@@ -14,13 +14,14 @@ const ExtraIngredientsList: React.FC<ExtraIngredientsListProps> = ({
     const sortedIngredients = sortIngredients(extraIngredients, 'asc');
 
     return (
-        <div style={{ maxHeight: "300px", overflowY: "auto" }} className="container mt-3 bg-white">
+        <div style={{ maxHeight: "150px", overflowY: "auto" }} className="container mt-3 pt-2">
             {sortedIngredients.map((ingredient) => (
-                <div className="row text-center py-2 border-bottom" key={ingredient.documentId}>
+                <div className="row text-center py-2 px-3" key={ingredient.documentId}>
                     <div className="col-2">
                         <Button
                             variant="outline-danger"
                             size="sm"
+                            className="rounded-circle"
                             onClick={() => handleRemoveIngredient(ingredient.documentId)}
                         >
                             -

@@ -76,7 +76,7 @@ function App() {
     useEffect(() => {
         //When table Status change move to correct page
         const url:string = window.location.pathname;
-        console.log(tableStatus,url)
+        //console.log(tableStatus,url)
         if(tableStatus === "CHECK" && url !== "/check" ){
             window.location.replace('/check');
         }

@@ -1,0 +1,20 @@
+@keyframes zoomInRotate {
+    0% {
+        scale: 10%;
+        rotate: 0deg;
+    }
+
+    50% {
+        scale: 50%;
+        rotate: 180deg;
+    }
+
+    100% {
+        scale: 100%;
+        rotate: 360deg;
+    }
+}
+
+.zoom-in-rotate {
+    animation: zoomInRotate 0.3s ease forwards;
+}

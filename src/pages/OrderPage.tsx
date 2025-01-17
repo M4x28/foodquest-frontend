@@ -30,16 +30,19 @@ const OrderPage: React.FC = () => {
     return (
         <>
             <Header pageName="Ordine" current={Pages.Order} />
-            <div className="p-4" style={{ marginTop: '100px' }}>
+            <div className="p-4" style={{ marginTop: '130px' }}>
                 <OrderCategoryComponent title="PIZZE" items={pizzaItems} />
                 <OrderCategoryComponent title="ANTIPASTI" items={antipastiItems} />
                 <OrderCategoryComponent title="BEVANDE" items={bevandeItems} />
-                <OrderToggle />
-                <ButtonWithPrompt onClick={undefined} variant="success w-100" size="lg"
+                <OrderToggle children={'Prima gli antipasti.'}></OrderToggle>
+                <ButtonWithPrompt
+                    className='dark-btn check-btn'
+                    onClick={undefined} variant="success w-100" size="lg"
                     popupTitle="Conferma l'Ordine" popupText={undefined}
                     confirmText={undefined ? undefined : "CHIUDI"}
                     confirmClass={undefined ? undefined : 'err-btn confirm-btn'}
                     confirmSvg={undefined ? undefined : <CloseIcon />}>
+
                     Conferma Ordine
                 </ButtonWithPrompt>
             </div>

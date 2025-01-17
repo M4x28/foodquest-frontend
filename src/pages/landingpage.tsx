@@ -74,7 +74,7 @@ const LandingPage: React.FC = () => {
                             letterSpacing: "0.1rem",
                             border: "4px solid white",
                             boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
-                            fontSize: "1.8rem", // Adattamento dinamico
+                            fontSize: "2.2rem", // Adattamento dinamico
                         }}
                         onClick={() => navigate('/home')}
                     >

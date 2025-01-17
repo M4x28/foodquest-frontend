@@ -10,9 +10,10 @@ interface IngredientSearchListProps {
     handleAddIngredients: (newIngredients: Ingredient[]) => void;
     setPopupState: (state: boolean) => void; // Aggiunto setPopupState come prop
     popupState: boolean; // Aggiunto popupState come prop
+    recommendedIngredient?: Ingredient; // Aggiunto per ordinare gli ingredienti
 }
 
-const IngredientSearchList: React.FC<IngredientSearchListProps> = ({ handleAddIngredients, setPopupState, popupState }) => {
+const IngredientSearchList: React.FC<IngredientSearchListProps> = ({ handleAddIngredients, setPopupState, popupState, recommendedIngredient, }) => {
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
     const [filteredIngredients, setFilteredIngredients] = useState<Ingredient[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -21,14 +22,26 @@ const IngredientSearchList: React.FC<IngredientSearchListProps> = ({ handleAddIn
         const fetchIngredients = async () => {
             try {
                 const extraIngredients = await getExtraIngredients();
-                setIngredients(extraIngredients);
-                setFilteredIngredients(extraIngredients);
+                let sortedIngredients = extraIngredients;
+
+                // Ordina gli ingredienti se c'è un ingrediente raccomandato
+                if (recommendedIngredient) {
+                    sortedIngredients = [
+                        recommendedIngredient,
+                        ...extraIngredients.filter(
+                            (ingredient) => ingredient.documentId !== recommendedIngredient.documentId
+                        ),
+                    ];
+                }
+
+                setIngredients(sortedIngredients);
+                setFilteredIngredients(sortedIngredients);
             } catch (error) {
                 console.error("Errore durante il caricamento degli ingredienti:", error);
             }
         };
         fetchIngredients();
-    }, []);
+    }, [recommendedIngredient]);
 
     useEffect(() => {
         const filtered = ingredients.filter((ingredient) =>
@@ -52,10 +65,11 @@ const IngredientSearchList: React.FC<IngredientSearchListProps> = ({ handleAddIn
                 {filteredIngredients.map((ingredient) => (
                     <div
                         key={ingredient.documentId}
-                        className="row text-center align-items-center py-2 border-bottom"
+                        className="row text-center align-items-center py-2"
                         onClick={() => {
                             handleAddIngredients([ingredient]);
-                            setPopupState(!popupState); // Aggiunto toggle del popupState
+                            setPopupState(!popupState);
+                            setSearchTerm('');
                         }}
                         style={{ cursor: "pointer" }}
                     >
@@ -63,7 +77,7 @@ const IngredientSearchList: React.FC<IngredientSearchListProps> = ({ handleAddIn
                             <img
                                 src={ingredient.icon_img_link}
                                 alt={ingredient.name}
-                                style={{ width: "180%", height: "180%" }}
+                                style={{ width: "160%", height: "160%" }}
                             />
                         </div>
                         <div className="col-9">

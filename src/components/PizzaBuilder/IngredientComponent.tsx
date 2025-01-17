@@ -1,4 +1,3 @@
-import React from "react";
 import "../../bootstrap.css";
 import { Allergen } from "./AllergenComponent.tsx";
 import { getDefaultBaseIngredient, getDefaultExtraIngredient } from "../../services/ingredientService.ts";
@@ -13,6 +12,7 @@ export interface Ingredient {
     full_img_link: string;
     icon_img_link?: string;
     allergens: Allergen[];
+    recommended_ingredient: Ingredient[];
 }
 
 // Definisci gli ingredienti di base di ogni pizza
@@ -34,6 +34,15 @@ export const sortIngredients = (ingredients: Ingredient[], order: 'asc' | 'desc'
     const orderN = order === 'asc' ? -1 : 1; // Determina l'ordine
 
     return ingredients.sort((a: Ingredient, b: Ingredient) => {
+        // Controllo per basilico e burrata
+        const isBasilicoA = a.name.toLowerCase().includes('basilico');
+        const isBasilicoB = b.name.toLowerCase().includes('basilico');
+        const isBurrataA = a.name.toLowerCase().includes('burrata');
+        const isBurrataB = b.name.toLowerCase().includes('burrata');
+
+        if ((isBasilicoA || isBurrataA) && !(isBasilicoB || isBurrataB)) return 1 * orderN; // Basilico e burrata vanno alla fine
+        if (!(isBasilicoA || isBurrataA) && (isBasilicoB || isBurrataB)) return -1 * orderN; // Basilico e burrata vanno alla fine
+
         // Prima priorità alla salsa di pomodoro
         const isSalsaA = a.name.toLowerCase().includes('salsa');
         const isSalsaB = b.name.toLowerCase().includes('salsa');

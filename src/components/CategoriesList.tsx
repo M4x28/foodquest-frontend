@@ -26,7 +26,7 @@ const CategoriesList: React.FC = () => {
                 maxWidth: "400px", // Aumentata la larghezza massima del contenitore
                 width: "80%", // Larghezza dinamica per dispositivi più piccoli
             }}
-            
+
         >
             {categories.map((category) => (
                 <Link
@@ -41,7 +41,7 @@ const CategoriesList: React.FC = () => {
                             width: "100%",
                             padding: "15px",
                             borderRadius: "10px",
-                            fontSize: "1.2rem",
+                            fontSize: "2rem",
                             border: "2px solid #ccc",
                             margin: "10px 0",
                         }}
