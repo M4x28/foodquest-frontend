@@ -1,5 +1,5 @@
 import axios from "axios";
-import Server, { allergen, detailProduct, ImgSize, ingredient, order, table } from "./server";
+import Server, { allergen, Category, detailProduct, ImgSize, ingredient, order, table } from "./server";
 
 export default class StrapiServerConnector implements Server{
 
@@ -147,4 +147,14 @@ export default class StrapiServerConnector implements Server{
             .then(res => res.data.data);
     }
 
+    fetchCategoriesIdAndName():Promise<Category[]>{
+        return axios.get(`${this.__serverUrl__}/api/categories?fields=documentId%2C%20Name`)
+            .then( response =>
+                response.data.data.map((item: any) => ({
+                    id: item.id,
+                    documentId: item.documentId,
+                    name: item.Name,
+                }))
+            );
+    };
 }

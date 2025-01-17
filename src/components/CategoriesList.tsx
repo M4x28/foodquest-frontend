@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "./Button.tsx";
-import { getCategoriesIdAndName } from "../services/categoryService.ts";
-
-interface Category {
-    id: string;
-    documentId: string;
-    name: string;
-}
+import { backendServer } from "../App.tsx";
+import { Category } from "../server/server.ts";
 
 const CategoriesList: React.FC = () => {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -15,7 +10,7 @@ const CategoriesList: React.FC = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const data = await getCategoriesIdAndName();
+                const data = await backendServer.fetchCategoriesIdAndName();
                 setCategories(data);
             } catch (error) {
                 console.error("Errore nel recupero delle categorie:", error);

@@ -70,9 +70,7 @@ header h1 {
     color: var(--very-dark-col);
     border-bottom: 3px solid var(--dark-col);
     background-color: var(--very-light-col);
-    font-family: var(--bs-body-font-family);
-    letter-spacing: var(--letter-spacing);
-    font-size: var(--bs-voice-font-size);
+    font-weight: bold;
 }
 
 .dropdown-voice svg {

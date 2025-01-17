@@ -1,7 +1,7 @@
 body{
     margin: 0;
     font-family: Helvetica, sans-serif;
-    background-image: url("./assets/bg.webp"), linear-gradient(#cc7a00, #0054c2);
+    background-image: url("./assets/bg.webp"), linear-gradient(#32a10a, #dde7dc);
     background-attachment: fixed;
     background-size: cover;
     animation-iteration-count: infinite;
@@ -25,6 +25,16 @@ body{
         font-size: 12px;
     }
 
+    #root{
+        --header-height: 60px;
+    }
+}
+
+@media (max-width: 400px) {
+    html{
+        font-size: 12px;
+    }
+    
     #root{
         --header-height: 60px;
     }

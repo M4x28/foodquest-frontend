@@ -20,6 +20,7 @@ import ContoPage from './pages/ContoPage.tsx';
 import PizzaBuilder from './pages/PizzaBuilder.tsx';
 import StrapiServerConnector from './server/backendServerConnector.ts';
 import Server from './server/server.ts';
+import CheckBox from './components/CheckBox.tsx';
 
 export const backendServer:Server = new StrapiServerConnector("http://localhost:1337");
 
@@ -125,6 +126,7 @@ function Test() {
     const [state, setState] = useContext(AppStateCtx);
 
     const [time, refreshTime] = useRefresh<Date>(async () => new Date(), new Date());
+    const [check, setCheck] = useState(false);
 
     const test = () => { alert("Ciao sono una azione irreversibile") }
 
@@ -138,7 +140,11 @@ function Test() {
         <Page error={error}>
             <Header pageName='Test' current={Pages.FC} />
             <h1 style={{ paddingTop: 100 }}>{time && time.getTime()}</h1>
-            <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur voluptates ipsum quae neque obcaecati facere animi eos repellat, placeat ducimus saepe, corrupti qui laudantium cum ipsam esse consectetur voluptatum et.</h1>
+
+            <CheckBox text='Ciao' value ={check} onChange={(e) => {
+                console.log("click")
+                setCheck(c => !c)}}/>
+            
             <button className="light-btn btn" onClick={refreshTime}> Che ore sono? </button>
             <ButtonWithPrompt className="dark-btn my-btn" onClick={test} popupTitle='Azione Irreversibile'
                 popupText='Questa azione non può essere annullata, proseguire?'>

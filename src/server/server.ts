@@ -35,6 +35,12 @@ export interface order{
     products:product[];
 }
 
+export interface Category {
+    id: string;
+    documentId: string;
+    name: string;
+}
+
 export type ImgSize = "thumbnail" | "small" | "medium";
 
 export default interface Server{
@@ -51,6 +57,8 @@ export default interface Server{
     fetchAllergen: () => Promise<allergen[]>
     fetchProductByCategory: (categoryId:string) => Promise<{name:string,products:detailProduct[],hasIg:boolean}>
     addProductToCart: (table:table, productId: string) => Promise<void>
+
+    fetchCategoriesIdAndName: () => Promise<Category[]>
 
     imageUrlFromServer: (url:string,size?:ImgSize) => string
 }

@@ -1,18 +1,18 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Page, { Error } from './Page.tsx';
 import Header, { Pages } from '../components/Header.tsx';
 import useRefresh from '../utility/useRefresh.ts';
 import { AppStateCtx } from '../App.tsx';
 import ButtonWithPrompt from '../components/ButtonWithPrompt.tsx';
 import OrderCard from '../components/orderCard.tsx';
-
-import { ReactComponent as CloseIcon } from "../assets/close.svg"
-
-import "./orderPage.css"
 import { useNavigate } from 'react-router-dom';
 import { backendServer } from '../App.tsx';
 import { order } from '../server/server.ts';
 import Total from '../components/Total.tsx';
+
+import { ReactComponent as CloseIcon } from "../assets/close.svg"
+import "./contoPage.css"
+import CheckBox from '../components/CheckBox.tsx';
 
 export interface Order{
     documentId:string,
@@ -28,6 +28,7 @@ function ContoPage() {
     // eslint-disable-next-line
     const [appState,_] = useContext(AppStateCtx);
     
+    const [usingPoint,setUsingPoint] = useState(false);
     const [error,setError] = useState<Error>( {error:false} );
 
     //Fetch table order periodicalliy
@@ -60,7 +61,7 @@ function ContoPage() {
     },[],20000);
 
     // eslint-disable-next-line
-    const [total,___] = useRefresh<{total:number,discount:number}>( async () => {
+    const [{total,discount},reloadTotal] = useRefresh<{total:number,discount:number}>( async () => {
 
         if(!appState.table){
             setError({error:true,
@@ -102,6 +103,10 @@ function ContoPage() {
         }
     };
 
+    const handlePointUsageChange = () => {
+        setUsingPoint(p => !p)
+    }
+
     const checkText = canRequestCheck ? "Questa azione non può essere annullata, sei sicuro?" :
                     "Impossibile richiedere il conto, non hai ancora ricevuto tutti gli ordini";
 
@@ -111,8 +116,12 @@ function ContoPage() {
             <section className='orders-container'>
                 {orders.map((order,index) => <OrderCard key={order.documentId} order={order} index={index+1}/>)}
             </section>
-            <Total className='total'/>
-            <ButtonWithPrompt onClick={checkRequest} className='dark-btn check-btn'
+            {appState.user && 
+                <CheckBox value={usingPoint} text='Usa 1000 punti (-10 €)' className='toggle-point'
+                    onChange={handlePointUsageChange}/>
+            }
+            <Total total={total} discount={discount} className='total'/>
+            <ButtonWithPrompt onClick={checkRequest} className='check-btn'
                 popupTitle='Chiedi il conto' popupText={checkText}
                 confirmText={canRequestCheck ? undefined : "CHIUDI"} confirmClass={canRequestCheck ? undefined : 'err-btn confirm-btn'} 
                 confirmSvg={canRequestCheck ? undefined : <CloseIcon/>}>
