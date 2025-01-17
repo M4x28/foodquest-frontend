@@ -13,6 +13,7 @@ import Total from '../components/Total.tsx';
 import { ReactComponent as CloseIcon } from "../assets/close.svg"
 import "./contoPage.css"
 import CheckBox from '../components/CheckBox.tsx';
+import { toErrorPage } from '../utility/generic.ts';
 
 export interface Order{
     documentId:string,
@@ -29,32 +30,20 @@ function ContoPage() {
     const [appState,_] = useContext(AppStateCtx);
     
     const [usingPoint,setUsingPoint] = useState(false);
-    const [error,setError] = useState<Error>( {error:false} );
 
     //Fetch table order periodicalliy
     // eslint-disable-next-line
     const [orders,__] = useRefresh<order[]>(async () => {
 
         if(!appState.table){
-            setError({error:true,
-                errorTitle: "Dati tavolo mancanti",
-                errorMessage: "Riprova a scansionare il qr, i dati potrebbero essersi persi"
-            })
+            toErrorPage(navigate);
             return [];
         }
 
-        return await backendServer.fetchOrdersDone(appState.table)
+        return await backendServer.orders.fetchOrdersDone(appState.table)
             .catch((err) => {
             console.log(err);
-            if(err.status === 401){
-                setError({error:true,
-                    errorTitle:"Sessione invalida",
-                    errorMessage:"Le informazioni ruguardo al tavolo sono invalide, Prova a riscansionare il QR-code"})
-            }else{
-            setError({error:true,
-                        errorTitle:"Connessione al server fallita",
-                        errorMessage:"Controlla la tua connessione a internet e riprova"})
-            }
+            toErrorPage(navigate);
             return [];
         })
 
@@ -64,14 +53,11 @@ function ContoPage() {
     const [{total,discount},reloadTotal] = useRefresh<{total:number,discount:number}>( async () => {
 
         if(!appState.table){
-            setError({error:true,
-                errorTitle: "Dati tavolo mancanti",
-                errorMessage: "Riprova a scansionare il qr, i dati potrebbero essersi persi"
-            })
+            toErrorPage(navigate);
             return {total:0,discount:0};
         }
 
-        return await backendServer.fetchTotal(appState.table);
+        return await backendServer.table.fetchTotal(appState.table);
     },
     {total:0,discount:0}, 20000, [appState.table]);
 
@@ -83,21 +69,13 @@ function ContoPage() {
         if(!canRequestCheck){
             return;
         }else{
-            backendServer.askForCheck(appState.table)
+            backendServer.table.askForCheck(appState.table)
             .then(() => {
                 console.log("Richiesta conto effettuata");
                 navigate("/check");
             }).catch((err) => {
                 console.log(err);
-                if(err.status === 401){
-                    setError({error:true,
-                        errorTitle:"Sessione invalida",
-                        errorMessage:"Le informazioni ruguardo al tavolo sono invalide, Prova a riscansionare il QR-code"})
-                }else{
-                setError({error:true,
-                            errorTitle:"Connessione al server fallita",
-                            errorMessage:"Controlla la tua connessione a internet e riprova"})
-                }
+                toErrorPage(navigate);
                 return [];
             })
         }
@@ -111,7 +89,7 @@ function ContoPage() {
                     "Impossibile richiedere il conto, non hai ancora ricevuto tutti gli ordini";
 
     return (
-        <Page error={error}>
+        <Page>
             <Header pageName='Conto' current={Pages.Check}/>
             <section className='orders-container'>
                 {orders.map((order,index) => <OrderCard key={order.documentId} order={order} index={index+1}/>)}

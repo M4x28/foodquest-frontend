@@ -5,7 +5,6 @@ import Total from '../components/Total.tsx';
 
 import "./page.css";
 import "./checkPage.css";
-import useRefresh from '../utility/useRefresh.ts';
 import { AppStateCtx, backendServer } from '../App.tsx';
 
 function CheckPage (){
@@ -16,7 +15,7 @@ function CheckPage (){
 
     useEffect(() =>{
 
-        backendServer.fetchTotal(appState.table)
+        backendServer.table.fetchTotal(appState.table)
             .then(setTotal);
 
     },[appState.table]);

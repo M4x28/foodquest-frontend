@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Page from "./Page.tsx";
 import Header, { Pages } from "../components/Header.tsx";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ProductCard from "../components/ProductCard.tsx";
 
 import { ReactComponent as PizzaIcon } from "../assets/pizzaFull.svg"
@@ -9,8 +9,11 @@ import { ReactComponent as PizzaIcon } from "../assets/pizzaFull.svg"
 import "./productPage.css"
 import { backendServer } from '../App.tsx';
 import { allergen, detailProduct, ingredient} from "../server/server.ts";
+import { toErrorPage } from "../utility/generic.ts";
 
 function ProductPage(){
+
+    const navigate = useNavigate();
 
     const {categoryID} = useParams()
     const [catName,setCatName] = useState("Loading...");
@@ -19,15 +22,23 @@ function ProductPage(){
     const [allergens,setAllergens] = useState<allergen[]>([]);
     const [customizable,setCustomizable] = useState(false)
 
-    const [error,setError] = useState(false);
-
     //Fetch on page load all category detail
     useEffect(() => {
+
+        //Fetch Category name
+        backendServer.categories.fetchCatergoryDetail(categoryID || "")
+        .then(catDetail => {
+            setCatName(catDetail.name);
+            
+        }).catch((err) => {
+            console.log(err);
+            toErrorPage(navigate);
+        });
+
         //Fetch product
-        backendServer.fetchProductByCategory(categoryID || "")
+        backendServer.categories.fetchProductByCategory(categoryID || "")
         .then((catDetail) => {
             
-            setCatName(catDetail.name);
             setProducts(catDetail.products);
 
             //Load ingredients if needed
@@ -40,7 +51,7 @@ function ProductPage(){
 
         }).catch((err) => {
             console.log(err);
-            setError(true)
+            toErrorPage(navigate);
         });
         
         //Fetch Allergen
@@ -49,24 +60,18 @@ function ProductPage(){
                 setAllergens(res)
             }).catch((err) => {
                 console.log(err);
-                setError(true)
+                toErrorPage(navigate);
             });
         
     },[categoryID]);
 
-    const err={
-        error,
-        errorTitle:"Connessione al server fallita",
-        errorMessage:"Controlla la tua connessione a internet e riprova"
-    }
-
     return(
-        <Page error={err}>
+        <Page>
             <Header pageName={catName} current={Pages.Home}/>
             <section className="products">
                 {
                     products.map(p => <ProductCard 
-                        product={p} key={p.documentId} setErr={setError}
+                        product={p} key={p.documentId}
                         ingredients={p.ingredientsId ? ingredients.filter(i => p.ingredientsId.includes(i.documentId)) : undefined }
                         allergens={p.allergensId ? allergens.filter(a => p.allergensId.includes(a.documentId)) : undefined }
                         imgUrl={p.imgUrl ? backendServer.imageUrlFromServer(p.imgUrl,"thumbnail") : undefined} editable={customizable}/>)

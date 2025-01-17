@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import AnimatedButton from "./AnimatedButton.tsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import placeholder from "../assets/pizzaPlacehoder.webp";
 import { ReactComponent as DownIcon} from "../assets/down.svg";
@@ -11,7 +11,7 @@ import { ReactComponent as EditIcon } from "../assets/edit.svg"
 
 import "./productCard.css";
 import { AppStateCtx } from "../App.tsx";
-import { formatPrice } from "../utility/generic.ts";
+import { formatPrice, toErrorPage } from "../utility/generic.ts";
 import CollapseElement from "./CollapseElement.tsx";
 import { allergen, ingredient, product } from "../server/server.ts";
 import { backendServer } from '../App.tsx';
@@ -26,6 +26,8 @@ interface PropType{
 }
 
 function ProductCard({product,ingredients,allergens,editable, imgUrl = placeholder, setErr}:PropType){
+
+    const navigate = useNavigate();
 
     //eslint-disable-next-line
     const [appState,_] = useContext(AppStateCtx);
@@ -42,12 +44,11 @@ function ProductCard({product,ingredients,allergens,editable, imgUrl = placehold
     }
 
     function buyItem(){
-        backendServer.addProductToCart(appState.table,product.documentId)
+        backendServer.products.addProductToCart(appState.table,product.documentId)
         .then(() => {
             console.log(product.name, "Acquistata");
         }).catch((err) => {
-            if(setErr)
-                setErr(true);
+            toErrorPage(navigate);
             console.log("Error:\n",err)
         })
     }

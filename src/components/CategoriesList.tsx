@@ -10,7 +10,7 @@ const CategoriesList: React.FC = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const data = await backendServer.fetchCategoriesIdAndName();
+                const data = await backendServer.categories.fetchCategoriesIdAndName();
                 setCategories(data);
             } catch (error) {
                 console.error("Errore nel recupero delle categorie:", error);

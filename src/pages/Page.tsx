@@ -1,7 +1,6 @@
 // Concept for a page wrapper
 import React from 'react';
 import "./page.css"
-import ErrorPage from './ErrorPage.tsx';
 
 export interface Error{
     error:boolean
@@ -12,19 +11,14 @@ export interface Error{
 
 interface PropType {
     children?: React.ReactNode;
-    error?: Error;
 }
 
-function Page ({ children, error}:PropType){
-    
-    if(!error || !error.error)
-        return (
-            <div className='page'>
-                {children}
-            </div>
-        );
-    else
-        return <ErrorPage errorMessage={error.errorMessage} errorTitle={error.errorTitle}/>
+function Page ({ children }:PropType){
+    return (
+        <div className='page'>
+            {children}
+        </div>
+    );
 };
 
 export default Page;

@@ -47,18 +47,33 @@ export default interface Server{
 
     serverUrl:string;
 
-    fetchTableStatus: (table:table) => Promise<string>
-    
-    fetchOrdersDone: (table:table) => Promise<order[]>
-    fetchTotal: (table:table) => Promise<{total:number,discount:number}>
-    askForCheck: (table:table) => Promise<void>
-    
+    orders:OrderEndpoint
+    table:TableEndpoint
+    products:ProductEndpoint
+    categories:CategoryEndpoint
+
     fetchIngredient: () => Promise<ingredient[]>
     fetchAllergen: () => Promise<allergen[]>
-    fetchProductByCategory: (categoryId:string) => Promise<{name:string,products:detailProduct[],hasIg:boolean}>
-    addProductToCart: (table:table, productId: string) => Promise<void>
-
-    fetchCategoriesIdAndName: () => Promise<Category[]>
 
     imageUrlFromServer: (url:string,size?:ImgSize) => string
+}
+
+export interface OrderEndpoint{
+    fetchOrdersDone: (table:table) => Promise<order[]>
+}
+
+export interface TableEndpoint{
+    fetchTableStatus: (table:table) => Promise<string>
+    fetchTotal: (table:table) => Promise<{total:number,discount:number}>
+    askForCheck: (table:table) => Promise<void>
+}
+
+export interface ProductEndpoint{
+    addProductToCart: (table:table, productId: string) => Promise<void>
+}
+
+export interface CategoryEndpoint{
+    fetchCategoriesIdAndName: () => Promise<Category[]>
+    fetchProductByCategory: (categoryId:string) => Promise<{products:detailProduct[],hasIg:boolean}>
+    fetchCatergoryDetail: (categoryId:string) => Promise<{documentId:string,name:string}>
 }

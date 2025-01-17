@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { BrowserRouter, Routes, Route} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate} from 'react-router-dom';
 import useRefresh from './utility/useRefresh.ts';
 
 import ButtonWithPrompt from './components/ButtonWithPrompt.tsx';
@@ -21,6 +21,7 @@ import PizzaBuilder from './pages/PizzaBuilder.tsx';
 import StrapiServerConnector from './server/backendServerConnector.ts';
 import Server from './server/server.ts';
 import CheckBox from './components/CheckBox.tsx';
+import { toErrorPage } from './utility/generic.ts';
 
 export const backendServer:Server = new StrapiServerConnector("http://localhost:1337");
 
@@ -48,12 +49,27 @@ function App() {
     //eslint-disable-next-line 
     const [tableStatus,_] = useRefresh<string>(async () => {
         
-        //Stop if no table is selected
-        if(!appState.table)
-            return "";
+        const url:string = window.location.pathname;
 
+        //Stop if no table is selected
+        if(!appState.table){
+            
+            //if(url !== "/error")
+            //    window.location.replace('/error');
+            
+            return "";
+        }
+            
         //Fetch table status
-        return await backendServer.fetchTableStatus(appState.table);
+        return await backendServer.table.fetchTableStatus(appState.table)
+        .catch( e => {
+            console.log(e);
+            
+            if(url !== "/error")
+                window.location.replace('/error');
+
+            return "";
+        });
 
     },"",5000,[appState.table]);
     
@@ -107,6 +123,7 @@ function App() {
                     <Route path='/expired' element={<ErrorPage errorTitle='Sessione Scaduta' retryBtn={false}
                         errorMessage='Sembra che la tua sessione di acquisto sia terminta, se ritieni sia un errore chiedi ad un cameriere'/>}/>
                     
+                    <Route path='/error' element = {<ErrorPage></ErrorPage>}/>
                     <Route path='*' element={<ErrorPage errorTitle='Errore 404' retryBtn={false}
                         errorMessage='La pagina che cerchi non è disponibile'/>}/>
                 </Routes>
@@ -121,7 +138,8 @@ export default App;
 //Test per vedere se funzionava
 function Test() {
 
-    const [err, setErr] = useState(false);
+    const navigate = useNavigate();
+
     // eslint-disable-next-line
     const [state, setState] = useContext(AppStateCtx);
 
@@ -130,14 +148,8 @@ function Test() {
 
     const test = () => { alert("Ciao sono una azione irreversibile") }
 
-    const error: Error = {
-        error: err,
-        errorTitle: 'Qualcosa non è andato storto',
-        errorMessage: 'Dato che hai cliccato un tasto di errore se questa pagina non ci fosse allora qualcosa sarebbe andato storto'
-    }
-
     return (
-        <Page error={error}>
+        <Page>
             <Header pageName='Test' current={Pages.FC} />
             <h1 style={{ paddingTop: 100 }}>{time && time.getTime()}</h1>
 
@@ -146,19 +158,23 @@ function Test() {
                 setCheck(c => !c)}}/>
             
             <button className="light-btn btn" onClick={refreshTime}> Che ore sono? </button>
+
             <ButtonWithPrompt className="dark-btn my-btn" onClick={test} popupTitle='Azione Irreversibile'
                 popupText='Questa azione non può essere annullata, proseguire?'>
                 <p style={{ margin: "0px" }}> Test Irreversibile </p>
             </ButtonWithPrompt>
-            <button className='err-btn my-btn' onClick={() => setErr(true)}>
-                Errore
-            </button>
+
             <button className='dark-btn-inverse my-btn' onClick={() => setState("table", { accessCode: "abcd", sessionCode: "3" })}>
                 Log to table
             </button>
             <button className='err-btn my-btn' onClick={() => setState("table", { accessCode: "abcd", sessionCode: "4" })}>
                 Log to expired table
             </button>
+
+            <button className='err-btn my-btn' onClick={() => toErrorPage(navigate)}>
+                Error
+            </button>
+            
         </Page>
     )
 }
