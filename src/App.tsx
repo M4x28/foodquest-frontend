@@ -110,7 +110,7 @@ function App() {
                 <Routes>
                     <Route path="/products/:categoryID" element={<ProductPage />} />
                     <Route path="/orders" element={<OrderPage />} />
-                    <Route path='/creazionepizza' element={<PizzaBuilder></PizzaBuilder>} />
+                    <Route path='/creazionepizza/:productID' element={<PizzaBuilder></PizzaBuilder>} />
                     <Route path='/landingpage' element={<LandingPage></LandingPage>} />
                     <Route path='/home' element={<Home></Home>} />
                     <Route path='/login' element={<Login></Login>} />

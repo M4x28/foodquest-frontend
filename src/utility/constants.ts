@@ -12,6 +12,11 @@ export const ENDPOINTS = {
 
     INGREDIENTS: {
         GET_INGREDIENTS: "/ingredients",
-    }, 
+    },
+
+    PRODUCT: {
+        POST_PRODUCT: "/products/create",
+        GET_PRODUCTS: "/products"
+    }
     
 };

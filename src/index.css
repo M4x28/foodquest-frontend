@@ -1,7 +1,7 @@
 body{
     margin: 0;
     font-family: Helvetica, sans-serif;
-    background-image: url("./assets/bg.webp"), linear-gradient(#32a10a, #dde7dc);
+    background-image: url("./assets/bg.webp"), linear-gradient(#d17905, #2678db);
     background-attachment: fixed;
     background-size: cover;
     animation-iteration-count: infinite;

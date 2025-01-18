@@ -4,6 +4,20 @@ export interface table {
     number:number
 }
 
+/* usa questa interfaccia con questi attributi
+export interface Ingredient {
+    documentId: string;
+    UIDIngredient: string;
+    name: string;
+    price: number;
+    type: string;
+    defaultIngredientBuilding: string;
+    full_img_link: string;
+    icon_img_link?: string;
+    allergens: Allergen[];
+    recommended_ingredient: Ingredient[];
+}
+*/
 export interface ingredient{
     documentId:string,
     type:string,
@@ -71,7 +85,8 @@ export interface TableEndpoint{
 }
 
 export interface ProductEndpoint{
-    addProductToCart: (table:table, productId: string) => Promise<void>
+    addProductToCart: (table: table, productId: string) => Promise<void>
+    getProductIngredients: (productId: string) => Promise<ingredient[]>
 }
 
 export interface CategoryEndpoint{

@@ -4,16 +4,13 @@ import { getExtraIngredients } from "../../services/ingredientService.ts";
 
 interface IngredientSearchListProps {
     handleAddIngredients: (newIngredients: Ingredient[]) => void;
-}
-
-interface IngredientSearchListProps {
-    handleAddIngredients: (newIngredients: Ingredient[]) => void;
     setPopupState: (state: boolean) => void; // Aggiunto setPopupState come prop
     popupState: boolean; // Aggiunto popupState come prop
-    recommendedIngredient?: Ingredient; // Aggiunto per ordinare gli ingredienti
+    recommendedIngredients?: Ingredient[]; // Aggiunto per ordinare gli ingredienti
+    allIngredients: Ingredient[]; // Aggiunto per escludere gli ingredienti già selezionati
 }
 
-const IngredientSearchList: React.FC<IngredientSearchListProps> = ({ handleAddIngredients, setPopupState, popupState, recommendedIngredient, }) => {
+const IngredientSearchList: React.FC<IngredientSearchListProps> = ({ handleAddIngredients, setPopupState, popupState, recommendedIngredients, allIngredients }) => {
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
     const [filteredIngredients, setFilteredIngredients] = useState<Ingredient[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -24,12 +21,23 @@ const IngredientSearchList: React.FC<IngredientSearchListProps> = ({ handleAddIn
                 const extraIngredients = await getExtraIngredients();
                 let sortedIngredients = extraIngredients;
 
-                // Ordina gli ingredienti se c'è un ingrediente raccomandato
-                if (recommendedIngredient) {
+                // Escludi gli ingredienti già selezionati
+                const selectedIds = new Set(allIngredients.map((ing) => ing.documentId));
+                sortedIngredients = sortedIngredients.filter(
+                    (ingredient) => !selectedIds.has(ingredient.documentId)
+                );
+
+                // Ordina gli ingredienti se ci sono raccomandazioni
+                if (recommendedIngredients && recommendedIngredients.length > 0) {
+                    const recommendedIds = new Set(recommendedIngredients.map((ingredient) => ingredient.documentId));
+
+                    // Combina gli ingredienti raccomandati con gli extra non presenti tra i raccomandati
                     sortedIngredients = [
-                        recommendedIngredient,
-                        ...extraIngredients.filter(
-                            (ingredient) => ingredient.documentId !== recommendedIngredient.documentId
+                        ...recommendedIngredients.filter(
+                            (recIng) => !selectedIds.has(recIng.documentId)
+                        ), // Aggiungi solo quelli raccomandati non già selezionati
+                        ...sortedIngredients.filter(
+                            (ingredient) => !recommendedIds.has(ingredient.documentId) // Escludi gli ingredienti già raccomandati
                         ),
                     ];
                 }
@@ -41,7 +49,7 @@ const IngredientSearchList: React.FC<IngredientSearchListProps> = ({ handleAddIn
             }
         };
         fetchIngredients();
-    }, [recommendedIngredient]);
+    }, [recommendedIngredients, allIngredients]);
 
     useEffect(() => {
         const filtered = ingredients.filter((ingredient) =>

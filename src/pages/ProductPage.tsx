@@ -15,7 +15,7 @@ function ProductPage(){
 
     const navigate = useNavigate();
 
-    const {categoryID} = useParams()
+    const { categoryID } = useParams();
     const [catName,setCatName] = useState("Loading...");
     const [products,setProducts] = useState<detailProduct[]>([]);
     const [ingredients,setIngredient] = useState<ingredient[]>([]);
