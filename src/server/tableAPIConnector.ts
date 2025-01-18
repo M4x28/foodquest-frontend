@@ -29,7 +29,11 @@ export default class StrapiTableEndpoint implements TableEndpoint{
 
     fetchTotal (table: table) :Promise<{ total: number; discount: number; }>{
         return axios.get(`${this.__endpoint__}/total/${table.accessCode}`)
-            .then(res => res.data.data);
+            .then(res => {
+                const total = res.data.data
+                console.log("Total Requested",total);
+                return total;
+            });
     }
 
 }

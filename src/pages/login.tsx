@@ -1,29 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header, { Pages } from "../components/utility/Header.tsx"; 
 import "../bootstrap.css"; 
 import { Button } from '../components/input/Button.tsx'; // Importa il componente Button
 import Input from "../components/input/Input.tsx"; // Importa il nuovo componente Input
-import { userService } from "../services/userService.ts";
+import { AppStateCtx, backendServer } from "../App.tsx";
 
 const RegisterPage: React.FC = () => {
+
+    const [appState,updateAppState] = useContext(AppStateCtx);
+
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     useEffect(() => {
-        const userData = localStorage.getItem("user");
+        const userData = appState.user;
         if (userData) {
             navigate("/account");
         }
-    }, [navigate]);
+    }, [navigate,appState.user]);
 
     const handleLogin = async () => {
         try {
-            const response = await userService.login(email, password);
-
+            const response = await backendServer.user.login(email,password);;
+            console.log(response);
             // Salva la risposta nello stato dell'app (localStorage per questo esempio)
-            localStorage.setItem("user", JSON.stringify(response));
+            updateAppState("user",response);
 
             // Reindirizza l'utente alla pagina account
             navigate("/account");

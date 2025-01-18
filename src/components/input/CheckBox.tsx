@@ -14,7 +14,7 @@ interface PropType{
 function CheckBox({value,onChange,text,className=""}:PropType) {
     return (
         <label className={"check-box " + className}>
-            <input checked={value} type="checkbox" id="checkbox" onChange={onChange}/>
+            <input checked={value} type="checkbox" onChange={onChange}/>
             <span className='tic-container'><TicIcon/></span> 
             {text}
         </label>

@@ -143,15 +143,30 @@ function Test() {
     // eslint-disable-next-line
     const [state, setState] = useContext(AppStateCtx);
 
-    const [time, refreshTime] = useRefresh<Date>(async () => new Date(), new Date());
+    const [time, refreshTime] = useRefresh<Date>(async () => new Date(), new Date(),1000);
     const [check, setCheck] = useState(false);
+
+    const pad0 = (n:number,lenght:number):string => {
+        let res:string = n.toString();
+        return res.padStart(lenght,"0");
+    }
+
+    const formatDate = (date:Date):string => {
+
+        const hours = pad0(date.getHours(),2);
+        const mins = pad0(date.getMinutes(),2);
+        const secs = pad0(date.getSeconds(),2);
+
+        return hours + ":" + mins + ":" + secs;
+
+    }
 
     const test = () => { alert("Ciao sono una azione irreversibile") }
 
     return (
         <Page>
             <Header pageName='Test' current={Pages.FC} />
-            <h1 style={{ paddingTop: 100 }}>{time && time.getTime()}</h1>
+            <h1 style={{ paddingTop: 100 }}>{formatDate(time)}</h1>
 
             <CheckBox text='Ciao' value ={check} onChange={(e) => {
                 console.log("click")

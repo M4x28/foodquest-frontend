@@ -30,6 +30,18 @@ function ContoPage() {
     const [appState,_] = useContext(AppStateCtx);
     
     const [usingPoint,setUsingPoint] = useState(false);
+    const [point,setPoint] = useState(0);
+
+    useEffect(() => {
+        if(appState.user){
+            backendServer.fc.fetchMaxPoint(appState.user.user.documentId)
+            .then(setPoint)
+            .catch(e => {
+                console.log(e);
+                toErrorPage(navigate);
+            })
+        }
+    },[appState.user]);
 
     //Fetch table order periodicalliy
     // eslint-disable-next-line
@@ -82,7 +94,16 @@ function ContoPage() {
     };
 
     const handlePointUsageChange = () => {
-        setUsingPoint(p => !p)
+        const newUsePoint = !usingPoint
+        backendServer.fc.setPointUsage(appState.user.user.documentId,newUsePoint)
+        .then(() => {
+            setUsingPoint(newUsePoint)
+            reloadTotal();
+        })
+        .catch(e => {
+            console.log(e);
+            toErrorPage(navigate);
+        })
     }
 
     const checkText = canRequestCheck ? "Questa azione non può essere annullata, sei sicuro?" :
@@ -95,7 +116,7 @@ function ContoPage() {
                 {orders.map((order,index) => <OrderCard key={order.documentId} order={order} index={index+1}/>)}
             </section>
             {appState.user && 
-                <CheckBox value={usingPoint} text='Usa 1000 punti (-10 €)' className='toggle-point'
+                <CheckBox value={usingPoint} text={"Usa " + point + " punti"} className='toggle-point'
                     onChange={handlePointUsageChange}/>
             }
             <Total total={total} discount={discount} className='total'/>

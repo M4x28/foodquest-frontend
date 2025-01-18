@@ -1,14 +1,17 @@
 import axios from "axios";
 import { UserEndpoint } from "./server";
-import { ENDPOINTS } from "../utility/constants";
-
-//WIP
 
 export default class StrapiUserAPI implements UserEndpoint{
 
+    private __endpoint__:string;
+
+    constructor(serverUrl:string){
+        this.__endpoint__ = serverUrl + "/api/auth/local";
+    }
+
     async login(identifier: string, password: string) {
         try {
-            const response = await axios.post(ENDPOINTS.USERS.POST_LOGIN, {
+            const response = await axios.post(this.__endpoint__, {
                 identifier,
                 password,
             });
@@ -21,7 +24,7 @@ export default class StrapiUserAPI implements UserEndpoint{
 
     async register(username: string, email: string, password: string) {
         try {
-            const response = await axios.post(ENDPOINTS.USERS.POST_REGISTER, {
+            const response = await axios.post(`${this.__endpoint__}/register`, {
                 username,
                 email,
                 password,

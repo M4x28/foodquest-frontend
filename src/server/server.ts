@@ -51,6 +51,8 @@ export default interface Server{
     table:TableEndpoint
     products:ProductEndpoint
     categories:CategoryEndpoint
+    user:UserEndpoint
+    fc:FCEndpoint
 
     fetchIngredient: () => Promise<ingredient[]>
     fetchAllergen: () => Promise<allergen[]>
@@ -81,4 +83,9 @@ export interface CategoryEndpoint{
 export interface UserEndpoint{
     register: (username: string, email: string, password: string) => Promise<any>
     login: (identifier: string, password: string) => Promise<any>
+}
+
+export interface FCEndpoint{
+    fetchMaxPoint: (userID:string) => Promise<number>
+    setPointUsage: (userID:string, isUsingPoint:boolean) => Promise<void>
 }

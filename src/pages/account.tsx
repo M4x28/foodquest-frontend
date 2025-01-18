@@ -1,30 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header, { Pages } from "../components/utility/Header.tsx";
 import "../bootstrap.css";
 import { ReactComponent as PizzaIcon } from "../assets/pizza.svg"; // Sostituisci con il percorso corretto per l'icona della pizza
 import { ReactComponent as LogoutIcon } from "../assets/logout.svg"; // Aggiungi l'icona del logout con il percorso corretto
 import { Button } from '../components/input/Button.tsx';
+import { AppStateCtx } from "../App.tsx";
 
 const AccountPage: React.FC = () => {
+    
+    const [appState,updateAppState] = useContext(AppStateCtx);
+    
     const navigate = useNavigate();
     const [username, setUsername] = useState<string>("");
     const [points, setPoints] = useState<number>(0);
 
     useEffect(() => {
-        const userData = localStorage.getItem("user");
+        const userData = appState.user;
         if (!userData) {
             navigate("/login");
             return;
         }
-        const parsedData = JSON.parse(userData);
-        setUsername(parsedData.user.username || "Utente");
-        setPoints(parsedData.user.Points || 0);
-    }, [navigate]);
+
+        setUsername(userData.user.username || "Utente");
+        setPoints(userData.user.Points || 0);
+    }, [navigate,appState.user]);
 
     const handleLogout = () => {
-        localStorage.removeItem("user");
-        window.location.href = "/login"; // Reindirizza alla pagina di login
+        updateAppState("user",undefined);
+        navigate("/login"); // Reindirizza alla pagina di login
     };
 
     return (

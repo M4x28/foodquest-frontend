@@ -1,17 +1,22 @@
 import axios from "axios";
-import Server, { allergen, Category, CategoryEndpoint, detailProduct, ImgSize, ingredient, order, OrderEndpoint, ProductEndpoint, table, TableEndpoint } from "./server";
+import Server, { allergen, CategoryEndpoint, FCEndpoint, ImgSize, ingredient, OrderEndpoint, ProductEndpoint, TableEndpoint, UserEndpoint } from "./server";
 import StrapiCategoryAPI from "./categoryAPIConnector.ts";
 import StrapiTableEndpoint from "./tableAPIConnector.ts";
 import StrapiOrderAPI from "./orderAPIConnector.ts";
 import StrapiProductAPI from "./productAPIConnector.ts";
+import StrapiUserAPI from "./userAPIConnector.ts";
+import StrapiFCAPI from "./FCAPIConnector.ts";
 
 export default class StrapiServerConnector implements Server{
 
     private __serverUrl__:string;
+
     private __category__:CategoryEndpoint;
     private __table__:TableEndpoint;
     private __order__:OrderEndpoint;
     private __products__:ProductEndpoint;
+    private __user__:UserEndpoint;
+    private __fc__:FCEndpoint;
 
     constructor(url:string){
         this.__serverUrl__ = url;
@@ -19,6 +24,8 @@ export default class StrapiServerConnector implements Server{
         this.__table__ = new StrapiTableEndpoint(url);
         this.__order__ = new StrapiOrderAPI(url);
         this.__products__ = new StrapiProductAPI(url);
+        this.__user__ = new StrapiUserAPI(url);
+        this.__fc__ = new StrapiFCAPI(url);
     }
 
     get categories(){
@@ -35,6 +42,14 @@ export default class StrapiServerConnector implements Server{
 
     get orders(){
         return this.__order__;
+    }
+
+    get user(){
+        return this.__user__;
+    }
+
+    get fc(){
+        return this.__fc__;
     }
 
     get serverUrl():string{
