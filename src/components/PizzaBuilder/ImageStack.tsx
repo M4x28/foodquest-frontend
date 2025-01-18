@@ -6,7 +6,7 @@ interface ImageStackProps {
     allIngredients: Ingredient[];
     baseSize?: string; // Dimensione base degli ingredienti di base
     extraSize?: string; // Dimensione base degli ingredienti extra
-    height?: string; // Altezza dello stack
+    height: string; // Altezza dello stack
 }
 
 const ImageStack: React.FC<ImageStackProps> = ({
@@ -33,7 +33,7 @@ const ImageStack: React.FC<ImageStackProps> = ({
                 {baseIngredient && (
                     <img
                         key={baseIngredient.documentId}
-                        src={baseIngredient.full_img_link}
+                        src={require("../../assets".concat(baseIngredient.full_img_link))}
                         alt={baseIngredient.name}
                         className="position-absolute top-50 start-50 translate-middle"
                         style={{ width: baseSize, height: baseSize, objectFit: "cover" }}
@@ -43,7 +43,7 @@ const ImageStack: React.FC<ImageStackProps> = ({
                 {sortedIngredients.map((ingredient) => (
                     <img
                         key={ingredient.documentId}
-                        src={ingredient.full_img_link}
+                        src={require("../../assets".concat(ingredient.full_img_link))}
                         alt={ingredient.name}
                         className="position-absolute top-50 start-50 translate-middle"
                         style={{ width: extraSize, height: extraSize, objectFit: "cover" }}

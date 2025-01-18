@@ -79,7 +79,7 @@ function ProductPage(){
             </section>
             { customizable && 
                 <section className="create-btn-container">
-                    <Link className="dark-btn create-btn" >
+                    <Link className="dark-btn create-btn" to={"/creazionepizza"} >
                         <PizzaIcon/>
                         Crea la tua pizza
                     </Link>

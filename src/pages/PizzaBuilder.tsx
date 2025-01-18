@@ -154,7 +154,7 @@ const PizzaBuilder: React.FC = () => {
         <>
             <Header pageName="Crea Pizza" current={Pages.Home} />
 
-            <ImageStack allIngredients={allIngredients} />
+            <ImageStack allIngredients={allIngredients} height={"400px"} />
 
             <BaseDropdown handleReplaceBaseIngredient={handleReplaceBaseIngredient} />
 

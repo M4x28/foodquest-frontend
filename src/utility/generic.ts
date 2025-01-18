@@ -13,6 +13,6 @@ export const toErrorPage = (navigator) => {
     navigator("/error");
 }
 
-export const FULL_IMG_PATH = "./ingredients/full_img/";
-export const ICON_IMG_PATH = "./ingredients/icon_img/";
+export const FULL_IMG_PATH = "/ingredients/full_img/";
+export const ICON_IMG_PATH = "/ingredients/icon_img/";
 export const DEFAULT_IMG_FORMAT = ".svg";

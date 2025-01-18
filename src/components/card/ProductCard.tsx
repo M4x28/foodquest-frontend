@@ -15,12 +15,14 @@ import { formatPrice, toErrorPage } from "../../utility/generic.ts";
 import CollapseElement from "../utility/CollapseElement.tsx";
 import { allergen, ingredient, product } from "../../server/server.ts";
 import { backendServer } from '../../App.tsx';
+import ImageStack from "../PizzaBuilder/ImageStack.tsx";
+import { Ingredient } from "../PizzaBuilder/IngredientComponent.tsx";
 
 interface PropType {
     product: product
     editable?: boolean;
     imgUrl?: string,
-    ingredients?: ingredient[];
+    ingredients?: Ingredient[];
     allergens?: allergen[];
     setErr?: Function;
 }
@@ -56,11 +58,17 @@ function ProductCard({ product, ingredients, allergens, editable, imgUrl = place
     return (
         <div className="my-card">
             <div className="product-header">
-                <img src={imgUrl} alt="Foto del prodotto" />
+                {ingredients && ingredients.length > 0 ? (
+                    <ImageStack allIngredients={ingredients} height={"100px"}></ImageStack>
+                ) : (
+                    <img src={imgUrl} alt="Foto del prodotto" />
+                )}
                 <h3 className="product-name">{product.name}</h3>
                 <h3 className="product-price">{formatPrice(product.price)} €</h3>
             </div>
+
             {description && <p className="product-description">{description}</p>}
+
             <div className="product-buttons">
                 <button className="allergen-btn" onClick={toggleAllergen}>
                     {showAllergen ? <DownIcon /> : <UpIcon />} Allergeni
@@ -74,6 +82,7 @@ function ProductCard({ product, ingredients, allergens, editable, imgUrl = place
                     <EditIcon /> Modifica
                 </Link>}
             </div>
+
             <CollapseElement open={showAllergen} className="product-allergen">
                 {allergens && allergens?.length > 0 ?
                     <ul>
