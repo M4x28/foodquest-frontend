@@ -21,9 +21,11 @@ function CheckPage (){
     },[appState.table]);
     
     return (
-        <div className='page-box-bg check-page'>
-            <BillIcon/>
-            <h1>Richiesta conto effettuata</h1>
+        <div className='check-page'>
+            <header className='page-box-bg'>
+                <BillIcon/>
+                <h1>Richiesta conto effettuata</h1>
+            </header>
             <p>Il conto arriverà a breve</p>
             <Total total={total} discount={discount} className='check-total'/>
         </div>

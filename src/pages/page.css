@@ -3,69 +3,40 @@
 }
 
 .page-box-bg {
-    position: relative;
-    z-index: 0;
-}
-
-.page-box-bg::before{
-    content: "";
-    position: absolute;
-    height: 50vh;
-    width: 100vw;
-    z-index: -1;
-    
     background-color: var(--very-light-col);
     border-bottom: 5px solid var(--dark-col);
-    background-repeat: no-repeat;
-    background-size: cover;
+    min-height: 50vh;
+    padding-top: 2rem;
 }
 
 .err-page svg{
-    height: 200px;
-    width: 200px;
+    height: 12.5rem;
+    width: 12.5rem;
     fill: var(--error-col);
     display: block;
-    margin: 0px auto;
-    padding-top: 30px;
+    margin: 0 auto 2rem auto;
 }
 
 .err-page h1{
-    position: absolute;
-    top: 200px;
-    margin: 0px;
     font-weight: bold;
     font-size: 3rem;
     padding: 0px 30px;
-    height: calc(50vh - 230px);
+    
     color: var(--very-dark-col);
     max-width: 800px;
     text-align: center;
-    margin-inline: auto;
-    left: 0; 
-    right: 0; 
-}
-
-@media (max-width: 400px){
-    .err-page h1{
-        font-size: 2.5rem;
-    }
+    margin: auto;
 }
 
 .err-page p{
-    position: absolute;
-    margin-inline: auto;
-    top: 50vh;
-    margin: 0px auto;
-    height: 25vh;
+    margin: auto;
     font-size: 2rem;
     padding: 20px 30px;
+
     color: var(--very-dark-col);
     line-height: normal;
     max-width: 800px;
     text-align: center;
-    margin-inline: auto;
-    left: 0; 
-    right: 0; 
 }
 
 .retry-btn{

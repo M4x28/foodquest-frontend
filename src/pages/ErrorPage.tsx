@@ -18,9 +18,11 @@ function ErrorPage ({ errorTitle = defaultTitle, errorMessage = defaultMessage, 
     const navigate = useNavigate();
 
     return (
-        <div className='page-box-bg err-page'>
-            <ErrorIcon/>
-            <h1>{errorTitle}</h1>
+        <div className='err-page'>
+            <header className='page-box-bg'>
+                <ErrorIcon/>
+                <h1>{errorTitle}</h1>    
+            </header>
             <p>{errorMessage}</p>
             {
                 retryBtn && 

@@ -12,7 +12,7 @@
     --bs-voice-font-size: 1.4rem;
 }
 
-header {
+.header-container header {
     width: 100%;
     height: var(--header-height);
 
@@ -26,7 +26,7 @@ header {
     font-family: var(--bs-body-font-family);
 }
 
-header h1 {
+.header-container header h1 {
     font-size: var(--bs-header-font-size);
     letter-spacing: var(--letter-spacing);
     color: var(--very-dark-col);

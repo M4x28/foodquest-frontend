@@ -1,43 +1,35 @@
 .check-page svg{
-    height: 17rem;
-    width: 17rem;
+    height: 16rem;
+    width: 16rem;
     display: block;
-    margin: 0px auto;
-    padding-top: 30px;
+    margin: 0 auto;
 }
 
 .check-page h1{
-    position: absolute;
-    top: 17rem;
-    font-size: 3rem;
     font-weight: bold;
+    font-size: 3rem;
     padding: 0px 30px;
-    height: calc(50vh - 330px);
+    
     color: var(--very-dark-col);
-
-}
-
-@media (max-width: 400px){
-    .check-page h1{
-        font-size: 2.5rem;
-    }
+    max-width: 800px;
+    text-align: center;
+    margin: auto;
 }
 
 .check-page p{
-    position: absolute;
-    top: 50vh;
-    margin: 0px;
-    height: 25vh;
+    margin: auto;
     font-size: 2rem;
     padding: 20px 30px;
+
     color: var(--very-dark-col);
+    line-height: normal;
+    max-width: 800px;
+    min-height: 30vh;
+    text-align: center;
 }
 
 .check-page .check-total{
-    position: absolute;
     text-align: center;
-    top: 80vh;
-    margin: 0px;
     font-size: 2.5rem;
     padding: 20px 30px;
     width: 100%;
