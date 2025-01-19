@@ -1,11 +1,11 @@
 import axios from "axios";
 import { UserEndpoint } from "./server";
 
-export default class StrapiUserAPI implements UserEndpoint{
+export default class StrapiUserAPI implements UserEndpoint {
 
-    private __endpoint__:string;
+    private __endpoint__: string;
 
-    constructor(serverUrl:string){
+    constructor(serverUrl: string) {
         this.__endpoint__ = serverUrl + "/api/auth/local";
     }
 

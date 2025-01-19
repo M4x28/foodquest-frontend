@@ -31,9 +31,19 @@ const RegisterPage: React.FC = () => {
         try {
             const username = email.split("@")[0]; // Genera un nome utente base dall'email
             const response = await backendServer.user.register(username, email, password);
-            console.log(response);
+            const fc = await backendServer.fc.createFidelityCard(response.user.documentId);
+            
+            // Aggiungi userPoints come proprietà dell'oggetto user
+            const userData = {
+                ...response,
+                user: {
+                    ...response.user,
+                    Points: fc.Points, // Aggiungi i punti all'oggetto user
+                },
+            };
+
             // Salva la risposta nello stato dell'app (localStorage per questo esempio)
-            updateAppState("user",response);
+            updateAppState("user", userData);
 
             // Reindirizza l'utente su /account
             navigate("/account");

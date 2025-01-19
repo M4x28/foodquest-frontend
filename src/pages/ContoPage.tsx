@@ -20,103 +20,103 @@ function ContoPage() {
     const navigate = useNavigate();
 
     // eslint-disable-next-line
-    const [appState,_] = useContext(AppStateCtx);
-    
-    const [usingPoint,setUsingPoint] = useState(false);
-    const [point,setPoint] = useState(0);
+    const [appState, _] = useContext(AppStateCtx);
+
+    const [usingPoint, setUsingPoint] = useState(false);
+    const [point, setPoint] = useState(0);
 
     useEffect(() => {
-        if(appState.user){
+        if (appState.user) {
             backendServer.fc.fetchMaxPoint(appState.user.user.documentId)
-            .then(setPoint)
-            .catch(e => {
-                console.log(e);
-                toErrorPage(navigate);
-            })
+                .then(setPoint)
+                .catch(e => {
+                    console.log(e);
+                    toErrorPage(navigate);
+                })
         }
-    },[appState.user]);
+    }, [appState.user]);
 
     //Fetch table order periodicalliy
     // eslint-disable-next-line
-    const [orders,__] = useRefresh<Order[]>(async () => {
+    const [orders, __] = useRefresh<Order[]>(async () => {
 
-        if(!appState.table){
+        if (!appState.table) {
             toErrorPage(navigate);
             return [];
         }
 
         return await backendServer.orders.fetchOrdersDone(appState.table)
             .catch((err) => {
-            console.log(err);
-            toErrorPage(navigate);
-            return [];
-        })
+                console.log(err);
+                toErrorPage(navigate);
+                return [];
+            })
 
-    },[],20000);
+    }, [], 20000);
 
     // eslint-disable-next-line
-    const [{total,discount},reloadTotal] = useRefresh<{total:number,discount:number}>( async () => {
+    const [{ total, discount }, reloadTotal] = useRefresh<{ total: number, discount: number }>(async () => {
 
-        if(!appState.table){
+        if (!appState.table) {
             toErrorPage(navigate);
-            return {total:0,discount:0};
+            return { total: 0, discount: 0 };
         }
 
         return await backendServer.table.fetchTotal(appState.table);
     },
-    {total:0,discount:0}, 20000, [appState.table]);
+        { total: 0, discount: 0 }, 20000, [appState.table]);
 
     //Can request check only if there are more than 1 order and there aren't any not done Order
     const canRequestCheck = orders.length > 0 && orders.filter(o => o.status !== "Done").length === 0;
 
     //Function to request check
     const checkRequest = async () => {
-        if(!canRequestCheck){
+        if (!canRequestCheck) {
             return;
-        }else{
+        } else {
             backendServer.table.askForCheck(appState.table)
-            .then(() => {
-                console.log("Richiesta conto effettuata");
-                navigate("/check");
-            }).catch((err) => {
-                console.log(err);
-                toErrorPage(navigate);
-                return [];
-            })
+                .then(() => {
+                    console.log("Richiesta conto effettuata");
+                    navigate("/check");
+                }).catch((err) => {
+                    console.log(err);
+                    toErrorPage(navigate);
+                    return [];
+                })
         }
     };
 
     const handlePointUsageChange = () => {
         const newUsePoint = !usingPoint
-        backendServer.fc.setPointUsage(appState.user.user.documentId,newUsePoint)
-        .then(() => {
-            setUsingPoint(newUsePoint)
-            reloadTotal();
-        })
-        .catch(e => {
-            console.log(e);
-            toErrorPage(navigate);
-        })
+        backendServer.fc.setPointUsage(appState.user.user.documentId, newUsePoint)
+            .then(() => {
+                setUsingPoint(newUsePoint)
+                reloadTotal();
+            })
+            .catch(e => {
+                console.log(e);
+                toErrorPage(navigate);
+            })
     }
 
     const checkText = canRequestCheck ? "Questa azione non può essere annullata, sei sicuro?" :
-                    "Impossibile richiedere il conto, non hai ancora ricevuto tutti gli ordini";
+        "Impossibile richiedere il conto, non hai ancora ricevuto tutti gli ordini";
 
     return (
         <Page>
-            <Header pageName='Conto' current={Pages.Check}/>
+            <Header pageName='Conto' current={Pages.Check} />
             <section className='orders-container'>
-                {orders.map((order,index) => <OrderCard key={order.documentId} order={order} index={index+1}/>)}
+                {orders.map((order, index) => <OrderCard key={order.documentId} order={order} index={index + 1} />)}
             </section>
-            {appState.user && 
+            {appState.user &&
                 <CheckBox value={usingPoint} text={"Usa " + point + " punti"} className='toggle-point'
-                    onChange={handlePointUsageChange}/>
+                    onChange={handlePointUsageChange} />
             }
-            <Total total={total} discount={discount} className='total'/>
+            <Total total={total} discount={discount} className='total' />
             <ButtonWithPrompt onClick={checkRequest} className='check-btn'
                 popupTitle='Chiedi il conto' popupText={checkText}
-                confirmText={canRequestCheck ? undefined : "CHIUDI"} confirmClass={canRequestCheck ? undefined : 'err-btn confirm-btn'} 
-                confirmSvg={canRequestCheck ? undefined : <CloseIcon/>}>
+                confirmText={canRequestCheck ? undefined : "CHIUDI"} confirmClass={canRequestCheck ? undefined : 'err-btn confirm-btn'}
+                confirmSvg={canRequestCheck ? undefined : <CloseIcon />}>
                 Chiedi il conto
             </ButtonWithPrompt>
         </Page>

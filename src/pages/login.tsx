@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header, { Pages } from "../components/utility/Header.tsx"; 
-import "../bootstrap.css"; 
+import Header, { Pages } from "../components/utility/Header.tsx";
+import "../bootstrap.css";
 import { Button } from '../components/input/Button.tsx'; // Importa il componente Button
 import Input from "../components/input/Input.tsx"; // Importa il nuovo componente Input
 import { AppStateCtx, backendServer } from "../App.tsx";
 
 const RegisterPage: React.FC = () => {
 
-    const [appState,updateAppState] = useContext(AppStateCtx);
+    const [appState, updateAppState] = useContext(AppStateCtx);
 
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
@@ -19,14 +19,24 @@ const RegisterPage: React.FC = () => {
         if (userData) {
             navigate("/account");
         }
-    }, [navigate,appState.user]);
+    }, [navigate, appState.user]);
 
     const handleLogin = async () => {
         try {
-            const response = await backendServer.user.login(email,password);;
-            console.log(response);
+            const response = await backendServer.user.login(email, password);
+            const userPoints = await backendServer.fc.fetchMaxPoint(response.user.documentId);
+
+            // Aggiungi userPoints come proprietà dell'oggetto user
+            const userData = {
+                ...response,
+                user: {
+                    ...response.user,
+                    Points: userPoints, // Aggiungi i punti all'oggetto user
+                },
+            };
+
             // Salva la risposta nello stato dell'app (localStorage per questo esempio)
-            updateAppState("user",response);
+            updateAppState("user", userData);
 
             // Reindirizza l'utente alla pagina account
             navigate("/account");
@@ -98,7 +108,7 @@ const RegisterPage: React.FC = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
-                        
+
                     </form>
                 </div>
 

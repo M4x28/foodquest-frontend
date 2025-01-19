@@ -1,17 +1,17 @@
 export interface Table {
-    accessCode:string,
-    sessionCode:string,
-    number:number
+    accessCode: string,
+    sessionCode: string,
+    number: number
 }
 
-export interface Ingredient{
-    documentId:string,
-    type:string,
-    name:string
-    price:number
+export interface Ingredient {
+    documentId: string,
+    type: string,
+    name: string
+    price: number
 }
 
-export interface DetailIngredient extends Ingredient{
+export interface DetailIngredient extends Ingredient {
     UIDIngredient: string;
     defaultIngredientBuilding: string;
     full_img_link: string;
@@ -20,9 +20,9 @@ export interface DetailIngredient extends Ingredient{
     recommended_ingredient: DetailIngredient[];
 }
 
-export interface Allergen{
-    documentId:string,
-    name:string
+export interface Allergen {
+    documentId: string,
+    name: string
 }
 
 export interface Product {
@@ -32,17 +32,17 @@ export interface Product {
     category: Category
 }
 
-export interface DetailProduct extends Product{
-    imgUrl?:string,
+export interface DetailProduct extends Product {
+    imgUrl?: string,
     ingredientsId?: string[];
     allergensId?: string[];
 }
 
-export interface Order{
-    documentId:string,
-    status:string,
-    time:number,
-    products:Product[];
+export interface Order {
+    documentId: string,
+    status: string,
+    time: number,
+    products: Product[];
 }
 
 export interface Category {
@@ -51,55 +51,66 @@ export interface Category {
     name: string;
 }
 
+export interface FidelityCard {
+    documentId: string;
+    Points: number;
+    UsePoints: boolean | null;
+}
+
 export type ImgSize = "thumbnail" | "small" | "medium";
 
-export default interface Server{
+export default interface Server {
 
-    serverUrl:string;
+    serverUrl: string;
 
-    orders:OrderEndpoint
-    table:TableEndpoint
-    products:ProductEndpoint
-    categories:CategoryEndpoint
-    user:UserEndpoint
-    fc:FCEndpoint
+    orders: OrderEndpoint
+    table: TableEndpoint
+    products: ProductEndpoint
+    categories: CategoryEndpoint
+    user: UserEndpoint
+    fc: FCEndpoint
 
     fetchIngredient: () => Promise<Ingredient[]>
     fetchAllergen: () => Promise<Allergen[]>
 
-    imageUrlFromServer: (url:string,size?:ImgSize) => string
+    imageUrlFromServer: (url: string, size?: ImgSize) => string
 }
 
-export interface OrderEndpoint{
-    fetchOrdersDone: (table:Table) => Promise<Order[]>
-    fetchCurrentOrder: (table:Table) => Promise<Order>
-    confirmOrder: (documentID: string, allCoursesTogetherFlag:boolean) => Promise<void>
+export interface OrderEndpoint {
+    fetchOrdersDone: (table: Table) => Promise<Order[]>
+    fetchCurrentOrder: (table: Table) => Promise<Order>
+    confirmOrder: (documentID: string, allCoursesTogetherFlag: boolean) => Promise<void>
 }
 
-export interface TableEndpoint{
-    logToTable: (accessCode:string) => Promise<Table>
-    fetchTableStatus: (table:Table) => Promise<string>
-    fetchTotal: (table:Table) => Promise<{total:number,discount:number}>
-    askForCheck: (table:Table) => Promise<void>
+export interface TableEndpoint {
+    logToTable: (accessCode: string) => Promise<Table>
+    fetchTableStatus: (table: Table) => Promise<string>
+    fetchTotal: (table: Table) => Promise<{ total: number, discount: number }>
+    askForCheck: (table: Table) => Promise<void>
 }
 
-export interface ProductEndpoint{
+export interface ProductEndpoint {
     addProductToCart: (table: Table, productId: string) => Promise<void>
     getProductIngredients: (productId: string) => Promise<DetailIngredient[]>
 }
 
-export interface CategoryEndpoint{
+export interface CategoryEndpoint {
     fetchCategoriesIdAndName: () => Promise<Category[]>
-    fetchProductByCategory: (categoryId:string) => Promise<{products:DetailProduct[],hasIg:boolean}>
-    fetchCatergoryDetail: (categoryId:string) => Promise<{documentId:string,name:string}>
+    fetchProductByCategory: (categoryId: string) => Promise<{ products: DetailProduct[], hasIg: boolean }>
+    fetchCatergoryDetail: (categoryId: string) => Promise<{ documentId: string, name: string }>
 }
 
-export interface UserEndpoint{
+export interface UserEndpoint {
     register: (username: string, email: string, password: string) => Promise<any>
     login: (identifier: string, password: string) => Promise<any>
 }
 
-export interface FCEndpoint{
-    fetchMaxPoint: (userID:string) => Promise<number>
-    setPointUsage: (userID:string, isUsingPoint:boolean) => Promise<void>
+export interface FCEndpoint {
+    fetchMaxPoint: (userID: string) => Promise<number>
+    setPointUsage: (userID: string, isUsingPoint: boolean) => Promise<void>
+    addFidelityPoints(userID: string, productIDs: string[]): Promise<void>
+    calculateTableDiscount(users: string[]): Promise<number>
+    createFidelityCard(userID: string): Promise<FidelityCard>
+    deleteFidelityCard(userID: string): Promise<void>
+    resetPoints(users: string[]): Promise<void>
 }
