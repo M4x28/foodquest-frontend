@@ -5,7 +5,7 @@
     "img .";
 }
 
-.product-header .image{
+.product-header img{
     grid-area: img;
     height: 100%;
     width: 100%;
