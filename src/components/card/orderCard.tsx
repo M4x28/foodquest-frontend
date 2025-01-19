@@ -7,7 +7,7 @@ import { ReactComponent as DownIcon} from "../../assets/down.svg";
 import { ReactComponent as UpIcon} from "../../assets/up.svg";
 
 import "./orderCard.css"
-import { formatPrice } from '../../utility/generic.ts';
+import { countProduct, formatPrice } from '../../utility/generic.ts';
 import CollapseElement from '../utility/CollapseElement.tsx';
 
 interface OrderCardProps {
@@ -23,17 +23,7 @@ function OrderCard({ order,index }: OrderCardProps) {
     
     const [showItem,setShowItem] = useState(false);
 
-    const productMap: { [key: string]: prodWithQuantity } = {};
-
-    order.products.forEach((p) => {
-        if (productMap[p.documentId]) {
-            productMap[p.documentId].quantity += 1;
-        } else {
-            productMap[p.documentId] = { ...p, quantity: 1 };
-        }
-    });
-
-    const products = Object.values(productMap);
+    const products = countProduct(order.products);
 
     function toggleItem(){
         setShowItem((s) => !s);
