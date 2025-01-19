@@ -1,9 +1,10 @@
 import React from "react";
-import { Ingredient, sortIngredients } from "./IngredientComponent.tsx";
+import { sortIngredients } from "./IngredientComponent.tsx";
 import { Button } from "../input/Button.tsx";
+import { DetailIngredient } from "../../server/server.ts";
 
 interface ExtraIngredientsListProps {
-    extraIngredients: Ingredient[];
+    extraIngredients: DetailIngredient[];
     handleRemoveIngredient: (ingredientId: string) => void;
 }
 

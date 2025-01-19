@@ -3,14 +3,14 @@ import './OrderItemComponent.css';
 
 // Interfaccia per gli elementi dell'ordine
 interface OrderItemProps {
-    name: string;
+    Name: string;
     quantity: number;
-    price: number;
+    Price: number;
     ingredients?: { id: number; name: string; price: number }[];
 }
 
 // Componente per un singolo elemento dell'ordine
-export const OrderItemComponent: React.FC<OrderItemProps> = ({ name, quantity, price, ingredients }) => {
+export const OrderItemComponent: React.FC<OrderItemProps> = ({ Name, quantity, Price, ingredients }) => {
     return (
         <div className="row py-2 align-items-center">
             {/* Bottone e nome pizza */}
@@ -46,7 +46,7 @@ export const OrderItemComponent: React.FC<OrderItemProps> = ({ name, quantity, p
                 >
                     <b style={{ color: 'red' }}>-</b>
                 </button>
-                <span>{`${name} x ${quantity}`}</span>
+                <span>{`${Name} x ${quantity}`}</span>
             </div>
             {/* Prezzo */}
             <div
@@ -57,7 +57,7 @@ export const OrderItemComponent: React.FC<OrderItemProps> = ({ name, quantity, p
                     fontWeight: "bold",
                 }}
             >
-                <span>{`${price}€`}</span>
+                <span>{`${Price * quantity}€`}</span>
             </div>
             {/* Lista ingredienti */}
             {ingredients && ingredients.length > 0 && (
@@ -79,6 +79,8 @@ export const OrderItemComponent: React.FC<OrderItemProps> = ({ name, quantity, p
         </div>
     );
 };
+
+
 // OrderCategoryComponent
 interface OrderCategoryProps {
     title: string;

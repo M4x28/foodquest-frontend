@@ -2,46 +2,46 @@ import axios from "axios";
 import { Order, OrderEndpoint, Table } from "./server";
 import { data } from "react-router-dom";
 
-export default class StrapiOrderAPI implements OrderEndpoint{
+export default class StrapiOrderAPI implements OrderEndpoint {
 
-    private __endpoint__:string;
+    private __endpoint__: string;
 
-    constructor(serverUrl:string){
+    constructor(serverUrl: string) {
         this.__endpoint__ = serverUrl + "/api/order";
     }
 
-    private lastOrderFetch:string;
-    private chachedOrders:Order[];
+    private lastOrderFetch: string;
+    private chachedOrders: Order[];
 
-    fetchOrdersDone(table: Table):Promise<Order[]>{
-        return axios.post(`${this.__endpoint__}/get_orders`,{
-            data:{
+    fetchOrdersDone(table: Table): Promise<Order[]> {
+        return axios.post(`${this.__endpoint__}/get_orders`, {
+            data: {
                 accessCode: table.accessCode,
                 sessionCode: table.sessionCode,
                 editedAfter: this.lastOrderFetch,
             }
         }).then((res) => {
 
-            if(!res.data.meta.edited){
-                console.log("Order unchanged since",this.lastOrderFetch);
+            if (!res.data.meta.edited) {
+                console.log("Order unchanged since", this.lastOrderFetch);
                 return this.chachedOrders;
             }
 
-            const orders:Order[] = res.data.data.map( o => {
-                
+            const orders: Order[] = res.data.data.map(o => {
+
                 const prods = o.products.map(p => ({
-                    documentId:p.documentId,
+                    documentId: p.documentId,
                     name: p.Name,
                     price: p.Price,
                 }));
 
-                return {...o, products:prods};
+                return { ...o, products: prods };
             })
-            
-            console.log("Order changed",orders);
+
+            console.log("Order changed", orders);
 
             //Sort order based on status
-            orders.sort((a,b) => {
+            orders.sort((a, b) => {
                 if (a.status === 'Done') {
                     return -1;
                 }
@@ -58,26 +58,26 @@ export default class StrapiOrderAPI implements OrderEndpoint{
         });
     }
 
-    private lastCurrentFetch:string;
-    private chachedCurrent:Order;
+    private lastCurrentFetch: string;
+    private chachedCurrent: Order;
 
-    fetchCurrentOrder(table: Table):Promise<Order>{
-        return axios.post(`${this.__endpoint__}/current`,{
-            data:{
+    fetchCurrentOrder(table: Table): Promise<Order> {
+        return axios.post(`${this.__endpoint__}/current`, {
+            data: {
                 accessCode: table.accessCode,
                 sessionCode: table.sessionCode,
                 editedAfter: this.lastCurrentFetch,
             }
         }).then(res => {
-            
-            if(!res.data.meta.edited){
-                console.log("Current Order unchanged since",this.lastCurrentFetch);
+
+            if (!res.data.meta.edited) {
+                console.log("Current Order unchanged since", this.lastCurrentFetch);
                 return this.chachedCurrent;
             }
 
             const order = res.data.data
             const prods = order.products.map(p => ({
-                documentId:p.documentId,
+                documentId: p.documentId,
                 name: p.Name,
                 price: p.Price,
             }));
@@ -90,14 +90,13 @@ export default class StrapiOrderAPI implements OrderEndpoint{
 
             return formattedOrder;
         })
-
-
     }
-    
-    confirmOrder(documentID: string):Promise<void>{
-        return axios.post(`${this.__endpoint__}/confirm`,{
-            data:{
-                orderID:documentID
+
+    confirmOrder(documentID: string, allCoursesTogetherFlag:boolean): Promise<void> {
+        return axios.post(`${this.__endpoint__}/confirm`, {
+            data: {
+                orderID: documentID,
+                allCoursesTogetherFlag: allCoursesTogetherFlag
             }
         }).then(() => console.log("Order Confirmed"));
     }

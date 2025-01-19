@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Ingredient } from "./IngredientComponent.tsx";
 import { getExtraIngredients } from "../../services/ingredientService.ts";
+import { DetailIngredient } from "../../server/server.ts";
 
 interface IngredientSearchListProps {
-    handleAddIngredients: (newIngredients: Ingredient[]) => void;
+    handleAddIngredients: (newIngredients: DetailIngredient[]) => void;
     setPopupState: (state: boolean) => void; // Aggiunto setPopupState come prop
     popupState: boolean; // Aggiunto popupState come prop
-    recommendedIngredients?: Ingredient[]; // Aggiunto per ordinare gli ingredienti
-    allIngredients: Ingredient[]; // Aggiunto per escludere gli ingredienti già selezionati
+    recommendedIngredients?: DetailIngredient[]; // Aggiunto per ordinare gli ingredienti
+    allIngredients: DetailIngredient[]; // Aggiunto per escludere gli ingredienti già selezionati
 }
 
 const IngredientSearchList: React.FC<IngredientSearchListProps> = ({ handleAddIngredients, setPopupState, popupState, recommendedIngredients, allIngredients }) => {
-    const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-    const [filteredIngredients, setFilteredIngredients] = useState<Ingredient[]>([]);
+    const [ingredients, setIngredients] = useState<DetailIngredient[]>([]);
+    const [filteredIngredients, setFilteredIngredients] = useState<DetailIngredient[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {

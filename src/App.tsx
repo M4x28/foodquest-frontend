@@ -6,7 +6,7 @@ import ButtonWithPrompt from './components/popup/ButtonWithPrompt.tsx';
 import Header, { Pages } from "./components/utility/Header.tsx"
 
 import './App.css';
-import Page, { Error } from './pages/Page.tsx';
+import Page from './pages/Page.tsx';
 import ProductPage from './pages/ProductPage.tsx';
 import OrderPage from './pages/OrderPage.tsx';
 import LandingPage from './pages/landingpage.tsx';

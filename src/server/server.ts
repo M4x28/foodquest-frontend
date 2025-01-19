@@ -17,7 +17,7 @@ export interface DetailIngredient extends Ingredient{
     full_img_link: string;
     icon_img_link?: string;
     allergens: Allergen[];
-    recommended_ingredient: Ingredient[];
+    recommended_ingredient: DetailIngredient[];
 }
 
 export interface Allergen{
@@ -28,7 +28,8 @@ export interface Allergen{
 export interface Product {
     documentId: string,
     name: string,
-    price: number 
+    price: number,
+    category: Category
 }
 
 export interface DetailProduct extends Product{
@@ -72,7 +73,7 @@ export default interface Server{
 export interface OrderEndpoint{
     fetchOrdersDone: (table:Table) => Promise<Order[]>
     fetchCurrentOrder: (table:Table) => Promise<Order>
-    confirmOrder: (documentID:string) => Promise<void>
+    confirmOrder: (documentID: string, allCoursesTogetherFlag:boolean) => Promise<void>
 }
 
 export interface TableEndpoint{
@@ -84,7 +85,7 @@ export interface TableEndpoint{
 
 export interface ProductEndpoint{
     addProductToCart: (table: Table, productId: string) => Promise<void>
-    getProductIngredients: (productId: string) => Promise<Ingredient[]>
+    getProductIngredients: (productId: string) => Promise<DetailIngredient[]>
 }
 
 export interface CategoryEndpoint{

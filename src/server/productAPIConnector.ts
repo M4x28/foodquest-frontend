@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Ingredient, ProductEndpoint,Table } from "./server";
+import { DetailIngredient, ProductEndpoint,Table } from "./server";
 import { DEFAULT_IMG_FORMAT, FULL_IMG_PATH, ICON_IMG_PATH } from "../utility/generic.ts";
 
 export default class StrapiProductAPI implements ProductEndpoint{
@@ -18,7 +18,7 @@ export default class StrapiProductAPI implements ProductEndpoint{
         }})
     };
 
-    async getProductIngredients(productId: string): Promise<Ingredient[]> {
+    async getProductIngredients(productId: string): Promise<DetailIngredient[]> {
         return await axios.get(`${this.__serverUrl__}/api/products/ingredient/${productId}`)
             .then(res => {
                 const ingredients = res.data.data;

@@ -3,7 +3,7 @@ import Header, { Pages } from "../components/utility/Header.tsx";
 import "../bootstrap.css";
 import ImageStack from "../components/PizzaBuilder/ImageStack.tsx";
 import BaseDropdown from "../components/PizzaBuilder/BaseDropdown.tsx";
-import { Ingredient, initialBaseIngredient, defaultIngredients } from "../components/PizzaBuilder/IngredientComponent.tsx";
+import { initialBaseIngredient, defaultIngredients } from "../components/PizzaBuilder/IngredientComponent.tsx";
 import ExtraIngredientsList from "../components/PizzaBuilder/ExtraIngredientsList.tsx";
 import { Button } from "../components/input/Button.tsx";
 import Popup from "../components/popup/Popup.tsx";
@@ -11,7 +11,7 @@ import IngredientSearchList from "../components/PizzaBuilder/IngredientSearchLis
 import { AppStateCtx, backendServer } from "../App.tsx";
 import { toErrorPage } from "../utility/generic.ts";
 import { useNavigate, useParams } from "react-router-dom";
-import { Table } from "../server/server.ts";
+import { DetailIngredient, Table } from "../server/server.ts";
 import { createCustomProductFromIngredients, getPizzaCategoryId } from "../services/productService.ts";
 
 const PizzaBuilder: React.FC = () => {
@@ -20,14 +20,14 @@ const PizzaBuilder: React.FC = () => {
 
     const { productID } = useParams();
 
-    const [allIngredients, setAllIngredients] = useState<Ingredient[]>([
+    const [allIngredients, setAllIngredients] = useState<DetailIngredient[]>([
         ...initialBaseIngredient,
         ...defaultIngredients,
     ]);
 
     const [popupState, setPopupState] = useState<boolean>(false);
-    const [recommendedIngredients, setRecommendedIngredients] = useState<Ingredient[] | undefined>(undefined);
-    const [ingredientWithRecommendation, setIngredientWithRecommendation] = useState<Ingredient | null>(null);
+    const [recommendedIngredients, setRecommendedIngredients] = useState<DetailIngredient[] | undefined>(undefined);
+    const [ingredientWithRecommendation, setIngredientWithRecommendation] = useState<DetailIngredient | null>(null);
 
     useEffect(() => {
         const fetchIngredientsIfNeeded = async () => {
@@ -35,7 +35,7 @@ const PizzaBuilder: React.FC = () => {
                 try {
                     const ingredients = await backendServer.products.getProductIngredients(productID);
                     if (ingredients && Array.isArray(ingredients)) {
-                        setAllIngredients(ingredients); //manca compatibilità tra ingredient e Ingredient stesso oggetto nome diverso
+                        setAllIngredients(ingredients);
                     } else {
                         console.warn("La risposta del backend non contiene un array di ingredienti valido.");
                     }
@@ -48,7 +48,7 @@ const PizzaBuilder: React.FC = () => {
         fetchIngredientsIfNeeded();
     }, [productID]);
 
-    const handleAddIngredients = (newIngredients: Ingredient[]) => {
+    const handleAddIngredients = (newIngredients: DetailIngredient[]) => {
         const uniqueIngredients = newIngredients.filter(
             (newIng) => !allIngredients.some((ing) => ing.documentId === newIng.documentId)
         );
@@ -94,7 +94,7 @@ const PizzaBuilder: React.FC = () => {
         );
     };
 
-    const handleReplaceBaseIngredient = (newBaseIngredient: Ingredient) => {
+    const handleReplaceBaseIngredient = (newBaseIngredient: DetailIngredient) => {
         setAllIngredients((prev) => [
             newBaseIngredient,
             ...prev.filter((ing) => ing.type !== "pizza-base"),

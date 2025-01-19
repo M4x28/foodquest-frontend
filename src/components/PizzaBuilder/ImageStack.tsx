@@ -1,9 +1,10 @@
 import React from "react";
 import "../../bootstrap.css";
-import { Ingredient, sortIngredients } from "./IngredientComponent.tsx";
+import { sortIngredients } from "./IngredientComponent.tsx";
+import { DetailIngredient } from "../../server/server.ts";
 
 interface ImageStackProps {
-    allIngredients: Ingredient[];
+    allIngredients: DetailIngredient[];
     baseSize?: string; // Dimensione base degli ingredienti di base
     extraSize?: string; // Dimensione base degli ingredienti extra
     height: string; // Altezza dello stack

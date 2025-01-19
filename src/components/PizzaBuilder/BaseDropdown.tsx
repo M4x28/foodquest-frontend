@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Ingredient } from "./IngredientComponent.tsx";
 import { getBaseIngredients } from "../../services/ingredientService.ts";
 import CollapseElement from "../utility/CollapseElement.tsx";
+import { DetailIngredient } from "../../server/server.ts";
 
 interface BaseDropdownProps {
-    handleReplaceBaseIngredient: (newBaseIngredient: Ingredient) => void; // Metodo per sostituire la base
+    handleReplaceBaseIngredient: (newBaseIngredient: DetailIngredient) => void; // Metodo per sostituire la base
 }
 
 const BaseDropdown: React.FC<BaseDropdownProps> = ({
     handleReplaceBaseIngredient,
 }) => {
-    const [bases, setBases] = useState<Ingredient[]>([]);
+    const [bases, setBases] = useState<DetailIngredient[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [elementState, setElementState] = useState<boolean>(false);
 

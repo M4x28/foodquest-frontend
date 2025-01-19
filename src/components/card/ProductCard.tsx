@@ -25,63 +25,63 @@ interface PropType {
     setErr?: Function;
 }
 
-function ProductCard({product,ingredients,allergens,editable, imgUrl = placeholder, setErr}:PropType){
+function ProductCard({ product, ingredients, allergens, editable, imgUrl = placeholder, setErr }: PropType) {
 
     const navigate = useNavigate();
 
     //eslint-disable-next-line
-    const [appState,_] = useContext(AppStateCtx);
-    const [showAllergen,setShowAllergen] = useState(false);
+    const [appState, _] = useContext(AppStateCtx);
+    const [showAllergen, setShowAllergen] = useState(false);
 
     let description = "";
-    if(ingredients){
-        description = ingredients.sort((a,b) => -a.type.localeCompare(b.type))
-            .reduce((desc,ig) => desc + ig.name + ", ","")
+    if (ingredients) {
+        description = ingredients.sort((a, b) => -a.type.localeCompare(b.type))
+            .reduce((desc, ig) => desc + ig.name + ", ", "")
     }
 
-    function toggleAllergen(){
+    function toggleAllergen() {
         setShowAllergen(s => !s)
     }
 
-    function buyItem(){
-        backendServer.products.addProductToCart(appState.table,product.documentId)
-        .then(() => {
-            console.log(product.name, "Acquistata");
-        }).catch((err) => {
-            toErrorPage(navigate);
-            console.log("Error:\n",err)
-        })
+    function buyItem() {
+        backendServer.products.addProductToCart(appState.table, product.documentId)
+            .then(() => {
+                console.log(product.name, "Acquistata");
+            }).catch((err) => {
+                toErrorPage(navigate);
+                console.log("Error:\n", err)
+            })
     }
 
-    return(
+    return (
         <div className="my-card">
             <div className="product-header">
-                <img src={imgUrl} alt="Foto del prodotto"/>
+                <img src={imgUrl} alt="Foto del prodotto" />
                 <h3 className="product-name luckiest-font">{product.name}</h3>
                 <h3 className="product-price">{formatPrice(product.price)} €</h3>
             </div>
-            { description && <p className="product-description">{description}</p> }
+            {description && <p className="product-description">{description}</p>}
             <div className="product-buttons">
-                <button className="allergen-btn" onClick={toggleAllergen}> 
-                    {showAllergen ? <DownIcon/> : <UpIcon/>} Allergeni 
+                <button className="allergen-btn" onClick={toggleAllergen}>
+                    {showAllergen ? <DownIcon /> : <UpIcon />} Allergeni
                 </button>
-                <AnimatedButton className={editable ? "buy-btn" : "buy-btn double-col-size"} 
+                <AnimatedButton className={editable ? "buy-btn" : "buy-btn double-col-size"}
                     animationClass="buy-anim" OnClick={buyItem}>
-                    <CartIcon className="cart-icon"/>
-                    <TicIcon className="tic-icon"/>
+                    <CartIcon className="cart-icon" />
+                    <TicIcon className="tic-icon" />
                 </AnimatedButton>
-                {editable && <Link className="edit-btn"> 
-                   <EditIcon/> Modifica 
+                {editable && <Link className="edit-btn" to={"/creazionepizza/".concat(product.documentId)}>
+                    <EditIcon /> Modifica
                 </Link>}
             </div>
             <CollapseElement open={showAllergen} className="product-allergen">
                 {allergens && allergens?.length > 0 ?
                     <ul>
-                        {allergens.map(a => 
+                        {allergens.map(a =>
                             <li key={a.documentId}>{a.name}</li>
-                        )}           
+                        )}
                     </ul>
-                    :    
+                    :
                     <p>Nessun allergene comune presente</p>
                 }
             </CollapseElement>

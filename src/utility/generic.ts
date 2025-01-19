@@ -1,4 +1,4 @@
-import { Product } from "../server/server";
+import { DetailProduct, Product } from "../server/server";
 
 export const stopPropagation = (e) => {
     e.stopPropagation();
@@ -15,13 +15,13 @@ export const toErrorPage = (navigator) => {
     navigator("/error");
 }
 
-export interface prodWithQuantity extends Product{
+export interface productsWithQuantity extends DetailProduct {
     quantity:number
 }
 
-export const countProduct = (products:Product[]):prodWithQuantity[] => {
+export const countProduct = (products:Product[]):productsWithQuantity[] => {
     
-    const productMap: { [key: string]: prodWithQuantity } = {};
+    const productMap: { [key: string]: productsWithQuantity } = {};
 
     products.forEach((p) => {
         if (productMap[p.documentId]) {
