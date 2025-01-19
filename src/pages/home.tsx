@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import pizzaLogo from '../assets/Home/pizza.png';
 import Header, { Pages } from "../components/utility/Header.tsx";
 import { ReactComponent as OrderIcon } from "../assets/order.svg";

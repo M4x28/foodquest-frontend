@@ -7,20 +7,13 @@ import ButtonWithPrompt from '../components/popup/ButtonWithPrompt.tsx';
 import OrderCard from '../components/card/orderCard.tsx';
 import { useNavigate } from 'react-router-dom';
 import { backendServer } from '../App.tsx';
-import { order } from '../server/server.ts';
+import { Order } from '../server/server.ts';
 import Total from '../components/utility/Total.tsx';
 
 import { ReactComponent as CloseIcon } from "../assets/close.svg"
 import "./contoPage.css"
 import CheckBox from '../components/input/CheckBox.tsx';
 import { toErrorPage } from '../utility/generic.ts';
-
-export interface Order{
-    documentId:string,
-    status:string,
-    time:number,
-    products:any[];
-}
 
 function ContoPage() {
 
@@ -45,7 +38,7 @@ function ContoPage() {
 
     //Fetch table order periodicalliy
     // eslint-disable-next-line
-    const [orders,__] = useRefresh<order[]>(async () => {
+    const [orders,__] = useRefresh<Order[]>(async () => {
 
         if(!appState.table){
             toErrorPage(navigate);

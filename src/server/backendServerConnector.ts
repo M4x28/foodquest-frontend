@@ -1,11 +1,12 @@
 import axios from "axios";
-import Server, { allergen, CategoryEndpoint, FCEndpoint, ImgSize, ingredient, OrderEndpoint, ProductEndpoint, TableEndpoint, UserEndpoint } from "./server";
+import Server, { Allergen, CategoryEndpoint, FCEndpoint, ImgSize, Ingredient, OrderEndpoint, ProductEndpoint, TableEndpoint, UserEndpoint } from "./server";
 import StrapiCategoryAPI from "./categoryAPIConnector.ts";
 import StrapiTableEndpoint from "./tableAPIConnector.ts";
 import StrapiOrderAPI from "./orderAPIConnector.ts";
 import StrapiProductAPI from "./productAPIConnector.ts";
 import StrapiUserAPI from "./userAPIConnector.ts";
 import StrapiFCAPI from "./FCAPIConnector.ts";
+import { DEFAULT_IMG_FORMAT, FULL_IMG_PATH, ICON_IMG_PATH } from "../utility/generic.ts";
 
 export default class StrapiServerConnector implements Server{
 
@@ -60,20 +61,20 @@ export default class StrapiServerConnector implements Server{
         return `${this.__serverUrl__}/uploads/${size ? size + "_" : ""}${url}`;
     }
     
-    async fetchIngredient():Promise<ingredient[]>{
-        const ig:ingredient[] = await axios.get(`${this.__serverUrl__}/api/ingredients`)
+    async fetchIngredient():Promise<Ingredient[]>{
+        const ig:Ingredient[] = await axios.get(`${this.__serverUrl__}/api/ingredients`)
             .then((res) => res.data.data.map( i => ({
                 documentId:i.documentId,
                 type:i.Type,
                 name:i.Name,
-                price:i.Price
+                price:i.Price,
             })));
         console.log("Fetched Ingredient",ig);
         return ig;
     }
 
-    async fetchAllergen():Promise<allergen[]>{
-        const allergens:allergen[] = await axios.get(`${this.__serverUrl__}/api/allergens`)
+    async fetchAllergen():Promise<Allergen[]>{
+        const allergens:Allergen[] = await axios.get(`${this.__serverUrl__}/api/allergens`)
             .then((res) => res.data.data.map(a => ({
                 documentId: a.documentId,
                 name: a.Name

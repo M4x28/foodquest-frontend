@@ -1,52 +1,47 @@
-export interface table {
+export interface Table {
     accessCode:string,
     sessionCode:string,
     number:number
 }
 
-/* usa questa interfaccia con questi attributi
-export interface Ingredient {
-    documentId: string;
-    UIDIngredient: string;
-    name: string;
-    price: number;
-    type: string;
-    defaultIngredientBuilding: string;
-    full_img_link: string;
-    icon_img_link?: string;
-    allergens: Allergen[];
-    recommended_ingredient: Ingredient[];
-}
-*/
-export interface ingredient{
+export interface Ingredient{
     documentId:string,
     type:string,
     name:string
     price:number
 }
 
-export interface allergen{
+export interface DetailIngredient extends Ingredient{
+    UIDIngredient: string;
+    defaultIngredientBuilding: string;
+    full_img_link: string;
+    icon_img_link?: string;
+    allergens: Allergen[];
+    recommended_ingredient: Ingredient[];
+}
+
+export interface Allergen{
     documentId:string,
     name:string
 }
 
-export interface product {
+export interface Product {
     documentId: string,
     name: string,
     price: number 
 }
 
-export interface detailProduct extends product{
+export interface DetailProduct extends Product{
     imgUrl?:string,
     ingredientsId?: string[];
     allergensId?: string[];
 }
 
-export interface order{
+export interface Order{
     documentId:string,
     status:string,
     time:number,
-    products:product[];
+    products:Product[];
 }
 
 export interface Category {
@@ -68,30 +63,32 @@ export default interface Server{
     user:UserEndpoint
     fc:FCEndpoint
 
-    fetchIngredient: () => Promise<ingredient[]>
-    fetchAllergen: () => Promise<allergen[]>
+    fetchIngredient: () => Promise<Ingredient[]>
+    fetchAllergen: () => Promise<Allergen[]>
 
     imageUrlFromServer: (url:string,size?:ImgSize) => string
 }
 
 export interface OrderEndpoint{
-    fetchOrdersDone: (table:table) => Promise<order[]>
+    fetchOrdersDone: (table:Table) => Promise<Order[]>
+    fetchCurrentOrder: (table:Table) => Promise<Order>
+    confirmOrder: (documentID:string) => Promise<void>
 }
 
 export interface TableEndpoint{
-    fetchTableStatus: (table:table) => Promise<string>
-    fetchTotal: (table:table) => Promise<{total:number,discount:number}>
-    askForCheck: (table:table) => Promise<void>
+    fetchTableStatus: (table:Table) => Promise<string>
+    fetchTotal: (table:Table) => Promise<{total:number,discount:number}>
+    askForCheck: (table:Table) => Promise<void>
 }
 
 export interface ProductEndpoint{
-    addProductToCart: (table: table, productId: string) => Promise<void>
-    getProductIngredients: (productId: string) => Promise<ingredient[]>
+    addProductToCart: (table: Table, productId: string) => Promise<void>
+    getProductIngredients: (productId: string) => Promise<Ingredient[]>
 }
 
 export interface CategoryEndpoint{
     fetchCategoriesIdAndName: () => Promise<Category[]>
-    fetchProductByCategory: (categoryId:string) => Promise<{products:detailProduct[],hasIg:boolean}>
+    fetchProductByCategory: (categoryId:string) => Promise<{products:DetailProduct[],hasIg:boolean}>
     fetchCatergoryDetail: (categoryId:string) => Promise<{documentId:string,name:string}>
 }
 

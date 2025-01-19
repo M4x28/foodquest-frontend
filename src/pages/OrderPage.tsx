@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import '../bootstrap.css';
-import { Button } from '../components/input/Button.tsx';
 import Header, { Pages } from "../components/utility/Header.tsx";
 import { OrderCategoryComponent } from '../components/OrderItemComponent.tsx';
-import { OrderToggle } from '../components/OrderToggle.tsx';
 import ButtonWithPrompt from '../components/popup/ButtonWithPrompt.tsx';
 import { ReactComponent as CloseIcon } from "../assets/close.svg"
-import OrderCard from '../components/card/orderCard.tsx';
 import CheckBox from '../components/input/CheckBox.tsx';
 
 

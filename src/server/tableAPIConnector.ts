@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TableEndpoint,table } from "./server.ts";
+import { TableEndpoint,Table } from "./server.ts";
 
 export default class StrapiTableEndpoint implements TableEndpoint{
 
@@ -9,7 +9,7 @@ export default class StrapiTableEndpoint implements TableEndpoint{
         this.__endpoint__ = serverUrl + "/api/table";
     }
 
-    async fetchTableStatus(table: table):Promise<string>{
+    async fetchTableStatus(table: Table):Promise<string>{
         return await axios.post(`${this.__endpoint__}/status`,{
             data:{
                 accessCode: table.accessCode,
@@ -18,7 +18,7 @@ export default class StrapiTableEndpoint implements TableEndpoint{
         }).then((res) => res.data);
     }
 
-    askForCheck (table: table):Promise<void>{
+    askForCheck (table: Table):Promise<void>{
         return axios.post(`${this.__endpoint__}/checkRequest`,{
             data:{
                 accessCode: table.accessCode,
@@ -27,7 +27,7 @@ export default class StrapiTableEndpoint implements TableEndpoint{
         });
     };
 
-    fetchTotal (table: table) :Promise<{ total: number; discount: number; }>{
+    fetchTotal (table: Table) :Promise<{ total: number; discount: number; }>{
         return axios.get(`${this.__endpoint__}/total/${table.accessCode}`)
             .then(res => {
                 const total = res.data.data

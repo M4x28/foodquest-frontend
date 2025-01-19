@@ -8,7 +8,7 @@ import { ReactComponent as PizzaIcon } from "../assets/pizzaFull.svg"
 
 import "./productPage.css"
 import { backendServer } from '../App.tsx';
-import { allergen, detailProduct, ingredient} from "../server/server.ts";
+import { Allergen, DetailProduct, Ingredient} from "../server/server.ts";
 import { toErrorPage } from "../utility/generic.ts";
 
 function ProductPage(){
@@ -17,9 +17,9 @@ function ProductPage(){
 
     const { categoryID } = useParams();
     const [catName,setCatName] = useState("Loading...");
-    const [products,setProducts] = useState<detailProduct[]>([]);
-    const [ingredients,setIngredient] = useState<ingredient[]>([]);
-    const [allergens,setAllergens] = useState<allergen[]>([]);
+    const [products,setProducts] = useState<DetailProduct[]>([]);
+    const [ingredients,setIngredient] = useState<Ingredient[]>([]);
+    const [allergens,setAllergens] = useState<Allergen[]>([]);
     const [customizable,setCustomizable] = useState(false)
 
     //Fetch on page load all category detail

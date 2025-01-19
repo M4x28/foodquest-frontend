@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { order, product } from '../../server/server.ts';
+import { Order, Product } from '../../server/server.ts';
 
 import { ReactComponent as ConfirmIcon} from "../../assets/confirm.svg"
 import { ReactComponent as ClockIcon} from "../../assets/clock.svg"
@@ -11,11 +11,11 @@ import { formatPrice } from '../../utility/generic.ts';
 import CollapseElement from '../utility/CollapseElement.tsx';
 
 interface OrderCardProps {
-    order:order,
+    order:Order,
     index:number
 }
 
-interface prodWithQuantity extends product{
+interface prodWithQuantity extends Product{
     quantity:number
 }
 

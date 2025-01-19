@@ -1,5 +1,6 @@
 import axios from "axios";
-import { order, OrderEndpoint, table } from "./server";
+import { Order, OrderEndpoint, Table } from "./server";
+import { data } from "react-router-dom";
 
 export default class StrapiOrderAPI implements OrderEndpoint{
 
@@ -10,9 +11,9 @@ export default class StrapiOrderAPI implements OrderEndpoint{
     }
 
     private lastOrderFetch:string;
-    private chachedOrders:order[];
+    private chachedOrders:Order[];
 
-    fetchOrdersDone(table: table):Promise<order[]>{
+    fetchOrdersDone(table: Table):Promise<Order[]>{
         return axios.post(`${this.__endpoint__}/get_orders`,{
             data:{
                 accessCode: table.accessCode,
@@ -26,7 +27,7 @@ export default class StrapiOrderAPI implements OrderEndpoint{
                 return this.chachedOrders;
             }
 
-            const orders:order[] = res.data.data.map( o => {
+            const orders:Order[] = res.data.data.map( o => {
                 
                 const prods = o.products.map(p => ({
                     documentId:p.documentId,
@@ -56,4 +57,49 @@ export default class StrapiOrderAPI implements OrderEndpoint{
             return orders;
         });
     }
+
+    private lastCurrentFetch:string;
+    private chachedCurrent:Order;
+
+    fetchCurrentOrder(table: Table):Promise<Order>{
+        return axios.post(`${this.__endpoint__}/current`,{
+            data:{
+                accessCode: table.accessCode,
+                sessionCode: table.sessionCode,
+                editedAfter: this.lastCurrentFetch,
+            }
+        }).then(res => {
+            
+            if(!res.data.meta.edited){
+                console.log("Current Order unchanged since",this.lastCurrentFetch);
+                return this.chachedCurrent;
+            }
+
+            const order = res.data.data
+            const prods = order.products.map(p => ({
+                documentId:p.documentId,
+                name: p.Name,
+                price: p.Price,
+            }));
+
+            const formattedOrder = {...order,prods};
+            console.log("Current Order Changed",formattedOrder);
+
+            this.chachedCurrent = formattedOrder;
+            this.lastCurrentFetch = new Date().toISOString();
+
+            return formattedOrder;
+        })
+
+
+    }
+    
+    confirmOrder(documentID: string):Promise<void>{
+        return axios.post(`${this.__endpoint__}/confirm`,{
+            data:{
+                orderID:documentID
+            }
+        }).then(() => console.log("Order Confirmed"));
+    }
+
 }

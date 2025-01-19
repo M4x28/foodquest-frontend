@@ -170,6 +170,8 @@ function Test() {
 
             <CheckBox text='Ciao' value={check} onChange={(e) => {
                 console.log("click")
+                backendServer.orders.fetchCurrentOrder({ accessCode: "abcd", sessionCode: "3", number: 3 })
+                .then((res) => console.log(res));
                 setCheck(c => !c)
             }} />
 

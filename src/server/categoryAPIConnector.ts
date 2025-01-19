@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Category, CategoryEndpoint, detailProduct } from "./server.ts";
+import { Category, CategoryEndpoint, DetailProduct } from "./server.ts";
 
 export default class StrapiCategoryAPI implements CategoryEndpoint{
 
@@ -9,13 +9,13 @@ export default class StrapiCategoryAPI implements CategoryEndpoint{
         this.__endpoint__ = serverUrl + "/api/categories";
     }
 
-    async fetchProductByCategory(categoryId: string):Promise<{products: detailProduct[]; hasIg:boolean }>{
+    async fetchProductByCategory(categoryId: string):Promise<{products: DetailProduct[]; hasIg:boolean }>{
         
         const catDetail = await axios.get(`${this.__endpoint__}/all/${categoryId}`)
             .then((res) => {
                 const products = res.data.data;
 
-                const prods:detailProduct[] = products.map((p) => ({
+                const prods:DetailProduct[] = products.map((p) => ({
                     documentId: p.documentId,
                     name: p.Name,
                     price: p.Price,

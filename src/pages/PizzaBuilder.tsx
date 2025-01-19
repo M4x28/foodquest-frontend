@@ -11,7 +11,7 @@ import IngredientSearchList from "../components/PizzaBuilder/IngredientSearchLis
 import { AppStateCtx, backendServer } from "../App.tsx";
 import { toErrorPage } from "../utility/generic.ts";
 import { useNavigate, useParams } from "react-router-dom";
-import { table } from "../server/server.ts";
+import { Table } from "../server/server.ts";
 import { createCustomProductFromIngredients, getPizzaCategoryId } from "../services/productService.ts";
 
 const PizzaBuilder: React.FC = () => {
@@ -106,7 +106,7 @@ const PizzaBuilder: React.FC = () => {
         return allIngredients.reduce((total, ingredient) => total + ingredient.price, 0).toFixed(2);
     }, [allIngredients]);
 
-    function addProductToCart(table: table, productId: string): void {
+    function addProductToCart(table: Table, productId: string): void {
         backendServer.products.addProductToCart(table, productId)
             .then(() => {
                 console.log(productId, "Acquistata");

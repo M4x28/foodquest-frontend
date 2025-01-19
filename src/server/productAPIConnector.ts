@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ingredient, ProductEndpoint,table } from "./server";
+import { Ingredient, ProductEndpoint,Table } from "./server";
 import { DEFAULT_IMG_FORMAT, FULL_IMG_PATH, ICON_IMG_PATH } from "../utility/generic.ts";
 
 export default class StrapiProductAPI implements ProductEndpoint{
@@ -10,7 +10,7 @@ export default class StrapiProductAPI implements ProductEndpoint{
         this.__serverUrl__ = serverUrl;
     }
 
-    addProductToCart(table: table, productId: string):Promise<void>{
+    addProductToCart(table: Table, productId: string):Promise<void>{
         return axios.post(`${this.__serverUrl__}/api/partial-orders`,{ data: {
             productID: productId,
             accessCode: table.accessCode,
@@ -18,7 +18,7 @@ export default class StrapiProductAPI implements ProductEndpoint{
         }})
     };
 
-    async getProductIngredients(productId: string): Promise<ingredient[]> {
+    async getProductIngredients(productId: string): Promise<Ingredient[]> {
         return await axios.get(`${this.__serverUrl__}/api/products/ingredient/${productId}`)
             .then(res => {
                 const ingredients = res.data.data;
