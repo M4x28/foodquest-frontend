@@ -1,0 +1,67 @@
+#table{
+    position: absolute;
+    right: 1rem;
+    font-size: 1.5rem;
+    border: 3px solid var(--dark-col);
+    padding: 0.5rem;
+    border-radius: 1rem;
+    color: var(--dark-col);
+}
+
+#welcome-msg{
+    display: grid;
+    grid-template-columns: 25% auto;
+}
+
+@media (min-width: 500px) {
+    #welcome-msg{
+        max-width: 500px;
+        display: grid;
+        grid-template-columns: 100px auto;
+        margin: auto;
+    }
+}
+
+#welcome-msg img{
+    width: 100%;
+}
+
+#welcome-msg h3{
+    font-size: 2rem;
+    margin: auto;
+    font-weight: bold;
+    padding-left: 2rem;
+}
+
+#logo{
+    max-width: 400px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+
+    width: 100%;
+}
+
+#logo img{
+    width: 80%;
+    display: block;
+    margin: auto;
+}
+
+#logo h1{
+    font-size: 2.5rem;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.call-to-action{
+    width: 80%;
+    font-size: 2rem;
+
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    margin-inline: auto;
+    bottom: 2rem;
+}

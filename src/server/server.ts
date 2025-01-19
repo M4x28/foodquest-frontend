@@ -76,6 +76,7 @@ export interface OrderEndpoint{
 }
 
 export interface TableEndpoint{
+    logToTable: (accessCode:string) => Promise<Table>
     fetchTableStatus: (table:Table) => Promise<string>
     fetchTotal: (table:Table) => Promise<{total:number,discount:number}>
     askForCheck: (table:Table) => Promise<void>

@@ -40,7 +40,7 @@ function Header({pageName, current}:PropType){
                 <Link to="/test" className="home-btn">   
                     <HomeIcon/>
                 </Link>
-                <h1>
+                <h1 className="luckiest-font">
                     {pageName}
                 </h1>
                 <button className="menu-btn" onClick={toggleDropdown} title="menu">

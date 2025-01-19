@@ -82,7 +82,7 @@ export default class StrapiOrderAPI implements OrderEndpoint{
                 price: p.Price,
             }));
 
-            const formattedOrder = {...order,prods};
+            const formattedOrder:Order = {...order,products:prods};
             console.log("Current Order Changed",formattedOrder);
 
             this.chachedCurrent = formattedOrder;

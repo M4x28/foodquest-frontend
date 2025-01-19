@@ -5,11 +5,6 @@
     width: 100%;
     z-index: 1000;
     box-sizing: content-box;
-
-    --bs-body-font-family: "Luckiest Guy", serif;
-    --letter-spacing: 0.1rem;
-    --bs-header-font-size: 2.2rem;
-    --bs-voice-font-size: 1.4rem;
 }
 
 .header-container header {
@@ -22,13 +17,10 @@
     border-bottom: 3px solid var(--dark-col);
     background-color: var(--very-light-col);
     box-sizing: content-box;
-
-    font-family: var(--bs-body-font-family);
 }
 
 .header-container header h1 {
-    font-size: var(--bs-header-font-size);
-    letter-spacing: var(--letter-spacing);
+    font-size: 2.2rem;
     color: var(--very-dark-col);
     margin: auto;
     font-weight: bold;

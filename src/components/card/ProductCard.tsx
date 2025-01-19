@@ -15,8 +15,6 @@ import { formatPrice, toErrorPage } from "../../utility/generic.ts";
 import CollapseElement from "../utility/CollapseElement.tsx";
 import { Allergen, Ingredient, Product } from "../../server/server.ts";
 import { backendServer } from '../../App.tsx';
-import ImageStack from "../PizzaBuilder/ImageStack.tsx";
-import ImageStack2 from "../PizzaBuilder/ImageStack2.tsx";
 
 interface PropType {
     product: Product
@@ -59,7 +57,7 @@ function ProductCard({product,ingredients,allergens,editable, imgUrl = placehold
         <div className="my-card">
             <div className="product-header">
                 <img src={imgUrl} alt="Foto del prodotto"/>
-                <h3 className="product-name">{product.name}</h3>
+                <h3 className="product-name luckiest-font">{product.name}</h3>
                 <h3 className="product-price">{formatPrice(product.price)} €</h3>
             </div>
             { description && <p className="product-description">{description}</p> }

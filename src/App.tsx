@@ -22,12 +22,13 @@ import StrapiServerConnector from './server/backendServerConnector.ts';
 import Server from './server/server.ts';
 import CheckBox from './components/input/CheckBox.tsx';
 import { toErrorPage } from './utility/generic.ts';
+import Landing from './pages/landing.tsx';
 
 export const backendServer: Server = new StrapiServerConnector("http://localhost:1337");
 
 interface AppState { [key: string]: any };
 
-export const AppStateCtx = createContext<[AppState, Function]>([{}, () => 0]);
+export const AppStateCtx = createContext<[AppState, (key:string,value:any) => void]>([{}, () => 0]);
 
 //Check if browser support storage 
 //eslint-disable-next-line
@@ -119,6 +120,7 @@ function App() {
                     <Route path='/conto' element={<ContoPage></ContoPage>} />
                     <Route path='/account' element={<Account></Account>} />
                     <Route path='/test' element={<Test></Test>} />
+                    <Route path='/test2/:accessCode' element={<Landing></Landing>} />
                     <Route path='/check' element={<CheckPage />} />
                     <Route path='/expired' element={<ErrorPage errorTitle='Sessione Scaduta' retryBtn={false}
                         errorMessage='Sembra che la tua sessione di acquisto sia terminta, se ritieni sia un errore chiedi ad un cameriere' />} />
@@ -182,7 +184,7 @@ function Test() {
                 <p style={{ margin: "0px" }}> Test Irreversibile </p>
             </ButtonWithPrompt>
 
-            <button className='dark-btn-inverse my-btn' onClick={() => setState("table", { accessCode: "abcd", sessionCode: "3" })}>
+            <button className='dark-btn-inverse my-btn' onClick={() => setState("table", { accessCode: "abcd", sessionCode: "3", number:3 })}>
                 Log to table
             </button>
             <button className='err-btn my-btn' onClick={() => setState("table", { accessCode: "abcd", sessionCode: "4" })}>

@@ -9,8 +9,17 @@ export default class StrapiTableEndpoint implements TableEndpoint{
         this.__endpoint__ = serverUrl + "/api/table";
     }
 
-    async fetchTableStatus(table: Table):Promise<string>{
-        return await axios.post(`${this.__endpoint__}/status`,{
+    logToTable(accessCode: string):Promise<Table>{
+        return axios.get(`${this.__endpoint__}/access/${accessCode}`)
+        .then(res => {
+            const table:Table = res.data.data;
+            console.log(table)
+            return table
+        });
+    }
+
+    fetchTableStatus(table: Table):Promise<string>{
+        return axios.post(`${this.__endpoint__}/status`,{
             data:{
                 accessCode: table.accessCode,
                 sessionCode: table.sessionCode,

@@ -15,10 +15,6 @@ interface OrderCardProps {
     index:number
 }
 
-interface prodWithQuantity extends Product{
-    quantity:number
-}
-
 function OrderCard({ order,index }: OrderCardProps) {
     
     const [showItem,setShowItem] = useState(false);
@@ -32,7 +28,7 @@ function OrderCard({ order,index }: OrderCardProps) {
     return (
         <div className="my-card">
             <div className='order-header'>
-                <h2 className='order-name'>Ordine #{index}</h2>
+                <h2 className='order-name luckiest-font'>Ordine #{index}</h2>
                 {order.status === "Done" ? 
                     <ConfirmIcon className="done-icon"/> : 
                     <ClockIcon className="wip-icon"/>
