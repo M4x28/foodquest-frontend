@@ -40,10 +40,10 @@ export default class StrapiFCAPI implements FCEndpoint {
     }
 
     // Calcola lo sconto totale per un tavolo dato un array di utenti
-    async calculateTableDiscount(users: string[]): Promise<number> {
+    async calculateTableDiscount(tableNumber: number): Promise<number> {
         const response = await axios.post(`${this.__endpoint__}/calculate-discount`, {
             data: {
-                users: users,
+                number: tableNumber,
             },
         });
         //console.log("Table discount calculated for users", users, response.data.discount);

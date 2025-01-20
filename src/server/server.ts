@@ -109,7 +109,7 @@ export interface FCEndpoint {
     fetchMaxPoint: (userID: string) => Promise<number>
     setPointUsage: (userID: string, isUsingPoint: boolean) => Promise<void>
     addFidelityPoints(userID: string, productIDs: string[]): Promise<void>
-    calculateTableDiscount(users: string[]): Promise<number>
+    calculateTableDiscount(tableNumber: number): Promise<number>
     createFidelityCard(userID: string): Promise<FidelityCard>
     deleteFidelityCard(userID: string): Promise<void>
     resetPoints(users: string[]): Promise<void>

@@ -109,10 +109,10 @@ function ContoPage() {
                 {orders.map((order, index) => <OrderCard key={order.documentId} order={order} index={index + 1} />)}
             </section>
             {appState.user &&
-                <CheckBox value={usingPoint} text={"Usa " + point + " punti"} className='toggle-point'
+                <CheckBox value={usingPoint} text={"Usa " + (discount / 0.05) + " punti"} className='toggle-point'
                     onChange={handlePointUsageChange} />
             }
-            <Total total={total} discount={discount} className='total' />
+            <Total total={total} discount={discount} usingPoints={usingPoint} className='total' />
             <ButtonWithPrompt onClick={checkRequest} className='check-btn'
                 popupTitle='Chiedi il conto' popupText={checkText}
                 confirmText={canRequestCheck ? undefined : "CHIUDI"} confirmClass={canRequestCheck ? undefined : 'err-btn confirm-btn'}
