@@ -97,9 +97,21 @@ const PizzaBuilder: React.FC = () => {
     };
 
     const handleRemoveIngredients = (ingredientIds: string[]) => {
+        // Filtra gli ingredienti attuali rimuovendo quelli specificati
         setAllIngredients((prev) =>
             prev.filter((item) => !ingredientIds.includes(item.documentId))
         );
+
+        // Aggiorna gli ingredienti consigliati rimuovendo quelli collegati agli ingredienti rimossi
+        setRecommendedIngredients((prev) =>
+            prev?.filter((rec) => !ingredientIds.includes(rec.documentId))
+        );
+
+        // Se l'ingrediente con raccomandazione è stato rimosso, rimuovi anche la raccomandazione
+        if (ingredientWithRecommendation && ingredientIds.includes(ingredientWithRecommendation.documentId)) {
+            setRecommendedIngredients(undefined);
+            setIngredientWithRecommendation(null);
+        }
     };
 
     const handleReplaceBaseIngredient = (newBaseIngredient: DetailIngredient) => {
