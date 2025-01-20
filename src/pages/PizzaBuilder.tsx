@@ -12,7 +12,7 @@ import { AppStateCtx, backendServer } from "../App.tsx";
 import { toErrorPage } from "../utility/generic.ts";
 import { useNavigate, useParams } from "react-router-dom";
 import { DetailIngredient, Table } from "../server/server.ts";
-import { createCustomProductFromIngredients, getPizzaCategoryId } from "../services/productService.ts";
+import { getPizzaCategoryId } from "../services/productService.ts";
 
 const PizzaBuilder: React.FC = () => {
     const [appState, _] = useContext(AppStateCtx);
@@ -107,7 +107,7 @@ const PizzaBuilder: React.FC = () => {
     }, [allIngredients]);
 
     function addProductToCart(table: Table, productId: string): void {
-        backendServer.products.addProductToCart(table, productId)
+        backendServer.products.addProductToCart(table, productId, appState.user ? appState.user.user.documentId : undefined)
             .then(() => {
                 console.log(productId, "Acquistata");
                 navigate("/order"); // Reindirizza a /order in caso di successo
@@ -138,7 +138,7 @@ const PizzaBuilder: React.FC = () => {
                 .map((ing) => ing.documentId);
 
             // Crea un prodotto personalizzato con gli ingredienti
-            const newProductId = await createCustomProductFromIngredients(appState, pizzaCategoryId, baseId, ingredientsId);
+            const newProductId = backendServer.products.createCustomProductFromIngredients(appState.table, pizzaCategoryId, baseId, ingredientsId);
             if (!newProductId) {
                 throw new Error("Errore durante la creazione del prodotto personalizzato.");
             }

@@ -3,13 +3,15 @@ import {AppStateCtx, backendServer} from "../App.tsx"
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '../components/input/Button.tsx';
 import { toErrorPage } from '../utility/generic.ts';
+import Input from '../components/input/Input.tsx';
 
 import mario from "../assets/Home/mario.png";
+import bigMario from "../assets/Home/big-mario.png";
 import pizza from '../assets/Home/pizza.png';
 
 import "./page.css";
 import "./landing.css";
-import Input from '../components/input/Input.tsx';
+
 
 function Landing() {
 
@@ -75,7 +77,11 @@ function Landing() {
             <header className='page-box-bg'>
                 <h4 id="table" className='luckiest-font'> Tavolo {appState.table ? appState.table.number : "..."}</h4>
                 <div id='welcome-msg'>
-                    <img src={mario} alt='Mascotte foodquest'/>
+                    <picture>
+                        <source media='(min-width: 500px)' srcSet={bigMario}></source>;
+                        <source media="(max-width: 499px)" srcSet={mario}></source>
+                        <img src={mario} alt='Mascotte foodquest'></img>
+                    </picture>
                     <h3>Foodquest ti da il benvenuto da</h3>
                 </div>
             </header>

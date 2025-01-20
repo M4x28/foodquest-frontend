@@ -19,11 +19,11 @@ export default class StrapiProductAPI implements ProductEndpoint{
         }})
     };
 
-    async createCustomProductFromIngredients(appState: any, categoryID: string, baseID: string, ingredientsID: string[]):Promise<string>{
+    async createCustomProductFromIngredients(table:Table, categoryID: string, baseID: string, ingredientsID: string[]):Promise<string>{
         const response = await axios.post(`${this.__serverUrl__}/api/products/create`, {
             table: {
-                accessCode: appState.table.accessCode,
-                sessionCode: appState.table.sessionCode
+                accessCode: table.accessCode,
+                sessionCode: table.sessionCode
             },
             product: {
                 categoryID: categoryID,

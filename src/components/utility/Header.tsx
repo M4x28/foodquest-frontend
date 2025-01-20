@@ -37,7 +37,7 @@ function Header({pageName, current}:PropType){
     return(
         <div className="header-container" >
             <header>
-                <Link to="/test" className="home-btn">   
+                <Link to="/home" className="home-btn">   
                     <HomeIcon/>
                 </Link>
                 <h1 className="luckiest-font">
