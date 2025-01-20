@@ -1,0 +1,87 @@
+/* Stile per l'immagine fissa */
+.fixed-image {
+    position: fixed;
+    /* Posiziona l'immagine in un punto fisso nella pagina */
+    top: 8vh;
+    /* Imposta la distanza dal bordo superiore */
+    z-index: 1;
+    /* Priorità di sovrapposizione */
+}
+
+.pizza-logo {
+    width: 70vw;
+    /* Larghezza relativa alla finestra */
+    max-width: 250px;
+    /* Larghezza massima dell'immagine */
+    height: auto;
+    /* Altezza proporzionata */
+}
+
+/* Stile per il contenitore del form */
+.form-container {
+    position: fixed;
+    /* Posiziona il contenitore in un punto fisso nella pagina */
+    top: 35vh;
+    /* Distanza dal bordo superiore */
+    z-index: 1;
+    /* Priorità di sovrapposizione */
+    width: 90vw;
+    /* Larghezza relativa alla finestra */
+    max-width: 300px;
+    /* Larghezza massima */
+}
+
+.form-title {
+    font-family: 'Luckiest Guy', cursive;
+    /* Font decorativo */
+    font-size: 1.5rem;
+    /* Dimensione del testo */
+    letter-spacing: 0.1rem;
+    /* Spaziatura tra le lettere */
+    color: white;
+    /* Colore del testo */
+    text-align: center;
+    /* Allinea il testo al centro */
+}
+
+/* Stile per il contenitore dei pulsanti */
+.button-container {
+    position: fixed;
+    /* Posiziona il contenitore in un punto fisso nella pagina */
+    bottom: 5vh;
+    /* Distanza dal bordo inferiore */
+    z-index: 1;
+    /* Priorità di sovrapposizione */
+    width: 90vw;
+    /* Larghezza relativa alla finestra */
+    max-width: 300px;
+    /* Larghezza massima */
+}
+
+.action-button {
+    font-family: 'Luckiest Guy', cursive;
+    /* Font decorativo */
+    letter-spacing: 0.1rem;
+    /* Spaziatura tra le lettere */
+    /* Bordo bianco */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    /* Ombra leggera */
+    font-size: 2rem;
+    /* Dimensione del testo */
+}
+
+/* Stile per il testo separatore */
+.separator-text {
+    font-family: 'Luckiest Guy', cursive;
+    /* Font decorativo */
+    letter-spacing: 0.1rem;
+    /* Spaziatura tra le lettere */
+    font-size: 2rem;
+    /* Dimensione del testo */
+    color: rgb(56, 56, 56);
+    /* Colore del testo */
+    text-align: center;
+    /* Allinea il testo al centro */
+    margin-bottom: 1rem;
+    /* Spazio sotto il testo */
+}

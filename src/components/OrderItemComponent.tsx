@@ -1,78 +1,50 @@
-import React from "react";
-import './OrderItemComponent.css';
-import { Ingredient } from "../server/server";
+import React from "react"; // Importa la libreria React per creare componenti.
+import './OrderItemComponent.css'; // Importa il file CSS per gli stili specifici del componente.
+import { Ingredient } from "../server/server"; // Importa il tipo Ingredient dal modulo server.
 
 // Interfaccia per gli elementi dell'ordine
-interface OrderItemProps {
-    name: string;
-    quantity: number;
-    price: number;
-    ingredients?: Ingredient[];
+interface OrderItemProps { // Definisce la struttura delle proprietà che il componente accetta.
+    name: string; // Nome dell'elemento.
+    quantity: number; // Quantità dell'elemento.
+    price: number; // Prezzo per unità dell'elemento.
+    ingredients?: Ingredient[]; // Opzionale: lista di ingredienti con prezzi aggiuntivi.
 }
 
 // Componente per un singolo elemento dell'ordine
 export const OrderItemComponent: React.FC<OrderItemProps> = ({ name, quantity, price, ingredients }) => {
     return (
-        <div className="row py-2 align-items-center">
+        <div className="row py-2 align-items-center"> {/* Contenitore flessibile allineato verticalmente con padding */}
             {/* Bottone e nome pizza */}
             <div
-                className="col-8 text-start"
-                style={{
-                    fontFamily: "sans-serif",
-                    fontSize: "1.2rem",
-                    fontWeight: "bold",
-                    letterSpacing: "0.1rem",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "flex-start", // Allineamento a sinistra
-                    gap: "10px", // Spazio tra bottone e nome
-                }}
-            >
+                className="col-8 text-start alimbox"> {/* orderItemComponent.css(alimbox) */}
+                {/* Colonna per il bottone e il nome della pizza, allineati a sinistra */}
                 <button
-                    type="submit"
-                    style={{
-                        display: "flex", // Usa flexbox per centrare il contenuto
-                        alignItems: "center", // Allinea verticalmente
-                        justifyContent: "center", // Allinea orizzontalmente
-                        border: '2px solid red',
-                        borderRadius: '50px',
-                        width: '30px',
-                        height: '30px',
-                    }}
-                    onClick={(e) => {
-                        const button = e.currentTarget;
-                        button.classList.add('button-animate');
-                        setTimeout(() => button.classList.remove('button-animate'), 300); // Rimuove la classe dopo l'animazione
+                    className="custom-button" // orderItemComponent.css(custom-button)
+                    type="submit" // Specifica che il bottone invia un modulo.
+                    onClick={(e) => { // Funzione click per aggiungere e rimuovere una classe animata.
+                        const button = e.currentTarget; // Ottiene l'elemento del bottone cliccato.
+                        button.classList.add('button-animate'); // Aggiunge una classe per l'animazione.
+                        setTimeout(() => button.classList.remove('button-animate'), 300); // Rimuove la classe dopo l'animazione.
                     }}
                 >
-                    <b style={{ color: 'red' }}>-</b>
+                    <b className="text-danger">-</b> {/* bootstrap.css(col-12,text-start) */}
+                    {/* Bottone con testo rosso per ridurre la quantità */}
                 </button>
-                <span>{`${name} x ${quantity}`}</span>
+                <span>{`${name} x ${quantity}`}</span> {/* Mostra il nome e la quantità dell'elemento */}
             </div>
             {/* Prezzo */}
-            <div
-                className="col-4 text-end"
-                style={{
-                    fontSize: "1.2rem",
-                    letterSpacing: "0.1rem",
-                    fontWeight: "bold",
-                }}
-            >
-                <span>{`${price * quantity}€`}</span>
+            <div className="col-4 text-end price-style"> {/* orderItemComponent.css(price-style) */}
+                <span>{`${price * quantity}€`}</span> {/* Calcola e mostra il prezzo totale */}
             </div>
             {/* Lista ingredienti */}
-            {ingredients && ingredients.length > 0 && (
-                <div className="col-12 text-start" style={{ paddingLeft: "1.2rem", marginTop: "5px" }}>
-                    <ul style={{ fontSize: '0.9rem' }}>
-                        {ingredients.map((ingredient) => (
+            {ingredients && ingredients.length > 0 && ( // Mostra gli ingredienti se sono definiti e non vuoti.
+                <div className="col-12 text-start"> {/* bootstrap.css(col-12,text-start) */}
+                    <ul style={{ fontSize: '0.9rem' }}> {/* Lista non ordinata con font ridotto */}
+                        {ingredients.map((ingredient) => ( // Cicla attraverso la lista degli ingredienti.
                             <li
-                                key={ingredient.documentId}
-                                style={{
-                                    fontFamily: "sans-serif",
-                                    letterSpacing: "0.1rem",
-                                    fontWeight: "bold",
-                                }}
-                            >{`${ingredient.name} (+${ingredient.price}€)`}</li>
+                                className="ingrendient-list"
+                                key={ingredient.documentId} // Chiave unica per ogni elemento della lista.
+                            >{`${ingredient.name} (+${ingredient.price}€)`}</li> // Mostra il nome e il prezzo aggiuntivo dell'ingrediente.
                         ))}
                     </ul>
                 </div>
@@ -81,20 +53,21 @@ export const OrderItemComponent: React.FC<OrderItemProps> = ({ name, quantity, p
     );
 };
 
-
 // OrderCategoryComponent
-interface OrderCategoryProps {
-    title: string;
-    items: OrderItemProps[];
+interface OrderCategoryProps { // Definisce la struttura delle proprietà per la categoria degli ordini.
+    title: string; // Titolo della categoria.
+    items: OrderItemProps[]; // Lista degli elementi della categoria.
 }
 
 export const OrderCategoryComponent: React.FC<OrderCategoryProps> = ({ title, items }) => {
     return (
-        <div className="mb-3 rounded" style={{ border: '3px solid green', overflow: 'hidden' }}>
-            <h5 className="bg-success text-white p-2 m-0" style={{ borderBottom: '3px solid #198754', fontFamily: 'Luckiest Guy, Coursive', letterSpacing: '0.1rem' }}>{title}</h5>
-            <div className="bg-light p-2">
-                {items.map((item, index) => (
-                    <OrderItemComponent key={index} {...item} />
+        <div className="mb-3 rounded cat-box" >  {/* orderItemComponent.css(cat-box), bootstrap.css(mb-3,rounded) */}
+            {/* Contenitore con margine e bordi arrotondati */}
+            <h5 className="bg-success text-white p-2 m-0 item-style" >{title}</h5> {/* orderItemComponent.css(item-style), bootstrap.css(bg-success,text-white,p-2,m-0) */}
+            {/* Titolo della categoria con sfondo verde, testo bianco e padding */}
+            <div className="bg-light p-2"> {/* Contenitore interno con sfondo chiaro e padding */}
+                {items.map((item, index) => ( // Cicla attraverso la lista degli elementi della categoria.
+                    <OrderItemComponent key={index} {...item} /> // Usa il componente OrderItemComponent per ogni elemento.
                 ))}
             </div>
         </div>

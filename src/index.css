@@ -1,4 +1,4 @@
-body{
+body {
     margin: 0;
     font-family: Helvetica, sans-serif;
     background-image: url("./assets/bg.webp"), linear-gradient(#32a10a, #dde7dc);
@@ -8,7 +8,7 @@ body{
     color: #1e1e1e;
 }
 
-#root{
+#root {
     /* GENERAL COLOR */
     --very-dark-col: #1e1e1e;
     --dark-col: #067513;
@@ -21,80 +21,80 @@ body{
 }
 
 @media (max-height: 700px) {
-    html{
+    html {
         font-size: 12px;
     }
 
-    #root{
+    #root {
         --header-height: 60px;
     }
 }
 
 @media (max-width: 400px) {
-    html{
+    html {
         font-size: 12px;
     }
-    
-    #root{
+
+    #root {
         --header-height: 60px;
     }
 }
 
 /* DARK BUTTON */
-.dark-btn{
+.dark-btn {
     border-style: solid;
     background-color: var(--dark-col);
     color: var(--very-light-col);
     border-color: var(--very-light-col);
 }
 
-.dark-btn svg{
+.dark-btn svg {
     fill: var(--very-light-col);
 }
 
-.dark-btn-inverse{
+.dark-btn-inverse {
     border-style: solid;
     background-color: var(--very-light-col);
     color: var(--very-dark-col);
     border-color: var(--dark-col);
 }
 
-.dark-btn-inverse svg{
+.dark-btn-inverse svg {
     fill: var(--dark-col);
 }
 
 /* LIGHT BUTTON */
-.light-btn{
+.light-btn {
     border-style: solid;
     background-color: var(--medium-col);
     color: var(--very-light-col);
     border-color: var(--very-light-col);
 }
 
-.light-btn svg{
+.light-btn svg {
     fill: var(--very-light-col);
 }
 
-.light-btn-inverse{
+.light-btn-inverse {
     border-style: solid;
     background-color: var(--very-light-col);
     color: var(--very-dark-col);
     border-color: var(--medium-col);
 }
 
-.light-btn-inverse svg{
+.light-btn-inverse svg {
     fill: var(--medium-col);
 }
 
 /* ERROR BUTTON */
-.err-btn{
+.err-btn {
     border-style: solid;
     background-color: var(--error-col);
     color: var(--very-light-col);
     border-color: var(--very-light-col);
 }
 
-.err-btn svg{
+.err-btn svg {
     fill: var(--very-light-col);
 }
 
@@ -102,6 +102,6 @@ body{
 .dark-btn-inverse:active,
 .light-btn:active,
 .light-btn-inverse:active,
-.err-btn:active{
+.err-btn:active {
     box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.150);
 }

@@ -1,30 +1,34 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Header, { Pages } from "../components/utility/Header.tsx";
-import "../bootstrap.css";
+import React, { useContext, useEffect, useState } from "react"; // Importa React, i contesti, gli effetti e lo stato
+import { useNavigate } from "react-router-dom"; // Hook per la navigazione tra pagine
+import Header, { Pages } from "../components/utility/Header.tsx"; // Importa il componente Header e il tipo Pages
+import "../bootstrap.css"; // Importa lo stile di Bootstrap
+import "./login-registrazione.css"; // Importa lo stile personalizzato per la pagina di registrazione
 import { Button } from '../components/input/Button.tsx'; // Importa il componente Button
 import Input from "../components/input/Input.tsx"; // Importa il nuovo componente Input
-import { AppStateCtx, backendServer } from "../App.tsx";
+import { AppStateCtx, backendServer } from "../App.tsx"; // Importa il contesto globale e il server backend
+
+//Formato per la specifica delle classi css: nomefile1.css(nomeclasse-1,nomeclasse-1,...,nomeclasse-n), nomefile2.css(nomeclasse-2,nomeclasse-2,...,nomeclasse-k)
+
 
 const RegisterPage: React.FC = () => {
 
-    const [appState, updateAppState] = useContext(AppStateCtx);
+    const [appState, updateAppState] = useContext(AppStateCtx); // Usa il contesto globale per accedere allo stato dell'app
 
-    const navigate = useNavigate();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const navigate = useNavigate(); // Inizializza il navigatore per il reindirizzamento
+    const [email, setEmail] = useState(""); // Stato per memorizzare l'email
+    const [password, setPassword] = useState(""); // Stato per memorizzare la password
 
     useEffect(() => {
-        const userData = appState.user;
+        const userData = appState.user; // Estrae i dati dell'utente dallo stato globale
         if (userData) {
-            navigate("/account");
+            navigate("/account"); // Reindirizza alla pagina account se l'utente è già loggato
         }
-    }, [navigate, appState.user]);
+    }, [navigate, appState.user]); // Esegue l'effetto quando `navigate` o `appState.user` cambiano
 
     const handleLogin = async () => {
         try {
-            const response = await backendServer.user.login(email, password);
-            const userPoints = await (await backendServer.fc.fetchUserFC(response.user.documentId)).Points;
+            const response = await backendServer.user.login(email, password); // Effettua il login con email e password
+            const userPoints = await (await backendServer.fc.fetchUserFC(response.user.documentId)).Points; // Recupera i punti dell'utente
 
             // Aggiungi userPoints come proprietà dell'oggetto user
             const userData = {
@@ -35,64 +39,40 @@ const RegisterPage: React.FC = () => {
                 },
             };
 
-            // Salva la risposta nello stato dell'app (localStorage per questo esempio)
-            updateAppState("user", userData);
+            updateAppState("user", userData); // Salva i dati dell'utente nello stato globale
 
-            // Reindirizza l'utente alla pagina account
-            navigate("/account");
+            navigate("/account"); // Reindirizza l'utente alla pagina account
         } catch (error) {
-            alert("Errore durante il login. Controlla le tue credenziali e riprova.");
-            console.error(error);
+            alert("Errore durante il login. Controlla le tue credenziali e riprova."); // Mostra un messaggio d'errore
+            console.error(error); // Logga l'errore nella console
         }
     };
 
     return (
         <>
-            <Header pageName="Fidelity Card" current={Pages.FC} />
+            <Header pageName="FIDELITY CARD" current={Pages.FC} /> {/* Aggiunge l'header con il titolo "Fidelity Card" */}
             <div className="container-fluid vh-100 d-flex flex-column align-items-center justify-content-center text-white">
+                {/* Layout principale, bootstrap.css(container-fluid,vh-100,d-flex,flex-column,align-items-center,justify-content-center,text-white) */}
+
                 {/* Immagine fissa */}
-                <div
-                    style={{
-                        position: "fixed",
-                        top: "8vh",
-                        zIndex: 1,
-                    }}
-                >
+                <div className="fixed-image">
+                    {/* Contenitore per l'immagine fissa, login-registrazione.css(fixed-image) */}
                     <img
-                        src="/pizza.png" // Sostituisci con il percorso corretto del logo
+                        src="/pizza.png"
                         alt="Pizza Logo"
-                        className="mb-4"
-                        style={{
-                            width: "70vw", // Adattamento dinamico
-                            maxWidth: "250px", // Limite massimo
-                            height: "auto",
-                        }}
+                        className="pizza-logo mb-4"
                     />
+                    {/* Logo della pizza, login-registrazione.css(pizza-logo), bootstrap.css(mb-4) */}
                 </div>
 
                 {/* Form fisso */}
-                <div
-                    className="text-center"
-                    style={{
-                        position: "fixed",
-                        top: "35vh",
-                        zIndex: 1,
-                        width: "90vw", // Adattamento dinamico
-                        maxWidth: "300px", // Limite massimo
-                    }}
-                >
-                    <h2
-                        className="text-white"
-                        style={{
-                            fontFamily: "Luckiest Guy, cursive",
-                            fontSize: "1.5rem",
-                            letterSpacing: "0.1rem",
-                        }}
-                    >
-                        Accedi al tuo account
-                    </h2>
-                    <form className="w-100">
+                <div className="form-container">
+                    {/* Contenitore del form, login-registrazione.css(form-container) */}
+                    <h2 className="form-title">Accedi al tuo account</h2>
+                    {/* Titolo del form, login-registrazione.css(form-title) */}
+                    <form className="w-100"> {/* Form principale, bootstrap.css(w-100) */}
                         <div className="mb-3">
+                            {/* Campo di input per l'email, bootstrap.css(mb-3) */}
                             <Input
                                 type="email"
                                 placeholder="Inserisci email"
@@ -101,6 +81,7 @@ const RegisterPage: React.FC = () => {
                             />
                         </div>
                         <div className="mb-3">
+                            {/* Campo di input per la password, bootstrap.css(mb-3) */}
                             <Input
                                 type="password"
                                 placeholder="Inserisci Password"
@@ -108,57 +89,34 @@ const RegisterPage: React.FC = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
-
                     </form>
                 </div>
 
                 {/* Pulsanti fissi */}
-                <div
-                    style={{
-                        position: "fixed",
-                        bottom: "5vh",
-                        zIndex: 1,
-                        width: "90vw", // Adattamento dinamico
-                        maxWidth: "300px", // Limite massimo
-                    }}
-                >
+                <div className="button-container">
+                    {/* Contenitore per i pulsanti, login-registrazione.css(button-container) */}
                     <Button
                         type="submit"
                         variant="success w-100"
+                        // Stile Bootstrap per un bottone grande e verde, bootstrap.css(success,w-100)
+                        className="action-button mb-2"
+                        // Classe personalizzata per stile aggiuntivo, login-registrazione.css(action-button), bootstrap.css(mb-2)
                         size="lg"
-                        style={{
-                            fontFamily: "Luckiest Guy, cursive",
-                            letterSpacing: "0.1rem",
-                            border: "2px solid white",
-                            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
-                            fontSize: "1rem", // Adattamento dinamico
-                        }}
-                        onClick={handleLogin}
+                        onClick={handleLogin} // Azione al click: login
                     >
                         LOGIN
                     </Button>
-                    <p
-                        className="text-white text-center mb-1"
-                        style={{
-                            fontFamily: "Luckiest Guy, cursive",
-                            letterSpacing: "0.1rem",
-                            fontSize: "1rem", // Adattamento dinamico
-                        }}
-                    >
-                        Oppure
-                    </p>
+                    <p className="separator-text">Oppure</p>
+                    {/* Testo separatore, login-registrazione.css(separator-text) */}
                     <Button
                         type="button"
                         variant="light w-100"
+                        // Stile Bootstrap per un bottone grande e chiaro, bootstrap.css(light,w-100)
+                        className="action-button"
+                        // Classe personalizzata per stile aggiuntivo, login-registrazione.css(action-button)
                         size="lg"
-                        style={{
-                            fontFamily: "Luckiest Guy, cursive",
-                            letterSpacing: "0.1rem",
-                            border: "2px solid white",
-                            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Ombra
-                            fontSize: "1rem", // Adattamento dinamico
-                        }}
                         onClick={() => navigate("/register")}
+                    // Azione al click: naviga alla pagina di registrazione
                     >
                         REGISTRAZIONE
                     </Button>
@@ -168,4 +126,4 @@ const RegisterPage: React.FC = () => {
     );
 };
 
-export default RegisterPage;
+export default RegisterPage; // Esporta il componente per l'uso in altre parti dell'applicazione

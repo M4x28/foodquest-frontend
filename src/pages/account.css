@@ -1,0 +1,92 @@
+.fixed-image {
+    position: fixed;
+    /* Posiziona l'immagine in un punto fisso nella pagina */
+    top: 10%;
+    /* Imposta la distanza dal bordo superiore al 10% della finestra */
+    z-index: 1;
+    /* Imposta la priorità di sovrapposizione (più alto è il valore, più in alto sarà nell'ordine di rendering) */
+}
+
+.pizza-logo {
+    width: 260px;
+    /* Larghezza fissa dell'immagine */
+    height: 280px;
+    /* Altezza fissa dell'immagine */
+}
+
+.central-div {
+    max-width: 350px;
+    /* Larghezza massima del contenitore centrale */
+    position: fixed;
+    /* Mantiene il contenitore in una posizione fissa nella finestra */
+    top: 40%;
+    /* Posiziona il contenitore al 40% dal bordo superiore */
+    z-index: 1;
+    /* Priorità di sovrapposizione */
+}
+
+.welcome-text {
+    font-family: 'Luckiest Guy', cursive;
+    /* Font decorativo per il titolo */
+    font-size: 2.5rem;
+    /* Dimensione del testo grande */
+    letter-spacing: 0.1rem;
+    /* Aumenta la spaziatura tra i caratteri */
+}
+
+.points-container {
+    background-color: rgb(255, 255, 255);
+    /* Sfondo bianco per il contenitore dei punti */
+    color: black;
+    /* Testo nero */
+    border-radius: 0.5rem;
+    /* Angoli arrotondati del contenitore */
+    padding: 1rem;
+    /* Spazio interno intorno al testo */
+    margin: 1.5rem 0;
+    /* Margine verticale per separare il contenitore dagli altri elementi */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    /* Aggiunge un'ombra leggera sotto il contenitore */
+}
+
+.points {
+    font-size: 2rem;
+    /* Dimensione del testo dei punti */
+}
+
+.points-description {
+    font-size: 1.4rem;
+    /* Dimensione del testo della descrizione */
+}
+
+.button-container {
+    position: fixed;
+    /* Posiziona i bottoni in un punto fisso della finestra */
+    bottom: 4%;
+    /* Distanza dal bordo inferiore al 4% della finestra */
+    z-index: 1;
+    /* Priorità di sovrapposizione */
+    width: 100%;
+    /* Larghezza completa del contenitore */
+    max-width: 350px;
+    /* Larghezza massima del contenitore */
+}
+
+.action-button {
+    font-family: 'Luckiest Guy', cursive;
+    /* Font decorativo per il testo del bottone */
+    letter-spacing: 0.1rem;
+    /* Aumenta la spaziatura tra i caratteri */
+    /* Bordo bianco spesso 2px */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0);
+    /* Ombra disattivata (può essere abilitata modificando l'alpha del colore) */
+    font-size: 2rem;
+    /* Dimensione del testo del bottone */
+}
+
+.icon {
+    width: 40px;
+    /* Larghezza fissa dell'icona */
+    height: 40px;
+    /* Altezza fissa dell'icona */
+}
