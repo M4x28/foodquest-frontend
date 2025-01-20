@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import Header, { Pages } from "../components/utility/Header.tsx";
+import { useNavigate, useParams } from "react-router-dom";
+import { AppStateCtx, backendServer } from "../App.tsx";
 import "../bootstrap.css";
-import ImageStack from "../components/PizzaBuilder/ImageStack.tsx";
 import BaseDropdown from "../components/PizzaBuilder/BaseDropdown.tsx";
 import ExtraIngredientsList from "../components/PizzaBuilder/ExtraIngredientsList.tsx";
+import ImageStack from "../components/PizzaBuilder/ImageStack.tsx";
+import IngredientSearchList from "../components/PizzaBuilder/IngredientSearchList.tsx";
 import { Button } from "../components/input/Button.tsx";
 import Popup from "../components/popup/Popup.tsx";
-import IngredientSearchList from "../components/PizzaBuilder/IngredientSearchList.tsx";
-import { AppStateCtx, backendServer } from "../App.tsx";
-import { toErrorPage } from "../utility/generic.ts";
-import { useNavigate, useParams } from "react-router-dom";
+import Header, { Pages } from "../components/utility/Header.tsx";
 import { DetailIngredient, Table } from "../server/server.ts";
+import { toErrorPage } from "../utility/generic.ts";
 
 const PizzaBuilder: React.FC = () => {
     const [appState, _] = useContext(AppStateCtx);
@@ -24,37 +24,30 @@ const PizzaBuilder: React.FC = () => {
     const [ingredientWithRecommendation, setIngredientWithRecommendation] = useState<DetailIngredient | null>(null);
 
     useEffect(() => {
-        const fetchInitialIngredients = async () => {
+        const fetchIngredients = async () => {
             try {
-                const initialBaseIngredient = await backendServer.ingredient.getDefaultBaseIngredient();
-                const defaultIngredients = await backendServer.ingredient.getDefaultExtraIngredient();
-                setAllIngredients([...initialBaseIngredient, ...defaultIngredients]);
-            } catch (error) {
-                console.error("Errore nel caricamento degli ingredienti iniziali:", error);
-            }
-        };
-
-        fetchInitialIngredients();
-    }, []);  // Eseguito solo una volta al montaggio del componente
-
-    useEffect(() => {
-        const fetchIngredientsIfNeeded = async () => {
-            if (productID) {
-                try {
+                if (productID) {
+                    // Carica gli ingredienti specifici del prodotto
                     const ingredients = await backendServer.products.getProductIngredients(productID);
                     if (ingredients && Array.isArray(ingredients)) {
                         setAllIngredients(ingredients);
                     } else {
                         console.warn("La risposta del backend non contiene un array di ingredienti valido.");
                     }
-                } catch (error) {
-                    console.error("Impossibile caricare gli ingredienti per il prodotto con ID:", productID, error);
+                } else {
+                    // Carica gli ingredienti predefiniti
+                    const initialBaseIngredient = await backendServer.ingredient.getDefaultBaseIngredient();
+                    const defaultIngredients = await backendServer.ingredient.getDefaultExtraIngredient();
+                    setAllIngredients([...initialBaseIngredient, ...defaultIngredients]);
                 }
+            } catch (error) {
+                console.error("Errore nel caricamento degli ingredienti:", error);
             }
         };
 
-        fetchIngredientsIfNeeded();
-    }, [productID]);  // Eseguito ogni volta che productID cambia
+        fetchIngredients();
+    }, [productID]); // Eseguito ogni volta che productID cambia
+
 
     const handleAddIngredients = (newIngredients: DetailIngredient[]) => {
         const uniqueIngredients = newIngredients.filter(
@@ -122,6 +115,7 @@ const PizzaBuilder: React.FC = () => {
     };
 
     // Calcola il totale utilizzando useMemo per ottimizzare le performance
+    // useMemo un hook di React utilizzato per memorizzare un valore calcolato, evitando di ricalcolarlo inutilmente ad ogni render, a meno che una delle dipendenze specificate cambi.
     const totalPrice = useMemo(() => {
         return allIngredients.reduce((total, ingredient) => total + ingredient.price, 0).toFixed(2);
     }, [allIngredients]);

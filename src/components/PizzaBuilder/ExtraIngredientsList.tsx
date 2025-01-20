@@ -1,38 +1,59 @@
 import React from "react";
-import { Button } from "../input/Button.tsx";
-import { DetailIngredient } from "../../server/server.ts";
-import { sortIngredients } from "../../utility/ingredientSorter.ts";
+import { Button } from "../input/Button.tsx"; // Import del componente `Button`
+import { DetailIngredient } from "../../server/server.ts"; // Import del tipo `DetailIngredient`
+import { sortIngredients } from "../../utility/ingredientSorter.ts"; // Import della funzione per ordinare gli ingredienti
 
+// Interfaccia per le proprietà accettate dal componente `ExtraIngredientsList`
 interface ExtraIngredientsListProps {
-    extraIngredients: DetailIngredient[];
-    handleRemoveIngredient: (ingredientId: string) => void;
+    extraIngredients: DetailIngredient[]; // Lista degli ingredienti extra
+    handleRemoveIngredient: (ingredientId: string) => void; // Funzione per gestire la rimozione di un ingrediente
 }
 
+/**
+ * Componente `ExtraIngredientsList`.
+ * Visualizza una lista di ingredienti extra con un pulsante per rimuoverli.
+ * 
+ * @param {DetailIngredient[]} extraIngredients - Lista degli ingredienti extra.
+ * @param {Function} handleRemoveIngredient - Funzione per gestire la rimozione di un ingrediente.
+ */
 const ExtraIngredientsList: React.FC<ExtraIngredientsListProps> = ({
     extraIngredients,
     handleRemoveIngredient,
 }) => {
+    // Ordina gli ingredienti in ordine crescente usando `sortIngredients`
     const sortedIngredients = sortIngredients(extraIngredients, 'asc');
 
     return (
-        <div style={{ maxHeight: "150px", overflowY: "auto" }} className="container mt-3 pt-2">
+        <div
+            style={{ maxHeight: "150px", overflowY: "auto" }} // Limita l'altezza del contenitore e abilita lo scroll verticale
+            className="container mt-3 pt-2" // Classi CSS per il layout
+        >
+            {/* Mappa la lista degli ingredienti ordinati */}
             {sortedIngredients.map((ingredient) => (
-                <div className="row text-center py-2 px-3" key={ingredient.documentId}>
+                <div
+                    className="row text-center py-2 px-3"
+                    key={ingredient.documentId} // Chiave unica per React
+                >
+                    {/* Colonna con il pulsante per rimuovere l'ingrediente */}
                     <div className="col-2">
                         <Button
-                            variant="outline-danger"
-                            size="sm"
-                            className="rounded-circle"
-                            onClick={() => handleRemoveIngredient(ingredient.documentId)}
+                            variant="outline-danger" // Stile del pulsante
+                            size="sm" // Dimensione del pulsante
+                            className="rounded-circle" // Forma rotonda
+                            onClick={() => handleRemoveIngredient(ingredient.documentId)} // Gestisce il click per rimuovere l'ingrediente
                         >
-                            -
+                            - {/* Testo del pulsante */}
                         </Button>
                     </div>
+
+                    {/* Colonna con il nome dell'ingrediente */}
                     <div className="col-8 d-flex align-items-center justify-content-center">
-                        <h5 className="text-LG">{ingredient.name}</h5>
+                        <h5 className="text-LG">{ingredient.name}</h5> {/* Nome dell'ingrediente */}
                     </div>
+
+                    {/* Colonna con il prezzo dell'ingrediente */}
                     <div className="col-2 d-flex align-items-center justify-content-center">
-                        <h5 className="text-LG">{ingredient.price.toFixed(2)}</h5>
+                        <h5 className="text-LG">{ingredient.price.toFixed(2)}</h5> {/* Prezzo formattato */}
                     </div>
                 </div>
             ))}

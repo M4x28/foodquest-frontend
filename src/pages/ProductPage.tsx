@@ -3,90 +3,106 @@ import Page from "./Page.tsx";
 import Header, { Pages } from "../components/utility/Header.tsx";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ProductCard from "../components/card/ProductCard.tsx";
-import { ReactComponent as PizzaIcon } from "../assets/pizzaFull.svg"
+import { ReactComponent as PizzaIcon } from "../assets/pizzaFull.svg";
 
-import "./productPage.css"
+import "./productPage.css";
 import { backendServer } from '../App.tsx';
-import { Allergen, DetailProduct, Ingredient} from "../server/server.ts";
+import { Allergen, DetailProduct, Ingredient } from "../server/server.ts";
 import { toErrorPage } from "../utility/generic.ts";
 
-function ProductPage(){
+/**
+ * Componente per la visualizzazione della pagina dei prodotti per una categoria specifica.
+ */
+function ProductPage() {
+    const navigate = useNavigate(); // Hook per la navigazione
+    const { categoryID } = useParams(); // Recupera il parametro `categoryID` dalla route
 
-    const navigate = useNavigate();
+    // Stati locali per gestire i dati della pagina
+    const [catName, setCatName] = useState("Loading..."); // Nome della categoria
+    const [products, setProducts] = useState<DetailProduct[]>([]); // Prodotti della categoria
+    const [ingredients, setIngredient] = useState<Ingredient[]>([]); // Ingredienti disponibili
+    const [allergens, setAllergens] = useState<Allergen[]>([]); // Allergeni disponibili
+    const [customizable, setCustomizable] = useState(false); // Flag per prodotti personalizzabili
 
-    const { categoryID } = useParams();
-    const [catName,setCatName] = useState("Loading...");
-    const [products,setProducts] = useState<DetailProduct[]>([]);
-    const [ingredients,setIngredient] = useState<Ingredient[]>([]);
-    const [allergens,setAllergens] = useState<Allergen[]>([]);
-    const [customizable,setCustomizable] = useState(false)
-
-    //Fetch on page load all category detail
+    // Effettua il fetch dei dettagli della categoria e dei prodotti al caricamento della pagina
     useEffect(() => {
-
-        //Fetch Category name
+        // Recupera i dettagli della categoria
         backendServer.categories.fetchCatergoryDetail(categoryID || "")
-        .then(catDetail => {
-            setCatName(catDetail.name);
-            
-        }).catch((err) => {
-            console.log(err);
-            toErrorPage(navigate);
-        });
+            .then(catDetail => {
+                setCatName(catDetail.name); // Imposta il nome della categoria
+            })
+            .catch((err) => {
+                console.log(err); // Logga eventuali errori
+                toErrorPage(navigate); // Reindirizza alla pagina di errore
+            });
 
-        //Fetch product
+        // Recupera i prodotti della categoria
         backendServer.categories.fetchProductByCategory(categoryID || "")
-        .then((catDetail) => {
-            
-            setProducts(catDetail.products);
+            .then((catDetail) => {
+                setProducts(catDetail.products); // Imposta i prodotti
 
-            //Load ingredients if needed
-            if (catDetail.hasIg) {
-                backendServer.ingredient.fetchIngredient().then(ig => {
-                    setIngredient(ig);
-                    setCustomizable(true);
-                })
-            }
+                // Carica gli ingredienti se necessario
+                if (catDetail.hasIg) {
+                    backendServer.ingredient.fetchIngredient().then(ig => {
+                        setIngredient(ig); // Imposta gli ingredienti
+                        setCustomizable(true); // Abilita i prodotti personalizzabili
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log(err); // Logga eventuali errori
+                toErrorPage(navigate); // Reindirizza alla pagina di errore
+            });
 
-        }).catch((err) => {
-            console.log(err);
-            toErrorPage(navigate);
-        });
-        
-        //Fetch Allergen
+        // Recupera gli allergeni disponibili
         backendServer.allergen.fetchAllergen()
             .then((res) => {
-                setAllergens(res)
-            }).catch((err) => {
-                console.log(err);
-                toErrorPage(navigate);
+                setAllergens(res); // Imposta gli allergeni
+            })
+            .catch((err) => {
+                console.log(err); // Logga eventuali errori
+                toErrorPage(navigate); // Reindirizza alla pagina di errore
             });
-        
-    },[categoryID]);
+    }, [categoryID]); // Effettua il fetch ogni volta che `categoryID` cambia
 
-    return(
+    return (
         <Page>
-            <Header pageName={catName} current={Pages.Home}/>
+            {/* Intestazione della pagina con il nome della categoria */}
+            <Header pageName={catName} current={Pages.Home} />
+
+            {/* Sezione per la visualizzazione dei prodotti */}
             <section className="products">
                 {
-                    products.map(p => <ProductCard 
-                        product={p} key={p.documentId}
-                        ingredients={p.ingredientsId ? ingredients.filter(i => p.ingredientsId.includes(i.documentId)) : undefined }
-                        allergens={p.allergensId ? allergens.filter(a => p.allergensId.includes(a.documentId)) : undefined }
-                        imgUrl={p.imgUrl ? backendServer.imageUrlFromServer(p.imgUrl,"thumbnail") : undefined} editable={customizable}/>)
+                    products.map(p => (
+                        <ProductCard
+                            product={p}
+                            key={p.documentId}
+                            ingredients={p.ingredientsId
+                                ? ingredients.filter(i => p.ingredientsId.includes(i.documentId))
+                                : undefined} // Filtra gli ingredienti associati
+                            allergens={p.allergensId
+                                ? allergens.filter(a => p.allergensId.includes(a.documentId))
+                                : undefined} // Filtra gli allergeni associati
+                            imgUrl={p.imgUrl
+                                ? backendServer.imageUrlFromServer(p.imgUrl, "thumbnail")
+                                : undefined} // Recupera l'immagine del prodotto
+                            editable={customizable} // Flag per la modifica
+                        />
+                    ))
                 }
             </section>
-            { customizable && 
+
+            {/* Pulsante per creare un prodotto personalizzato, visibile solo se `customizable` è true */}
+            {customizable &&
                 <section className="create-btn-container">
-                    <Link className="dark-btn create-btn" to={"/creazionepizza"} >
-                        <PizzaIcon/>
+                    <Link className="dark-btn create-btn" to={"/creazionepizza"}>
+                        <PizzaIcon /> {/* Icona della pizza */}
                         Crea la tua pizza
                     </Link>
                 </section>
             }
         </Page>
     );
-
 }
 
 export default ProductPage;
