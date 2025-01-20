@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Order, OrderEndpoint, Table } from "./server";
+import { Category, Order, OrderEndpoint, Table } from "./server";
 import { data } from "react-router-dom";
 
 export default class StrapiOrderAPI implements OrderEndpoint {
@@ -29,10 +29,14 @@ export default class StrapiOrderAPI implements OrderEndpoint {
 
             const orders: Order[] = res.data.data.map(o => {
 
-                const prods = o.products.map(p => ({
+                const prods:Category[] = o.products.map(p => ({
                     documentId: p.documentId,
                     name: p.Name,
                     price: p.Price,
+                    category: {
+                        documentId: p.category.documentId,
+                        name: p.category.Name,
+                    }
                 }));
 
                 return { ...o, products: prods };
@@ -80,6 +84,10 @@ export default class StrapiOrderAPI implements OrderEndpoint {
                 documentId: p.documentId,
                 name: p.Name,
                 price: p.Price,
+                category: {
+                    documentId: p.category.documentId,
+                    name: p.category.Name,
+                }
             }));
 
             const formattedOrder:Order = {...order,products:prods};

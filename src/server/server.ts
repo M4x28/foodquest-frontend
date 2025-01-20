@@ -90,7 +90,7 @@ export interface TableEndpoint {
 }
 
 export interface ProductEndpoint {
-    addProductToCart: (table: Table, productId: string) => Promise<void>
+    addProductToCart: (table: Table, productId: string, userID:string) => Promise<void>
     getProductIngredients: (productId: string) => Promise<DetailIngredient[]>
 }
 

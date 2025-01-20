@@ -42,16 +42,16 @@ const OrderPage: React.FC = () => {
         const countedItems = countProduct(items);
 
         for (const item of countedItems) {
-            const categoryId = item.category.id;
+            const categoryId = item.category.documentId;
             if (categoryId) {
                 if (!itemsMap[categoryId]) {
                     itemsMap[categoryId] = {
-                        name: item.category.Name,
+                        name: item.category.name,
                         items: []
                     };
                 }
 
-                if (item.Name === 'Custom') {
+                if (item.name === 'Custom') {
                     item.ingredients = await fetchIngredients(item.documentId);
                 }
 

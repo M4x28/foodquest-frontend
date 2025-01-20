@@ -38,7 +38,8 @@ function OrderCard({ order,index }: OrderCardProps) {
             <CollapseElement open={showItem}>
                 <dl className='item-list'>
                 {
-                    products.map(p => <Item key={p.documentId} name={p.name} quantity={p.quantity} price={p.price}/>)
+                    products.sort((a,b) => a.category.documentId.localeCompare(b.category.documentId))
+                    .map(p => <Item key={p.documentId} name={p.name} quantity={p.quantity} price={p.price}/>)
                 }
                 </dl>
             </CollapseElement>

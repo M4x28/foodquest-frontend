@@ -44,7 +44,8 @@ function ProductCard({ product, ingredients, allergens, editable, imgUrl = place
     }
 
     function buyItem() {
-        backendServer.products.addProductToCart(appState.table, product.documentId)
+        backendServer.products.addProductToCart(appState.table, product.documentId, 
+            appState.user ? appState.user.user.documentId : undefined)
             .then(() => {
                 console.log(product.name, "Acquistata");
             }).catch((err) => {

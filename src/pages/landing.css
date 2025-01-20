@@ -45,6 +45,7 @@
 
 #logo img{
     width: 80%;
+    max-width: 320px;
     display: block;
     margin: auto;
 }
@@ -55,13 +56,29 @@
     text-align: center;
 }
 
+@media (max-height: 700px) {
+    #logo img{
+        max-width: 250px;
+    }
+}
+
 .call-to-action{
-    width: 80%;
-    font-size: 2rem;
+
+    width: fit-content;
 
     position: absolute;
+    margin-inline: auto;
     left: 0px;
     right: 0px;
-    margin-inline: auto;
     bottom: 2rem;
+}
+
+.cta-input{
+    margin-bottom: 0.5rem;
+}
+
+.cta-btn{
+    width: 80vw;
+    max-width: 400px;
+    font-size: 2rem;
 }

@@ -1,16 +1,17 @@
 import React from "react";
 import './OrderItemComponent.css';
+import { Ingredient } from "../server/server";
 
 // Interfaccia per gli elementi dell'ordine
 interface OrderItemProps {
-    Name: string;
+    name: string;
     quantity: number;
-    Price: number;
-    ingredients?: { id: number; name: string; price: number }[];
+    price: number;
+    ingredients?: Ingredient[];
 }
 
 // Componente per un singolo elemento dell'ordine
-export const OrderItemComponent: React.FC<OrderItemProps> = ({ Name, quantity, Price, ingredients }) => {
+export const OrderItemComponent: React.FC<OrderItemProps> = ({ name, quantity, price, ingredients }) => {
     return (
         <div className="row py-2 align-items-center">
             {/* Bottone e nome pizza */}
@@ -46,7 +47,7 @@ export const OrderItemComponent: React.FC<OrderItemProps> = ({ Name, quantity, P
                 >
                     <b style={{ color: 'red' }}>-</b>
                 </button>
-                <span>{`${Name} x ${quantity}`}</span>
+                <span>{`${name} x ${quantity}`}</span>
             </div>
             {/* Prezzo */}
             <div
@@ -57,7 +58,7 @@ export const OrderItemComponent: React.FC<OrderItemProps> = ({ Name, quantity, P
                     fontWeight: "bold",
                 }}
             >
-                <span>{`${Price * quantity}€`}</span>
+                <span>{`${price * quantity}€`}</span>
             </div>
             {/* Lista ingredienti */}
             {ingredients && ingredients.length > 0 && (
@@ -65,7 +66,7 @@ export const OrderItemComponent: React.FC<OrderItemProps> = ({ Name, quantity, P
                     <ul style={{ fontSize: '0.9rem' }}>
                         {ingredients.map((ingredient) => (
                             <li
-                                key={ingredient.id}
+                                key={ingredient.documentId}
                                 style={{
                                     fontFamily: "sans-serif",
                                     letterSpacing: "0.1rem",

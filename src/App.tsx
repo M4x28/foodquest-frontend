@@ -23,6 +23,7 @@ import Server from './server/server.ts';
 import CheckBox from './components/input/CheckBox.tsx';
 import { toErrorPage } from './utility/generic.ts';
 import Landing from './pages/landing.tsx';
+import Input from './components/input/Input.tsx';
 
 export const backendServer: Server = new StrapiServerConnector("http://localhost:1337");
 
@@ -109,10 +110,10 @@ function App() {
         <AppStateCtx.Provider value={[appState, editState]}>
             <BrowserRouter>
                 <Routes>
+                    <Route index element={ <Landing/> }/>
                     <Route path="/products/:categoryID" element={<ProductPage />} />
                     <Route path="/orders" element={<OrderPage />} />
                     <Route path='/creazionepizza/:productID?' element={<PizzaBuilder></PizzaBuilder>} />
-                    <Route path='/landingpage' element={<LandingPage></LandingPage>} />
                     <Route path='/home' element={<Home></Home>} />
                     <Route path='/login' element={<Login></Login>} />
                     <Route path='/register' element={<RegisterPage></RegisterPage>} />
@@ -120,7 +121,6 @@ function App() {
                     <Route path='/conto' element={<ContoPage></ContoPage>} />
                     <Route path='/account' element={<Account></Account>} />
                     <Route path='/test' element={<Test></Test>} />
-                    <Route path='/test2/:accessCode' element={<Landing></Landing>} />
                     <Route path='/check' element={<CheckPage />} />
                     <Route path='/expired' element={<ErrorPage errorTitle='Sessione Scaduta' retryBtn={false}
                         errorMessage='Sembra che la tua sessione di acquisto sia terminta, se ritieni sia un errore chiedi ad un cameriere' />} />

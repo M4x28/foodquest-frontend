@@ -16,6 +16,7 @@ interface PropType {
     popupText?: string;
     confirmText?: string;
     confirmSvg?: React.ReactElement;
+    confirmVariant?: string;
 }
 
 function ButtonWithPrompt({
@@ -29,6 +30,7 @@ function ButtonWithPrompt({
     popupTitle = "Sei sicuro?",
     popupText = "Questa azione non può essere annullata",
     confirmText = "CONFERMA",
+    confirmVariant,
     confirmSvg
 }: PropType) {
     const [popup, setPopup] = useState(false);
@@ -49,7 +51,7 @@ function ButtonWithPrompt({
                     <h3 className="prompt-title">{popupTitle}</h3>
                     <p className="prompt-text">{popupText}</p>
                     <Button
-                        
+                        variant={confirmVariant}
                         onClick={confirmAction}
                         className={confirmClass}
                     >

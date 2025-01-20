@@ -112,10 +112,11 @@ function ContoPage() {
                 <CheckBox value={usingPoint} text={"Usa " + (discount / 0.05) + " punti"} className='toggle-point'
                     onChange={handlePointUsageChange} />
             }
-            <Total total={total} discount={discount} usingPoints={usingPoint} className='total' />
+            <Total total={total} discount={discount} className='total' />
             <ButtonWithPrompt onClick={checkRequest} className='check-btn'
                 popupTitle='Chiedi il conto' popupText={checkText}
-                confirmText={canRequestCheck ? undefined : "CHIUDI"} confirmClass={canRequestCheck ? undefined : 'err-btn confirm-btn'}
+                confirmClass='confirm-btn'
+                confirmText={canRequestCheck ? undefined : "CHIUDI"} confirmVariant={canRequestCheck ? "success":"danger"}
                 confirmSvg={canRequestCheck ? undefined : <CloseIcon />}>
                 Chiedi il conto
             </ButtonWithPrompt>
