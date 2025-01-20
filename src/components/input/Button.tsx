@@ -25,7 +25,11 @@ export const Button: React.FC<ButtonProps> = ({ // Definizione del componente fu
             className={`btn ${variantClass} ${sizeClass} ${className}`} // Applica le classi CSS dinamiche di Bootstrap e personalizzate.
             type="button" // Specifica che il bottone è di tipo "button" (non invia un modulo).
             onClick={onClick} // Associa la funzione callback all'evento click, se fornita.
-
+            style={{
+                fontFamily: "Luckiest Guy, cursive", // Imposta il font per il testo del bottone.
+                letterSpacing: "0.1rem", // Aggiunge uno spazio tra le lettere.
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Aggiunge un'ombra al bottone.
+            }}
             {...props} // Passa tutte le proprietà aggiuntive al bottone (es. data-* o aria-*).
         >
             {children} {/* Mostra il contenuto fornito come children nel bottone. */}
