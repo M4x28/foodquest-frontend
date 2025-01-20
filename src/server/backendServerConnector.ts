@@ -1,25 +1,28 @@
-import axios from "axios";
-import Server, { Allergen, CategoryEndpoint, FCEndpoint, ImgSize, Ingredient, OrderEndpoint, ProductEndpoint, TableEndpoint, UserEndpoint } from "./server";
+import Server, { AllergenEndpoint, CategoryEndpoint, FCEndpoint, ImgSize, IngredientEndpoint, OrderEndpoint, ProductEndpoint, TableEndpoint, UserEndpoint } from "./server";
+import StrapiIngredientAPI from "./ingredientAPIConnector.ts";
+import StrapiAllergenAPI from "./allergenAPIConnector.ts";
 import StrapiCategoryAPI from "./categoryAPIConnector.ts";
 import StrapiTableEndpoint from "./tableAPIConnector.ts";
-import StrapiOrderAPI from "./orderAPIConnector.ts";
 import StrapiProductAPI from "./productAPIConnector.ts";
+import StrapiOrderAPI from "./orderAPIConnector.ts";
 import StrapiUserAPI from "./userAPIConnector.ts";
 import StrapiFCAPI from "./FCAPIConnector.ts";
-import { DEFAULT_IMG_FORMAT, FULL_IMG_PATH, ICON_IMG_PATH } from "../utility/generic.ts";
 
-export default class StrapiServerConnector implements Server{
+const DEFAULT_URL: string = "http://localhost:1337";  // URL predefinito
 
-    private __serverUrl__:string;
+export default class StrapiServerConnector implements Server {
+    private __serverUrl__: string;
 
-    private __category__:CategoryEndpoint;
-    private __table__:TableEndpoint;
-    private __order__:OrderEndpoint;
-    private __products__:ProductEndpoint;
-    private __user__:UserEndpoint;
-    private __fc__:FCEndpoint;
+    private __category__: CategoryEndpoint;
+    private __table__: TableEndpoint;
+    private __order__: OrderEndpoint;
+    private __products__: ProductEndpoint;
+    private __user__: UserEndpoint;
+    private __fc__: FCEndpoint;
+    private __ingredient__: IngredientEndpoint;
+    private __allergen__: AllergenEndpoint;
 
-    constructor(url:string){
+    constructor(url: string = DEFAULT_URL) {
         this.__serverUrl__ = url;
         this.__category__ = new StrapiCategoryAPI(url);
         this.__table__ = new StrapiTableEndpoint(url);
@@ -27,60 +30,47 @@ export default class StrapiServerConnector implements Server{
         this.__products__ = new StrapiProductAPI(url);
         this.__user__ = new StrapiUserAPI(url);
         this.__fc__ = new StrapiFCAPI(url);
+        this.__ingredient__ = new StrapiIngredientAPI(url);
+        this.__allergen__ = new StrapiAllergenAPI(url);
     }
 
-    get categories(){
+    get categories() {
         return this.__category__;
     }
 
-    get table(){
+    get table() {
         return this.__table__;
     }
 
-    get products(){
+    get products() {
         return this.__products__;
     }
 
-    get orders(){
+    get orders() {
         return this.__order__;
     }
 
-    get user(){
+    get user() {
         return this.__user__;
     }
 
-    get fc(){
+    get fc() {
         return this.__fc__;
     }
 
-    get serverUrl():string{
+    get ingredient() {
+        return this.__ingredient__;
+    }
+
+    get allergen() {
+        return this.__allergen__;
+    }
+
+    get serverUrl(): string {
         return this.__serverUrl__;
     }
 
-    imageUrlFromServer(url:string,size?:ImgSize):string{
+    imageUrlFromServer(url: string, size?: ImgSize): string {
         return `${this.__serverUrl__}/uploads/${size ? size + "_" : ""}${url}`;
-    }
-    
-    async fetchIngredient():Promise<Ingredient[]>{
-        const ig:Ingredient[] = await axios.get(`${this.__serverUrl__}/api/ingredients`)
-            .then((res) => res.data.data.map( i => ({
-                documentId:i.documentId,
-                type:i.Type,
-                name:i.Name,
-                price:i.Price,
-            })));
-        console.log("Fetched Ingredient",ig);
-        return ig;
-    }
-
-    async fetchAllergen():Promise<Allergen[]>{
-        const allergens:Allergen[] = await axios.get(`${this.__serverUrl__}/api/allergens`)
-            .then((res) => res.data.data.map(a => ({
-                documentId: a.documentId,
-                name: a.Name
-            })));
-
-        console.log("Fetched Allergen",allergens);
-        return allergens;
     }
 }

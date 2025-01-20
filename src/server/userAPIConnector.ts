@@ -1,5 +1,5 @@
-import axios from "axios";
 import { UserEndpoint } from "./server";
+import AxiosSingleton from "../utility/AxiosSingleton.ts";
 
 export default class StrapiUserAPI implements UserEndpoint {
 
@@ -11,7 +11,7 @@ export default class StrapiUserAPI implements UserEndpoint {
 
     async login(identifier: string, password: string) {
         try {
-            const response = await axios.post(this.__endpoint__, {
+            const response = await AxiosSingleton.getInstance().post(this.__endpoint__, {
                 identifier,
                 password,
             });
@@ -24,7 +24,7 @@ export default class StrapiUserAPI implements UserEndpoint {
 
     async register(username: string, email: string, password: string) {
         try {
-            const response = await axios.post(`${this.__endpoint__}/register`, {
+            const response = await AxiosSingleton.getInstance().post(`${this.__endpoint__}/register`, {
                 username,
                 email,
                 password,

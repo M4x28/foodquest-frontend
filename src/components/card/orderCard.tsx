@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Order, Product } from '../../server/server.ts';
+import { Order } from '../../server/server.ts';
 
 import { ReactComponent as ConfirmIcon} from "../../assets/confirm.svg"
 import { ReactComponent as ClockIcon} from "../../assets/clock.svg"

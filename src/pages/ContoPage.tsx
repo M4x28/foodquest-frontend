@@ -27,12 +27,17 @@ function ContoPage() {
 
     useEffect(() => {
         if (appState.user) {
-            backendServer.fc.fetchMaxPoint(appState.user.user.documentId)
-                .then(setPoint)
-                .catch(e => {
-                    console.log(e);
+            const fetchUserData = async () => {
+                try {
+                    const userFC = await backendServer.fc.fetchUserFC(appState.user.user.documentId);
+                    setUsingPoint(userFC.UsePoints !== null ? userFC.UsePoints : false);
+                    setPoint(userFC.Points);
+                } catch (error) {
+                    console.error('Failed to fetch user data:', error);
                     toErrorPage(navigate);
-                })
+                }
+            };
+            fetchUserData();
         }
     }, [appState.user]);
 
@@ -105,18 +110,17 @@ function ContoPage() {
     return (
         <Page>
             <Header pageName='Conto' current={Pages.Check} />
-            <section className='orders-container'>
+            <section className='orders-container mt-4'>
                 {orders.map((order, index) => <OrderCard key={order.documentId} order={order} index={index + 1} />)}
             </section>
             {appState.user &&
-                <CheckBox value={usingPoint} text={"Usa " + (discount / 0.05) + " punti"} className='toggle-point'
+                <CheckBox value={usingPoint} text={"Usa i tuoi " + point + " punti"} className='toggle-point'
                     onChange={handlePointUsageChange} />
             }
             <Total total={total} discount={discount} className='total' />
             <ButtonWithPrompt onClick={checkRequest} className='check-btn'
                 popupTitle='Chiedi il conto' popupText={checkText}
-                confirmClass='confirm-btn'
-                confirmText={canRequestCheck ? undefined : "CHIUDI"} confirmVariant={canRequestCheck ? "success":"danger"}
+                confirmText={canRequestCheck ? undefined : "CHIUDI"} confirmClass={canRequestCheck ? undefined : 'err-btn confirm-btn'}
                 confirmSvg={canRequestCheck ? undefined : <CloseIcon />}>
                 Chiedi il conto
             </ButtonWithPrompt>

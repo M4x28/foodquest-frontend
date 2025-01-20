@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { getExtraIngredients } from "../../services/ingredientService.ts";
 import { DetailIngredient } from "../../server/server.ts";
+import { backendServer } from "../../App.tsx";
 
 interface IngredientSearchListProps {
     handleAddIngredients: (newIngredients: DetailIngredient[]) => void;
@@ -18,7 +18,7 @@ const IngredientSearchList: React.FC<IngredientSearchListProps> = ({ handleAddIn
     useEffect(() => {
         const fetchIngredients = async () => {
             try {
-                const extraIngredients = await getExtraIngredients();
+                const extraIngredients = await backendServer.ingredient.getExtraIngredients();
                 let sortedIngredients = extraIngredients;
 
                 // Escludi gli ingredienti già selezionati
@@ -83,7 +83,7 @@ const IngredientSearchList: React.FC<IngredientSearchListProps> = ({ handleAddIn
                     >
                         <div className="col-3">
                             <img
-                                src={ingredient.icon_img_link}
+                                src={require("../../assets".concat(ingredient.icon_img_link))}
                                 alt={ingredient.name}
                                 style={{ width: "160%", height: "160%" }}
                             />

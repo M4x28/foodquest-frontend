@@ -24,7 +24,7 @@ const RegisterPage: React.FC = () => {
     const handleLogin = async () => {
         try {
             const response = await backendServer.user.login(email, password);
-            const userPoints = await backendServer.fc.fetchMaxPoint(response.user.documentId);
+            const userPoints = await (await backendServer.fc.fetchUserFC(response.user.documentId)).Points;
 
             // Aggiungi userPoints come proprietà dell'oggetto user
             const userData = {

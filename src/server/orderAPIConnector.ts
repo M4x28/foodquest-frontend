@@ -1,6 +1,5 @@
-import axios from "axios";
+import AxiosSingleton from "../utility/AxiosSingleton.ts";
 import { Category, Order, OrderEndpoint, Table } from "./server";
-import { data } from "react-router-dom";
 
 export default class StrapiOrderAPI implements OrderEndpoint {
 
@@ -14,7 +13,7 @@ export default class StrapiOrderAPI implements OrderEndpoint {
     private chachedOrders: Order[];
 
     fetchOrdersDone(table: Table): Promise<Order[]> {
-        return axios.post(`${this.__endpoint__}/get_orders`, {
+        return AxiosSingleton.getInstance().post(`${this.__endpoint__}/get_orders`, {
             data: {
                 accessCode: table.accessCode,
                 sessionCode: table.sessionCode,
@@ -66,7 +65,7 @@ export default class StrapiOrderAPI implements OrderEndpoint {
     private chachedCurrent: Order;
 
     fetchCurrentOrder(table: Table): Promise<Order> {
-        return axios.post(`${this.__endpoint__}/current`, {
+        return AxiosSingleton.getInstance().post(`${this.__endpoint__}/current`, {
             data: {
                 accessCode: table.accessCode,
                 sessionCode: table.sessionCode,
@@ -101,7 +100,7 @@ export default class StrapiOrderAPI implements OrderEndpoint {
     }
 
     confirmOrder(documentID: string, allCoursesTogetherFlag:boolean): Promise<void> {
-        return axios.post(`${this.__endpoint__}/confirm`, {
+        return AxiosSingleton.getInstance().post(`${this.__endpoint__}/confirm`, {
             data: {
                 orderID: documentID,
                 allCoursesTogetherFlag: allCoursesTogetherFlag

@@ -1,6 +1,6 @@
-import axios from "axios";
 import { DetailIngredient, ProductEndpoint,Table } from "./server";
 import { DEFAULT_IMG_FORMAT, FULL_IMG_PATH, ICON_IMG_PATH } from "../utility/generic.ts";
+import AxiosSingleton from "../utility/AxiosSingleton.ts";
 
 export default class StrapiProductAPI implements ProductEndpoint{
 
@@ -11,7 +11,7 @@ export default class StrapiProductAPI implements ProductEndpoint{
     }
 
     addProductToCart(table: Table, productId: string, userID?: string):Promise<void>{
-        return axios.post(`${this.__serverUrl__}/api/partial-orders`,{ data: {
+        return AxiosSingleton.getInstance().post(`${this.__serverUrl__}/api/partial-orders`,{ data: {
             productID: productId,
             accessCode: table.accessCode,
             sessionCode: table.sessionCode,
@@ -20,7 +20,7 @@ export default class StrapiProductAPI implements ProductEndpoint{
     };
 
     async createCustomProductFromIngredients(table:Table, categoryID: string, baseID: string, ingredientsID: string[]):Promise<string>{
-        const response = await axios.post(`${this.__serverUrl__}/api/products/create`, {
+        const response = await AxiosSingleton.getInstance().post(`${this.__serverUrl__}/api/products/create`, {
             table: {
                 accessCode: table.accessCode,
                 sessionCode: table.sessionCode
@@ -36,7 +36,7 @@ export default class StrapiProductAPI implements ProductEndpoint{
     };
 
     async getProductIngredients(productId: string): Promise<DetailIngredient[]> {
-        return await axios.get(`${this.__serverUrl__}/api/products/ingredient/${productId}`)
+        return await AxiosSingleton.getInstance().get(`${this.__serverUrl__}/api/products/ingredient/${productId}`)
             .then(res => {
                 const ingredients = res.data.data;
 
@@ -53,5 +53,5 @@ export default class StrapiProductAPI implements ProductEndpoint{
                     recommended_ingredient: ingredient.RecommendedIngredient || []
                 }));
             });
-    }
+    };
 }

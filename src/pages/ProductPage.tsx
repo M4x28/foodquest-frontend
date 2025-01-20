@@ -3,7 +3,6 @@ import Page from "./Page.tsx";
 import Header, { Pages } from "../components/utility/Header.tsx";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ProductCard from "../components/card/ProductCard.tsx";
-
 import { ReactComponent as PizzaIcon } from "../assets/pizzaFull.svg"
 
 import "./productPage.css"
@@ -42,8 +41,8 @@ function ProductPage(){
             setProducts(catDetail.products);
 
             //Load ingredients if needed
-            if(catDetail.hasIg){
-                backendServer.fetchIngredient().then(ig => {
+            if (catDetail.hasIg) {
+                backendServer.ingredient.fetchIngredient().then(ig => {
                     setIngredient(ig);
                     setCustomizable(true);
                 })
@@ -55,7 +54,7 @@ function ProductPage(){
         });
         
         //Fetch Allergen
-        backendServer.fetchAllergen()
+        backendServer.allergen.fetchAllergen()
             .then((res) => {
                 setAllergens(res)
             }).catch((err) => {

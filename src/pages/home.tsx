@@ -46,7 +46,7 @@ const Home: React.FC = () => {
                         fontSize: "1.8rem", // Adattamento dinamico
                         marginRight: "10px", // Spaziatura tra i pulsanti
                     }}
-                    onClick={undefined}
+                    onClick={() => navigate("/conto")}
                 >
                     <i className="bi bi-wallet2" style={{ fontSize: '1.5rem', color: '#28a745' }}></i>
                     <CartIcon

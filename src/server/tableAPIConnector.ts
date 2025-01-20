@@ -1,4 +1,4 @@
-import axios from "axios";
+import AxiosSingleton from "../utility/AxiosSingleton.ts";
 import { TableEndpoint,Table } from "./server.ts";
 
 export default class StrapiTableEndpoint implements TableEndpoint{
@@ -10,7 +10,7 @@ export default class StrapiTableEndpoint implements TableEndpoint{
     }
 
     logToTable(accessCode: string):Promise<Table>{
-        return axios.get(`${this.__endpoint__}/access/${accessCode}`)
+        return AxiosSingleton.getInstance().get(`${this.__endpoint__}/access/${accessCode}`)
         .then(res => {
             const table:Table = res.data.data;
             console.log(table)
@@ -19,7 +19,7 @@ export default class StrapiTableEndpoint implements TableEndpoint{
     }
 
     fetchTableStatus(table: Table):Promise<string>{
-        return axios.post(`${this.__endpoint__}/status`,{
+        return AxiosSingleton.getInstance().post(`${this.__endpoint__}/status`,{
             data:{
                 accessCode: table.accessCode,
                 sessionCode: table.sessionCode,
@@ -28,7 +28,7 @@ export default class StrapiTableEndpoint implements TableEndpoint{
     }
 
     askForCheck (table: Table):Promise<void>{
-        return axios.post(`${this.__endpoint__}/checkRequest`,{
+        return AxiosSingleton.getInstance().post(`${this.__endpoint__}/checkRequest`,{
             data:{
                 accessCode: table.accessCode,
                 sessionCode: table.sessionCode,
@@ -37,10 +37,10 @@ export default class StrapiTableEndpoint implements TableEndpoint{
     };
 
     fetchTotal (table: Table) :Promise<{ total: number; discount: number; }>{
-        return axios.get(`${this.__endpoint__}/total/${table.accessCode}`)
+        return AxiosSingleton.getInstance().get(`${this.__endpoint__}/total/${table.accessCode}`)
             .then(res => {
                 const total = res.data.data
-                console.log("Total Requested",total);
+                //console.log("Total Requested",total);
                 return total;
             });
     }

@@ -23,9 +23,8 @@ import Server from './server/server.ts';
 import CheckBox from './components/input/CheckBox.tsx';
 import { toErrorPage } from './utility/generic.ts';
 import Landing from './pages/landing.tsx';
-import Input from './components/input/Input.tsx';
 
-export const backendServer: Server = new StrapiServerConnector("http://localhost:1337");
+export const backendServer: Server = new StrapiServerConnector(process.env.REACT_APP_API_URL);
 
 interface AppState { [key: string]: any };
 

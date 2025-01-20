@@ -1,7 +1,7 @@
 import React from "react";
 import "../../bootstrap.css";
-import { sortIngredients } from "./IngredientComponent.tsx";
 import { DetailIngredient } from "../../server/server.ts";
+import { sortIngredients } from "../../utility/ingredientSorter.ts";
 
 interface ImageStackProps {
     allIngredients: DetailIngredient[];

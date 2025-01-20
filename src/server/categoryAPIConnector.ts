@@ -1,4 +1,4 @@
-import axios from "axios";
+import AxiosSingleton from "../utility/AxiosSingleton.ts";
 import { Category, CategoryEndpoint, DetailProduct } from "./server.ts";
 
 export default class StrapiCategoryAPI implements CategoryEndpoint{
@@ -11,7 +11,7 @@ export default class StrapiCategoryAPI implements CategoryEndpoint{
 
     async fetchProductByCategory(categoryId: string):Promise<{products: DetailProduct[]; hasIg:boolean }>{
         
-        const catDetail = await axios.get(`${this.__endpoint__}/all/${categoryId}`)
+        const catDetail = await AxiosSingleton.getInstance().get(`${this.__endpoint__}/all/${categoryId}`)
             .then((res) => {
                 const products = res.data.data;
 
@@ -36,7 +36,7 @@ export default class StrapiCategoryAPI implements CategoryEndpoint{
     }
 
     fetchCategoriesIdAndName():Promise<Category[]>{
-        return axios.get(`${this.__endpoint__}?fields=documentId%2C%20Name`)
+        return AxiosSingleton.getInstance().get(`${this.__endpoint__}?fields=documentId%2C%20Name`)
             .then( response =>
                 response.data.data.map((item: any) => ({
                     id: item.id,
@@ -47,7 +47,7 @@ export default class StrapiCategoryAPI implements CategoryEndpoint{
     }
 
     async fetchCatergoryDetail(categoryId: string):Promise<{ documentId: string; name: string; }>{
-        return await axios.get(`${this.__endpoint__}/${categoryId}`)
+        return await AxiosSingleton.getInstance().get(`${this.__endpoint__}/${categoryId}`)
             .then(res => {
                 const category = res.data.data;
 
@@ -57,5 +57,18 @@ export default class StrapiCategoryAPI implements CategoryEndpoint{
                     name: category.Name
                 }
             });
+    };
+
+    async getPizzaCategoryId(): Promise<string | undefined> {
+        // Fetch delle categorie
+        const categories = await this.fetchCategoriesIdAndName();
+
+        // Filtra la categoria con nome 'pizza' (ignora maiuscole/minuscole)
+        const pizzaCategory = categories.find(
+            (category) => category.name.toLowerCase() === "pizza"
+        );
+
+        // Restituisci solo il documentId, oppure undefined se non trovato
+        return pizzaCategory ? pizzaCategory.documentId : undefined;
     }
 }

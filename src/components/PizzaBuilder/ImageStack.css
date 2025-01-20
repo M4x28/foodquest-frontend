@@ -1,17 +1,14 @@
 @keyframes zoomInRotate {
     0% {
-        scale: 10%;
-        rotate: 0deg;
+        transform: scale(0.1) rotate(0deg);
     }
 
     50% {
-        scale: 50%;
-        rotate: 180deg;
+        transform: scale(0.5) rotate(180deg);
     }
 
     100% {
-        scale: 100%;
-        rotate: 360deg;
+        transform: scale(1) rotate(360deg);
     }
 }
 

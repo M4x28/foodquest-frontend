@@ -1,4 +1,4 @@
-import axios from "axios";
+import AxiosSingleton from "../utility/AxiosSingleton.ts";
 import { FCEndpoint, FidelityCard } from "./server";
 
 export default class StrapiFCAPI implements FCEndpoint {
@@ -8,16 +8,16 @@ export default class StrapiFCAPI implements FCEndpoint {
         this.__endpoint__ = serverUrl + "/api/fidelity-card";
     }
 
-    // Recupera i punti massimi di un utente
-    async fetchMaxPoint(userID: string): Promise<number> {
-        const response = await axios.get(`${this.__endpoint__}/${userID}`);
-        //console.log("Max points Requested for", userID, response.data.data.Points);
-        return response.data.data.Points;
+    // Recupera la fidelity card di un utente
+    async fetchUserFC(userID: string): Promise<FidelityCard> {
+        const response = await AxiosSingleton.getInstance().get(`${this.__endpoint__}/${userID}`);
+        //console.log("FC:", response.data.data);
+        return response.data.data;
     }
 
     // Imposta lo stato di utilizzo dei punti
     async setPointUsage(userID: string, isUsingPoint: boolean): Promise<void> {
-        const response = await axios.put(`${this.__endpoint__}/use-points`, {
+        const response = await AxiosSingleton.getInstance().put(`${this.__endpoint__}/use-points`, {
             data: {
                 users_permissions_user: userID,
                 usePoints: isUsingPoint,
@@ -29,7 +29,7 @@ export default class StrapiFCAPI implements FCEndpoint {
 
     // Aggiunge punti fedeltà in base ai prodotti acquistati
     async addFidelityPoints(userID: string, productIDs: string[]): Promise<void> {
-        const response = await axios.post(`${this.__endpoint__}/add-points`, {
+        const response = await AxiosSingleton.getInstance().post(`${this.__endpoint__}/add-points`, {
             data: {
                 users_permissions_user: userID,
                 productIDs: productIDs,
@@ -41,7 +41,7 @@ export default class StrapiFCAPI implements FCEndpoint {
 
     // Calcola lo sconto totale per un tavolo dato un array di utenti
     async calculateTableDiscount(tableNumber: number): Promise<number> {
-        const response = await axios.post(`${this.__endpoint__}/calculate-discount`, {
+        const response = await AxiosSingleton.getInstance().post(`${this.__endpoint__}/calculate-discount`, {
             data: {
                 number: tableNumber,
             },
@@ -52,7 +52,7 @@ export default class StrapiFCAPI implements FCEndpoint {
 
     // Crea una nuova fidelity card per un utente
     async createFidelityCard(userID: string): Promise<FidelityCard> {
-        const response = await axios.post(`${this.__endpoint__}/create`, {
+        const response = await AxiosSingleton.getInstance().post(`${this.__endpoint__}/create`, {
             users_permissions_user: userID,
         });
         //console.log("Fidelity card created for", userID, response.data.data);
@@ -61,7 +61,7 @@ export default class StrapiFCAPI implements FCEndpoint {
 
     // Elimina la fidelity card di un utente
     async deleteFidelityCard(userID: string): Promise<void> {
-        const response = await axios.delete(`${this.__endpoint__}/delete`, {
+        const response = await AxiosSingleton.getInstance().delete(`${this.__endpoint__}/delete`, {
             data: {
                 users_permissions_user: userID,
             },
@@ -72,7 +72,7 @@ export default class StrapiFCAPI implements FCEndpoint {
 
     // Resetta a 0 i punti di un array di utenti se UsePoints è settato a 1
     async resetPoints(users: string[]): Promise<void> {
-        const response = await axios.post(`${this.__endpoint__}/reset-points`, {
+        const response = await AxiosSingleton.getInstance().post(`${this.__endpoint__}/reset-points`, {
             data: {
                 users_permissions_user: users,
             },

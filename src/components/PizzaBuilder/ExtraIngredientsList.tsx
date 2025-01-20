@@ -1,7 +1,7 @@
 import React from "react";
-import { sortIngredients } from "./IngredientComponent.tsx";
 import { Button } from "../input/Button.tsx";
 import { DetailIngredient } from "../../server/server.ts";
+import { sortIngredients } from "../../utility/ingredientSorter.ts";
 
 interface ExtraIngredientsListProps {
     extraIngredients: DetailIngredient[];

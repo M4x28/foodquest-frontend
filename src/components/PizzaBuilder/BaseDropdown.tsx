@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getBaseIngredients } from "../../services/ingredientService.ts";
 import CollapseElement from "../utility/CollapseElement.tsx";
 import { DetailIngredient } from "../../server/server.ts";
+import { backendServer } from "../../App.tsx";
 
 interface BaseDropdownProps {
     handleReplaceBaseIngredient: (newBaseIngredient: DetailIngredient) => void; // Metodo per sostituire la base
@@ -17,7 +17,7 @@ const BaseDropdown: React.FC<BaseDropdownProps> = ({
     useEffect(() => {
         const fetchBases = async () => {
             try {
-                const baseIngredients = await getBaseIngredients();
+                const baseIngredients = await backendServer.ingredient.getBaseIngredients();
                 setBases(baseIngredients);
             } catch (error) {
                 console.error("Errore durante il caricamento delle basi:", error);

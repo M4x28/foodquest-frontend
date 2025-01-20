@@ -3,7 +3,6 @@ import Header, { Pages } from "../components/utility/Header.tsx";
 import "../bootstrap.css";
 import ImageStack from "../components/PizzaBuilder/ImageStack.tsx";
 import BaseDropdown from "../components/PizzaBuilder/BaseDropdown.tsx";
-import { initialBaseIngredient, defaultIngredients } from "../components/PizzaBuilder/IngredientComponent.tsx";
 import ExtraIngredientsList from "../components/PizzaBuilder/ExtraIngredientsList.tsx";
 import { Button } from "../components/input/Button.tsx";
 import Popup from "../components/popup/Popup.tsx";
@@ -12,7 +11,6 @@ import { AppStateCtx, backendServer } from "../App.tsx";
 import { toErrorPage } from "../utility/generic.ts";
 import { useNavigate, useParams } from "react-router-dom";
 import { DetailIngredient, Table } from "../server/server.ts";
-import { getPizzaCategoryId } from "../services/productService.ts";
 
 const PizzaBuilder: React.FC = () => {
     const [appState, _] = useContext(AppStateCtx);
@@ -20,14 +18,24 @@ const PizzaBuilder: React.FC = () => {
 
     const { productID } = useParams();
 
-    const [allIngredients, setAllIngredients] = useState<DetailIngredient[]>([
-        ...initialBaseIngredient,
-        ...defaultIngredients,
-    ]);
-
+    const [allIngredients, setAllIngredients] = useState<DetailIngredient[]>([]);
     const [popupState, setPopupState] = useState<boolean>(false);
     const [recommendedIngredients, setRecommendedIngredients] = useState<DetailIngredient[] | undefined>(undefined);
     const [ingredientWithRecommendation, setIngredientWithRecommendation] = useState<DetailIngredient | null>(null);
+
+    useEffect(() => {
+        const fetchInitialIngredients = async () => {
+            try {
+                const initialBaseIngredient = await backendServer.ingredient.getDefaultBaseIngredient();
+                const defaultIngredients = await backendServer.ingredient.getDefaultExtraIngredient();
+                setAllIngredients([...initialBaseIngredient, ...defaultIngredients]);
+            } catch (error) {
+                console.error("Errore nel caricamento degli ingredienti iniziali:", error);
+            }
+        };
+
+        fetchInitialIngredients();
+    }, []);  // Eseguito solo una volta al montaggio del componente
 
     useEffect(() => {
         const fetchIngredientsIfNeeded = async () => {
@@ -46,7 +54,7 @@ const PizzaBuilder: React.FC = () => {
         };
 
         fetchIngredientsIfNeeded();
-    }, [productID]);
+    }, [productID]);  // Eseguito ogni volta che productID cambia
 
     const handleAddIngredients = (newIngredients: DetailIngredient[]) => {
         const uniqueIngredients = newIngredients.filter(
@@ -120,7 +128,7 @@ const PizzaBuilder: React.FC = () => {
     async function createNewProductHandler(): Promise<string> {
         try {
             // Ottieni l'ID della categoria 'pizza'
-            const pizzaCategoryId = await getPizzaCategoryId();
+            const pizzaCategoryId = await backendServer.categories.getPizzaCategoryId();
             if (!pizzaCategoryId) {
                 throw new Error("Categoria 'pizza' non trovata.");
             }

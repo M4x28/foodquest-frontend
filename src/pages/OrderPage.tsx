@@ -52,7 +52,9 @@ const OrderPage: React.FC = () => {
                 }
 
                 if (item.name === 'Custom') {
-                    item.ingredients = await fetchIngredients(item.documentId);
+                    const ingredients = await fetchIngredientsInternal(item.documentId);
+                    // Estrai gli ID degli ingredienti e assegnali a item.ingredientsId
+                    item.ingredientsId = ingredients.map(ingredient => ingredient.documentId);
                 }
 
                 itemsMap[categoryId].items.push(item);
@@ -62,7 +64,7 @@ const OrderPage: React.FC = () => {
         setItemsByCategory(itemsMap);
     };
 
-    const fetchIngredients = async (productId) => {
+    const fetchIngredientsInternal = async (productId) => {
         try {
             const response = await backendServer.products.getProductIngredients(productId);
             return response || [];
