@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Button } from "./input/Button.tsx";
 import { backendServer } from "../App.tsx";
 import { Category } from "../server/server.ts";
+import './CategoryList.css'; // Importa il file degli stili
+
 
 const CategoriesList: React.FC = () => {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -35,16 +37,9 @@ const CategoriesList: React.FC = () => {
                     className="text-decoration-none w-100"
                 >
                     <Button
-                        variant="light text-dark fw-bold text-LG"
+                        variant="light text-dark fw-bold text-LG button-list"
                         size="lg"
-                        style={{
-                            width: "100%",
-                            padding: "15px",
-                            borderRadius: "10px",
-                            fontSize: "2rem",
-                            border: "2px solid #ccc",
-                            margin: "10px 0",
-                        }}
+
                     >
                         {category.name}
                     </Button>

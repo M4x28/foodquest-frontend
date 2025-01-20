@@ -1,0 +1,43 @@
+/* Stili per l'immagine del logo */
+.logo-container img {
+    width: 220px;
+    height: 260px;
+}
+
+/* Stili per il footer fisso con i pulsanti */
+.footer-container {
+    position: fixed;
+    width: 100%;
+    padding-left: 16px;
+    /* corrisponde a px-3 */
+    padding-right: 16px;
+    /* corrisponde a px-3 */
+    display: flex;
+    justify-content: space-between;
+    bottom: 20px;
+    left: 0;
+    z-index: 1000;
+}
+
+/* Stili per i pulsanti */
+.footer-button {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 1.8rem;
+    margin-right: 10px;
+}
+
+.footer-button:last-child {
+    margin-left: 10px;
+}
+
+.footer-button i {
+    font-size: 1.5rem;
+    color: #28a745;
+}
+
+.footer-button svg {
+    margin-right: 8px;
+    /* corrisponde a me-2 */
+    width: 30px;
+    height: 30px;
+}

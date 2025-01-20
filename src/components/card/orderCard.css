@@ -1,65 +1,97 @@
 .order-header {
     display: grid;
+    /* Layout a griglia per l'intestazione */
     grid-template-columns: 70% 30%;
+    /* Due colonne: 70% per il titolo, 30% per le icone */
     grid-template-areas: "title ." "title .";
+    /* Posizionamento degli elementi nella griglia */
     width: 100%;
+    /* Larghezza completa */
 }
 
 .order-name {
     padding-top: 1rem;
+    /* Spaziatura superiore */
     grid-area: title;
+    /* Posiziona l'elemento nell'area 'title' della griglia */
     font-weight: bold;
+    /* Testo in grassetto */
     font-size: 2rem;
+    /* Dimensione del testo */
     margin: 0px;
+    /* Rimuove margini */
 }
 
 .done-icon,
 .wip-icon {
     height: 3rem;
+    /* Altezza delle icone */
     width: 3rem;
+    /* Larghezza delle icone */
     margin: auto;
+    /* Allinea verticalmente e orizzontalmente */
 }
 
 .done-icon {
     fill: var(--dark-col);
+    /* Colore dell'icona completata */
 }
 
 .wip-icon {
     fill: #feaa00;
+    /* Colore dell'icona in lavorazione */
 }
 
 .time {
     font-size: 1.2rem;
+    /* Dimensione del testo */
     text-align: center;
+    /* Allinea il testo al centro */
     margin: 0px;
+    /* Rimuove margini */
 }
 
 .item-toggle {
     display: block;
+    /* Il bottone occupa una nuova riga */
     border: none;
+    /* Rimuove il bordo */
     margin: auto;
+    /* Allinea al centro */
     background: none;
+    /* Sfondo trasparente */
 }
 
 .item-toggle svg {
     fill: #585b57;
+    /* Colore delle icone */
     height: 2rem;
+    /* Altezza delle icone */
     width: 2rem;
+    /* Larghezza delle icone */
 }
 
 .item-list {
     font-size: 1.5rem;
+    /* Dimensione del testo */
     display: grid;
+    /* Layout a griglia per la lista */
     grid-template-columns: auto auto;
+    /* Due colonne automatiche */
     margin: 5px 0px 0px 0px;
+    /* Margine superiore */
     border-top: 3px solid var(--dark-col);
+    /* Bordo superiore della lista */
     padding-top: 5px;
+    /* Spaziatura interna superiore */
 }
 
 .item-list dt {
     font-weight: bold;
+    /* Testo in grassetto per i titoli */
 }
 
 .item-list dd {
     text-align: end;
+    /* Allinea il testo a destra */
 }
