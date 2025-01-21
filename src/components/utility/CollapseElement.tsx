@@ -1,12 +1,11 @@
 import React from 'react';
 
-import "./collapseElement.css"; // Importa gli stili specifici per l'elemento a scomparsa
+import "./collapseElement.css";
 
-// Definizione delle proprietà accettate dal componente
 interface PropType {
-    open: boolean; // Indica se l'elemento è aperto (true) o chiuso (false)
-    children: React.ReactNode; // Contenuto da visualizzare all'interno dell'elemento
-    className?: string; // Classe CSS aggiuntiva opzionale per personalizzare lo stile
+    open: boolean;              // Whether the element is open or closed
+    children: React.ReactNode;  // Collapse element content
+    className?: string;         // Optional CSS class for extra styling
 }
 
 /**
@@ -22,14 +21,14 @@ function CollapseElement({ open, children, className }: PropType) {
     return (
         <div
             className={
-                'collapse-el ' + // Classe base per lo stile del componente
-                (open ? "open " : "closed ") + // Aggiunge la classe `open` o `closed` in base allo stato
-                (className ? className : "") // Aggiunge eventuali classi personalizzate
+                'collapse-el ' +
+                (open ? "open " : "closed ") +
+                (className ? className : "")
             }
         >
-            {children} {/* Contenuto dell'elemento */}
+            {children}
         </div>
     );
 }
 
-export default CollapseElement; // Esporta il componente per l'uso in altri file
+export default CollapseElement;

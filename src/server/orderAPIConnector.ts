@@ -98,6 +98,9 @@ export default class StrapiOrderAPI implements OrderEndpoint {
 
             // Mappa i dati ricevuti in un oggetto `Order`
             const order = res.data.data;
+            if(!order){
+                return undefined;
+            }
             const prods = order.products.map(p => ({
                 documentId: p.documentId, // ID del documento del prodotto
                 name: p.Name,            // Nome del prodotto

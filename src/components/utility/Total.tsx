@@ -1,5 +1,5 @@
 import React from "react";
-import { formatPrice } from "../../utility/generic.ts"; // Importa la funzione di utilità per formattare i prezzi
+import { formatPrice } from "../../utility/generic.ts";
 
 /**
  * Componente `Total`.
@@ -11,17 +11,16 @@ import { formatPrice } from "../../utility/generic.ts"; // Importa la funzione d
  */
 export default function Total({ total, discount = 0, className }: { total: number, discount: number, className?: string }) {
 
-    // Caso in cui non è presente alcuno sconto
     if (!discount || discount === 0) {
+        // if discount is not present
         return (
             <p className={className}>
-                <strong className='font-weight-bold'>Totale</strong> {/* Etichetta per il totale */}
-                : {formatPrice(total)}€ {/* Totale formattato */}
+                <strong className='font-weight-bold'>Totale</strong>: {formatPrice(total)}€
             </p>
         );
     }
-    // Caso in cui è presente uno sconto
     else {
+        // if discount is present
         return (
             <p className={className}>
                 <strong className='font-weight-bold'>Totale</strong> {/* Etichetta per il totale */}

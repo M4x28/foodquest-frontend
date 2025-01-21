@@ -9,7 +9,6 @@ import './App.css';
 import Page from './pages/Page.tsx';
 import ProductPage from './pages/ProductPage.tsx';
 import OrderPage from './pages/OrderPage.tsx';
-import LandingPage from './pages/landingpage.tsx';
 import Home from './pages/home.tsx';
 import Login from './pages/login.tsx';
 import RegisterPage from './pages/registrazione.tsx';
@@ -54,10 +53,6 @@ function App() {
 
         //Stop if no table is selected
         if (!appState.table) {
-
-            //if(url !== "/error")
-            //    window.location.replace('/error');
-
             return "";
         }
 
@@ -77,7 +72,7 @@ function App() {
     useEffect(() => {
         //When table Status change move to correct page
         const url: string = window.location.pathname;
-        //console.log(tableStatus,url)
+
         if (tableStatus === "CHECK" && url !== "/check") {
             window.location.replace('/check');
         }
@@ -122,11 +117,13 @@ function App() {
                     <Route path='/test' element={<Test></Test>} />
                     <Route path='/check' element={<CheckPage />} />
                     <Route path='/expired' element={<ErrorPage errorTitle='Sessione Scaduta' retryBtn={false}
-                        errorMessage='Sembra che la tua sessione di acquisto sia terminta, se ritieni sia un errore chiedi ad un cameriere' />} />
+                        errorMessage='Sembra che la tua sessione di acquisto sia terminta, se ritieni sia un errore chiedi ad un cameriere' />} 
+                    />
 
                     <Route path='/error' element={<ErrorPage></ErrorPage>} />
                     <Route path='*' element={<ErrorPage errorTitle='Errore 404' retryBtn={false}
-                        errorMessage='La pagina che cerchi non è disponibile' />} />
+                        errorMessage='La pagina che cerchi non è disponibile' />} 
+                    />
                 </Routes>
             </BrowserRouter>
         </AppStateCtx.Provider>
@@ -167,7 +164,7 @@ function Test() {
     return (
         <Page>
             <Header pageName='Test' current={Pages.FC} />
-            <h1 style={{ paddingTop: 100 }}>{formatDate(time)}</h1>
+            <h1>{formatDate(time)}</h1>
 
             <CheckBox text='Ciao' value={check} onChange={(e) => {
                 console.log("click")

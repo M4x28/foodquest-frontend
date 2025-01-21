@@ -152,7 +152,7 @@ const PizzaBuilder: React.FC = () => {
                 .map((ing) => ing.documentId);
 
             // Crea un prodotto personalizzato con gli ingredienti
-            const newProductId = backendServer.products.createCustomProductFromIngredients(appState.table, pizzaCategoryId, baseId, ingredientsId);
+            const newProductId = await backendServer.products.createCustomProductFromIngredients(appState.table, pizzaCategoryId, baseId, ingredientsId);
             if (!newProductId) {
                 throw new Error("Errore durante la creazione del prodotto personalizzato.");
             }

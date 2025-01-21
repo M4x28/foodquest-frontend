@@ -3,20 +3,19 @@ import { Button } from '../input/Button.tsx';
 import Popup from './Popup.tsx';
 import "./ConfirmPrompt.css";
 
-// Definizione delle proprietà accettate dal componente `ButtonWithPrompt`
 interface PropType {
-    children: React.ReactNode;        // Contenuto del bottone principale
-    onClick: () => void;              // Funzione da eseguire quando si conferma l'azione
-    className?: string;               // Classe CSS per il bottone principale
-    variant?: string;                 // Variante di stile del bottone principale
-    size?: string;                    // Dimensione del bottone principale
-    popupClass?: string;              // Classe CSS personalizzata per il popup
-    confirmClass?: string;            // Classe CSS per il bottone di conferma nel popup
-    popupTitle?: string;              // Titolo visualizzato nel popup
-    popupText?: string;               // Testo esplicativo visualizzato nel popup
-    confirmText?: string;             // Testo del bottone di conferma
-    confirmSvg?: React.ReactElement;  // Icona SVG opzionale per il bottone di conferma
-    confirmVariant?: string;          // Variante di stile del bottone di conferma
+    children: React.ReactNode;        // Button content
+    onClick: () => void;              // Action to perform on acceptance
+    className?: string;               // Button css class
+    variant?: string;                 // Button color variant
+    size?: string;                    // Button size variant
+    popupClass?: string;              // Custom CSS class for popup componet
+    confirmClass?: string;            // Custom CSS class for confirm btn
+    popupTitle?: string;              // Title of the popup prompt
+    popupText?: string;               // Text of the popup prompt
+    confirmText?: string;             // Text of the confirm btn
+    confirmSvg?: React.ReactElement;  // Optional icon for confirm button
+    confirmVariant?: string;          // Button color variant for confirm btn
 }
 
 /**
@@ -43,56 +42,43 @@ function ButtonWithPrompt({
     variant,
     size,
     popupClass,
-    confirmClass = "dark-btn confirm-btn", // Classe CSS predefinita per il bottone di conferma
-    popupTitle = "Sei sicuro?",            // Titolo predefinito del popup
-    popupText = "Questa azione non può essere annullata", // Testo predefinito del popup
-    confirmText = "CONFERMA",              // Testo predefinito del bottone di conferma
-    confirmVariant,                        // Variante di stile per il bottone di conferma
-    confirmSvg                             // Icona SVG opzionale
+    confirmClass = "confirm-btn",
+    popupTitle = "Sei sicuro?",            
+    popupText = "Questa azione non può essere annullata",
+    confirmText = "CONFERMA",             
+    confirmVariant,                        
+    confirmSvg                             
 }: PropType) {
-    const [popup, setPopup] = useState(false); // Stato per controllare la visibilità del popup
+    
+    const [popup, setPopup] = useState(false);
 
-    // Funzione per mostrare/nascondere il popup
     const togglePopup = () => setPopup((p) => !p);
 
-    // Funzione per eseguire l'azione confermata e chiudere il popup
+    //Function to exectute on user confirm (excute action and closes popup)
     const confirmAction = () => {
-        onClick();       // Esegue la funzione fornita tramite `onClick`
-        togglePopup();   // Chiude il popup
+        onClick();
+        togglePopup();
     };
 
     return (
         <>
-            {/* Bottone principale */}
             <Button
                 onClick={togglePopup}
                 variant={variant}
                 size={size}
                 className={className}
             >
-                {children} {/* Contenuto del bottone principale */}
+                {children}
             </Button>
 
-            {/* Popup di conferma, visibile solo quando `popup` è true */}
-            {popup && (
-                <Popup
-                    isOpen={popup}
-                    close={togglePopup}
-                    popupClass={popupClass}
-                >
-                    <h3 className="prompt-title">{popupTitle}</h3> {/* Titolo del popup */}
-                    <p className="prompt-text">{popupText}</p>     {/* Testo esplicativo */}
+            <Popup isOpen={popup} close={togglePopup} popupClass={popupClass}>
+                <h3 className="prompt-title">{popupTitle}</h3>
+                <p className="prompt-text">{popupText}</p>
 
-                    {/* Bottone di conferma */}
-                    <Button
-                        variant={confirmVariant}        // Variante di stile
-                        onClick={confirmAction}         // Esegue l'azione confermata
-                        className={confirmClass}        // Classe CSS personalizzata
-                    >
-                        {confirmSvg} {confirmText}      {/* Icona e testo del bottone di conferma */}
-                    </Button>
-                </Popup>
-            )}
+                <Button variant={confirmVariant} onClick={confirmAction} className={confirmClass}>
+                    {confirmSvg} {confirmText}
+                </Button>
+            </Popup>
         </>
     );
 }

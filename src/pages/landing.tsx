@@ -5,9 +5,9 @@ import { Button } from '../components/input/Button.tsx';
 import { toErrorPage } from '../utility/generic.ts';
 import Input from '../components/input/Input.tsx';
 
-import mario from "../assets/Home/mario.png"; // Importa l'immagine di Mario (versione piccola)
-import bigMario from "../assets/Home/big-mario.png"; // Importa l'immagine di Mario (versione grande)
-import pizza from '../assets/Home/pizza.png'; // Importa l'immagine del logo della pizza
+import mario from "../assets/Home/mario.png";
+import bigMario from "../assets/Home/big-mario.png";
+import pizza from '../assets/Home/pizza.png';
 
 import "./page.css";
 import "./landing.css";
@@ -17,24 +17,25 @@ import "./landing.css";
  * Consente all'utente di accedere tramite un codice di accesso al tavolo.
  */
 function Landing() {
-    const [appState, updateAppState] = useContext(AppStateCtx); // Recupera lo stato globale e il metodo per aggiornarlo
-    const [param, _] = useSearchParams(); // Recupera i parametri della query string
-    const inputInQuery = param.has("accessCode"); // Controlla se il parametro `accessCode` è presente
 
-    // Stato locale per il codice di accesso, l'errore e altri dettagli
-    const [accessCode, setAccessCode] = useState<string>(param.get("accessCode") || ""); // Codice di accesso
-    const [error, setError] = useState<string | undefined>(); // Messaggio di errore
-    const navigate = useNavigate(); // Hook per la navigazione
+    const [appState,updateAppState] = useContext(AppStateCtx);
+    // eslint-disable-next-line
+    const [param,_] = useSearchParams();
+
+    //See if there are input in the query, if so not show input field and automatically load table
+    const inputInQuery = param.has("accessCode");
+
+    const [accessCode,setAccessCode] = useState<string>(param.get("accessCode") || "");
+    const [error,setError] = useState<string|undefined>();      //Error message to display on input
+
+    const navigate = useNavigate();
 
     // eslint-disable-next-line
     const [name, setName] = useState("Pizzeria da Mimmo"); // Nome del ristorante
     // eslint-disable-next-line
     const [logoUrl, setLogoUrl] = useState(pizza); // URL del logo del ristorante
 
-    /**
-     * Effettua l'accesso al tavolo tramite il codice di accesso.
-     * Aggiorna lo stato globale con i dettagli del tavolo.
-     */
+    //Use accessCode to log to the table
     const accessTable = () => {
         return backendServer.table.logToTable(accessCode)
             .then(table => {
@@ -47,54 +48,44 @@ function Landing() {
      * Effettua automaticamente l'accesso al tavolo se il codice è presente nella query string.
      */
     useEffect(() => {
-        if (inputInQuery) {
+        if(inputInQuery)    //If input was provided in query access table
             accessTable()
-                .catch(e => {
-                    console.log(e); // Logga l'errore
-                    toErrorPage(navigate); // Reindirizza alla pagina di errore
-                });
-        }
-    }, []); // Dipendenze: eseguito una sola volta al montaggio del componente
+            .catch(e => {
+                console.log(e)
+                toErrorPage(navigate);
+            })
+    },[]);
 
-    /**
-     * Tenta di effettuare l'accesso al tavolo quando l'utente inserisce un codice.
-     */
+    //Tries to log to table when accessCode in inserted manually
     const tryLog = () => {
         const trimCode = accessCode.trim(); // Rimuove eventuali spazi bianchi dal codice
         if (trimCode !== "") {
             accessTable()
-                .then(() => {
-                    navigate('/home'); // Naviga alla Home Page se l'accesso ha successo
-                })
-                .catch((e) => {
-                    console.log(e); // Logga l'errore
-                    setError("Il codice inserito non è valido"); // Imposta un messaggio di errore
-                });
+            .then(() => {
+                navigate('/home')
+            })
+            .catch((e) => {
+                console.log(e);
+                //Display error message to user
+                setError("Il codice inserito non è valido");
+            })
         }
-    };
+    }
 
-    /**
-     * Naviga alla Home Page se i dettagli del tavolo sono già presenti nello stato globale.
-     */
+    //Navigate to home, only if login was successful
     const toHome = () => {
         if (appState.table) {
-            navigate('/home'); // Naviga alla Home Page
+            navigate('/home');
         }
     };
 
-    /**
-     * Aggiorna lo stato locale del codice di accesso quando l'utente modifica l'input.
-     */
+    //Handle user input to change accessCode (when maually inserted)
     const handleCodeChange = (e) => {
-        setAccessCode(e.target.value);
-    };
+        setAccessCode(e.target.value)
+    }
 
-    /**
-     * Determina lo stile del pulsante in base alla presenza di un codice di accesso valido.
-     */
-    const btnVariant = inputInQuery
-        ? (appState.table ? "success" : "secondary")
-        : (accessCode.trim() !== "" ? "success" : "secondary");
+    //Set cta variant based on the login state
+    const btnVariant = inputInQuery ? (appState.table ? "success" : "secondary") : (accessCode.trim() !== "" ? "success" : "secondary");
 
     return (
         <>
@@ -122,26 +113,19 @@ function Landing() {
 
             {/* Sezione di call-to-action */}
             <section className='call-to-action'>
-                {!inputInQuery &&
-                    <Input
-                        type='text'
-                        placeholder='Inserisci il codice'
-                        className='cta-input'
-                        style={{ maxWidth: "400px", width: "80vw" }}
-                        error={error} // Mostra il messaggio di errore
-                        value={accessCode}
-                        onChange={handleCodeChange} // Aggiorna il codice di accesso
-                    />
-                }
-                <Button
-                    variant={btnVariant} // Determina lo stile del pulsante
-                    size="lg"
-                    className='cta-btn'
-                    onClick={inputInQuery ? toHome : tryLog} // Effettua l'accesso o naviga alla home
-                >
-                    {inputInQuery ? "INIZIA A ORDINARE" : "ACCEDI"} {/* Testo del pulsante */}
-                </Button>
-            </section>
+            {!inputInQuery && //Display input field only if was not provided in query
+                <Input type='text' placeholder='Inserisci il codice' className='cta-input' 
+                    style={{maxWidth: "400px",width:"80vw"}}
+                    error={error} value={accessCode} onChange={handleCodeChange}/>
+            }
+            <Button
+                variant={btnVariant}
+                size="lg"
+                className='cta-btn'
+                onClick={inputInQuery ? toHome : tryLog}>
+                        {inputInQuery ? "INIZIA A ORDINARE" : "ACCEDI"}
+            </Button>
+            </section>               
         </>
     );
 }

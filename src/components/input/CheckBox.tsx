@@ -1,17 +1,14 @@
 import React, { ChangeEventHandler } from 'react';
 
-// Importa l'icona per il segno di spunta
 import { ReactComponent as TicIcon } from "../../assets/tic.svg";
 
-// Importa lo stile per il componente CheckBox
 import "./checkBox.css";
 
-// Definizione delle proprietà accettate dal componente CheckBox
 interface PropType {
-    value: boolean;               // Stato attuale del checkbox (selezionato o no)
-    onChange: ChangeEventHandler; // Funzione da eseguire quando il valore cambia
-    text: string;                 // Testo da visualizzare accanto al checkbox
-    className?: string;           // Classe CSS aggiuntiva per lo stile (opzionale)
+    value: boolean;               // Current checkbox value (Checked or not)
+    onChange: ChangeEventHandler; // On change event handler
+    text: string;                 // Checkbox text description
+    className?: string;           // Css class for extra styling
 }
 
 /**
@@ -24,18 +21,18 @@ interface PropType {
  */
 function CheckBox({ value, onChange, text, className = "" }: PropType) {
     return (
-        <label className={"check-box " + className}> {/* Contenitore principale con classe CSS */}
-            {/* Input checkbox con stato controllato */}
+        <label className={"check-box " + className}>
             <input
-                checked={value}       // Imposta lo stato attuale del checkbox
-                type="checkbox"       // Tipo di input
-                onChange={onChange}   // Callback per il cambio di stato
+                checked={value}
+                type="checkbox"
+                onChange={onChange}
             />
-            {/* Contenitore per il segno di spunta */}
+            {/* Checkbox display (true checkbox is hidden, easier to style)*/}
             <span className='tic-container'>
-                <TicIcon /> {/* Icona del segno di spunta */}
+                <TicIcon />
             </span>
-            {text} {/* Testo descrittivo accanto al checkbox */}
+            
+            {text}
         </label>
     );
 }

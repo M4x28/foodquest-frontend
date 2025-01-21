@@ -1,69 +1,61 @@
 import React, { useState } from "react";
 
-// Definizione delle proprietà accettate dal componente AnimatedButton
 interface PropType {
-    className?: string;           // Classe CSS aggiuntiva per lo stile (opzionale)
-    OnClick?: () => void;         // Callback per il click del pulsante (opzionale)
-    animated?: boolean;           // Flag per abilitare/disabilitare l'animazione (default: true)
-    animationClass?: string;      // Classe CSS per l'animazione (opzionale)
-    children?: React.ReactNode;   // Contenuto del pulsante (es. testo o icone)
+    className?: string;           // Css class for stying button
+    OnClick?: () => void;         // On click handler
+    animated?: boolean;           // Enable or disable animation
+    animationClass?: string;      // Css class containing the animation, must have an animation specified
+    children?: React.ReactNode;   // Button content
 }
 
 /**
  * Componente `AnimatedButton`.
  * Un pulsante personalizzato che supporta animazioni al click.
  * 
- * @param {string} [className=""] - Classe CSS aggiuntiva per lo stile.
+ * @param {string} [className=""] - Classe CSS per lo stile.
  * @param {() => void} [OnClick=() => {}] - Funzione chiamata al click sul pulsante.
  * @param {boolean} [animated=true] - Abilita o disabilita l'animazione al click.
- * @param {string} [animationClass] - Classe CSS per definire l'animazione.
+ * @param {string} [animationClass] - Classe CSS per definire l'animazione. Deve avere un animazione al suo interno
  * @param {React.ReactNode} [children] - Contenuto del pulsante.
  */
 function AnimatedButton({
     className = "",
-    OnClick = () => { },
+    OnClick = () => {},
     animated = true,
     animationClass,
     children
 }: PropType) {
 
-    // Stato per gestire se l'animazione è attiva o no
-    const [anim, setAnim] = useState(false);
+    const [anim, setAnim] = useState(false);    //Current state of animation
 
-    // Combina la classe base con la classe di animazione se attiva
-    const btnClass: string = className + (anim ? " " + animationClass : "");
+    //Class name of button based on the animation status
+    const btnClass: string = className + (anim ? " " + animationClass : "");    
 
-    /**
-     * Gestisce il click sul pulsante.
-     * Attiva l'animazione se non è già attiva e `animated` è abilitato.
-     * Chiama la funzione `OnClick` solo se l'animazione non è in corso.
-     */
+    //Handle click starting animation
     const onBtnClick = () => {
         if (!anim && animated) {
-            setAnim(true); // Attiva l'animazione
+            setAnim(true);
         }
+        //Execute on click only if animation is not playing
         if (!anim) {
-            OnClick(); // Esegue la funzione associata al click
+            OnClick(); 
         }
     };
 
-    /**
-     * Gestisce il termine dell'animazione.
-     * Resetta lo stato dell'animazione quando questa finisce.
-     */
+    //Reset animation status on animation end
     const onAnimEnd = () => {
         if (anim) {
-            setAnim(false); // Disattiva l'animazione
+            setAnim(false);
         }
     };
 
     return (
         <button
-            className={btnClass}               // Applica le classi CSS al pulsante
-            onClick={onBtnClick}               // Gestisce il click sul pulsante
-            onAnimationEnd={onAnimEnd}         // Gestisce il termine dell'animazione
+            className={btnClass}               
+            onClick={onBtnClick}               
+            onAnimationEnd={onAnimEnd}
         >
-            {children} {/* Contenuto del pulsante */}
+            {children}
         </button>
     );
 }

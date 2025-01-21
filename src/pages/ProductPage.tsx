@@ -9,68 +9,69 @@ import "./productPage.css";
 import { backendServer } from '../App.tsx';
 import { Allergen, DetailProduct, Ingredient } from "../server/server.ts";
 import { toErrorPage } from "../utility/generic.ts";
+import { Button } from "../components/input/Button.tsx";
 
 /**
  * Componente per la visualizzazione della pagina dei prodotti per una categoria specifica.
  */
 function ProductPage() {
-    const navigate = useNavigate(); // Hook per la navigazione
-    const { categoryID } = useParams(); // Recupera il parametro `categoryID` dalla route
+    const navigate = useNavigate();
+    const { categoryID } = useParams(); //Fetch categoryID from the url
 
-    // Stati locali per gestire i dati della pagina
-    const [catName, setCatName] = useState("Loading..."); // Nome della categoria
-    const [products, setProducts] = useState<DetailProduct[]>([]); // Prodotti della categoria
-    const [ingredients, setIngredient] = useState<Ingredient[]>([]); // Ingredienti disponibili
-    const [allergens, setAllergens] = useState<Allergen[]>([]); // Allergeni disponibili
-    const [customizable, setCustomizable] = useState(false); // Flag per prodotti personalizzabili
+    const [catName, setCatName] = useState("Loading...");           // Category Name (For page title)
+    const [products, setProducts] = useState<DetailProduct[]>([]);  // Products to show
+    const [ingredients, setIngredient] = useState<Ingredient[]>([]);// All Ingredient
+    const [allergens, setAllergens] = useState<Allergen[]>([]);     // All Allergen
+    const [customizable, setCustomizable] = useState(false);        // Product allow customization (The product have ingredient)
 
-    // Effettua il fetch dei dettagli della categoria e dei prodotti al caricamento della pagina
     useEffect(() => {
-        // Recupera i dettagli della categoria
+        
+        //Fetch category detail
         backendServer.categories.fetchCatergoryDetail(categoryID || "")
             .then(catDetail => {
-                setCatName(catDetail.name); // Imposta il nome della categoria
+                setCatName(catDetail.name);
             })
             .catch((err) => {
-                console.log(err); // Logga eventuali errori
-                toErrorPage(navigate); // Reindirizza alla pagina di errore
+                console.log(err);
+                toErrorPage(navigate);
             });
 
-        // Recupera i prodotti della categoria
+        //Fetch all product for that category
         backendServer.categories.fetchProductByCategory(categoryID || "")
             .then((catDetail) => {
-                setProducts(catDetail.products); // Imposta i prodotti
+                setProducts(catDetail.products);
 
-                // Carica gli ingredienti se necessario
+                // If any product as ingredients then fetch them from backend
                 if (catDetail.hasIg) {
                     backendServer.ingredient.fetchIngredient().then(ig => {
-                        setIngredient(ig); // Imposta gli ingredienti
-                        setCustomizable(true); // Abilita i prodotti personalizzabili
+                        setIngredient(ig);
+                        // Presence of ingredient means that product in the category are customizable
+                        setCustomizable(true);
                     });
                 }
             })
             .catch((err) => {
-                console.log(err); // Logga eventuali errori
-                toErrorPage(navigate); // Reindirizza alla pagina di errore
+                console.log(err);
+                toErrorPage(navigate);
             });
 
-        // Recupera gli allergeni disponibili
+        // Fetch all allegen 
+        // Fetching whitout checking if needed because they are few and is very unlikely that they are not needed
+        // Doing so allow to fetch allergen while fetching other stuff
         backendServer.allergen.fetchAllergen()
             .then((res) => {
-                setAllergens(res); // Imposta gli allergeni
+                setAllergens(res);
             })
             .catch((err) => {
-                console.log(err); // Logga eventuali errori
-                toErrorPage(navigate); // Reindirizza alla pagina di errore
+                console.log(err);
+                toErrorPage(navigate);
             });
-    }, [categoryID]); // Effettua il fetch ogni volta che `categoryID` cambia
+    }, [categoryID]);
 
     return (
         <Page>
-            {/* Intestazione della pagina con il nome della categoria */}
             <Header pageName={catName} current={Pages.Home} />
 
-            {/* Sezione per la visualizzazione dei prodotti */}
             <section className="products">
                 {
                     products.map(p => (
@@ -79,26 +80,26 @@ function ProductPage() {
                             key={p.documentId}
                             ingredients={p.ingredientsId
                                 ? ingredients.filter(i => p.ingredientsId.includes(i.documentId))
-                                : undefined} // Filtra gli ingredienti associati
+                                : undefined} //Fetch Ingeredients from batched ingredient
                             allergens={p.allergensId
                                 ? allergens.filter(a => p.allergensId.includes(a.documentId))
-                                : undefined} // Filtra gli allergeni associati
+                                : undefined} //Fetch Allergena from batched allergen
                             imgUrl={p.imgUrl
                                 ? backendServer.imageUrlFromServer(p.imgUrl, "thumbnail")
-                                : undefined} // Recupera l'immagine del prodotto
-                            editable={customizable} // Flag per la modifica
+                                : undefined} //If is present send img url
+                            editable={customizable}
                         />
                     ))
                 }
             </section>
 
-            {/* Pulsante per creare un prodotto personalizzato, visibile solo se `customizable` è true */}
             {customizable &&
                 <section className="create-btn-container">
-                    <Link className="dark-btn create-btn" to={"/creazionepizza"}>
-                        <PizzaIcon /> {/* Icona della pizza */}
+                    <Button className="create-btn" variant="success" 
+                        onClick={() => navigate("/creazionepizza")}>
+                        <PizzaIcon />
                         Crea la tua pizza
-                    </Link>
+                    </Button>
                 </section>
             }
         </Page>

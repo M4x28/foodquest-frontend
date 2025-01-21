@@ -20,117 +20,122 @@ import { toErrorPage } from '../utility/generic.ts';
  * applicare punti fedeltà e richiedere il conto.
  */
 function ContoPage() {
-    const navigate = useNavigate(); // Hook per la navigazione
+    const navigate = useNavigate();
 
-    // Recupera lo stato globale dell'applicazione
     // eslint-disable-next-line
     const [appState, _] = useContext(AppStateCtx);
 
-    // Stato per i punti fedeltà e il loro utilizzo
-    const [usingPoint, setUsingPoint] = useState(false); // Flag per l'uso dei punti
-    const [point, setPoint] = useState(0); // Numero di punti disponibili
+    // State for handling fc point usage
+    const [usingPoint, setUsingPoint] = useState(false);
+    const [point, setPoint] = useState(0);
 
-    // Effettua il fetch dei dati dell'utente quando lo stato dell'utente cambia
+    // Fecth user detail for handling fc card
     useEffect(() => {
         if (appState.user) {
             const fetchUserData = async () => {
                 try {
                     const userFC = await backendServer.fc.fetchUserFC(appState.user.user.documentId);
-                    setUsingPoint(userFC.UsePoints !== null ? userFC.UsePoints : false); // Imposta lo stato dei punti
-                    setPoint(userFC.Points); // Imposta il numero di punti
+                    setUsingPoint(userFC.UsePoints !== null ? userFC.UsePoints : false);
+                    setPoint(userFC.Points);
                 } catch (error) {
                     console.error('Failed to fetch user data:', error);
-                    toErrorPage(navigate); // Reindirizza alla pagina di errore in caso di errore
+                    toErrorPage(navigate);
                 }
             };
             fetchUserData();
         }
-    }, [appState.user]); // Dipendenza: aggiorna quando cambia l'utente
+    }, [appState.user]); //Dependecy Should not change while on this page, but better safe than sorry
 
-    // Usa il custom hook `useRefresh` per aggiornare periodicamente gli ordini associati al tavolo
+    // Periodically fetch orders done (20s)
     // eslint-disable-next-line
     const [orders, __] = useRefresh<Order[]>(async () => {
+        
+        //Go to error page if table is not specified
         if (!appState.table) {
-            toErrorPage(navigate); // Reindirizza alla pagina di errore se il tavolo non è valido
+            toErrorPage(navigate);
             return [];
         }
 
+        //Fetch order from backend server
         return await backendServer.orders.fetchOrdersDone(appState.table)
             .catch((err) => {
-                console.log(err); // Logga eventuali errori
-                toErrorPage(navigate); // Reindirizza alla pagina di errore
+                console.log(err);
+                toErrorPage(navigate);
                 return [];
             });
 
-    }, [], 20000); // Aggiorna ogni 20 secondi
+    }, [], 20000);
 
-    // Usa `useRefresh` per aggiornare periodicamente il totale e lo sconto
+    // Periodically fetch total (20s)
+    // Separate from order to allow separate refresh when needed (Point usage change)
     // eslint-disable-next-line
     const [{ total, discount }, reloadTotal] = useRefresh<{ total: number, discount: number }>(async () => {
+        
+        //Go to error page if table is not specified
         if (!appState.table) {
-            toErrorPage(navigate); // Reindirizza alla pagina di errore se il tavolo non è valido
+            toErrorPage(navigate);
             return { total: 0, discount: 0 };
         }
 
-        return await backendServer.table.fetchTotal(appState.table); // Recupera totale e sconto
-    }, { total: 0, discount: 0 }, 20000, [appState.table]); // Aggiorna ogni 20 secondi
+        //Fetch total from backend server
+        return await backendServer.table.fetchTotal(appState.table).catch((err) => {
+            console.log(err);
+            toErrorPage(navigate);
+            return { total: 0, discount: 0 };
+        });
 
-    // Determina se è possibile richiedere il conto
+    }, { total: 0, discount: 0 }, 20000, [appState.table]);
+
+    //See if is possible to request check (Must be at least one order and all must be completed)
     const canRequestCheck = orders.length > 0 && orders.filter(o => o.status !== "Done").length === 0;
 
-    /**
-     * Richiede il conto se le condizioni lo permettono.
-     */
+    //Ask for check
     const checkRequest = async () => {
         if (!canRequestCheck) {
-            return; // Esci se non è possibile richiedere il conto
+            //Abort if not possible
+            return;
         } else {
             backendServer.table.askForCheck(appState.table)
                 .then(() => {
                     console.log("Richiesta conto effettuata");
-                    navigate("/check"); // Naviga alla pagina di conferma richiesta conto
+                    navigate("/check");     //Redirect to check page on success
                 }).catch((err) => {
-                    console.log(err); // Logga eventuali errori
-                    toErrorPage(navigate); // Reindirizza alla pagina di errore
+                    console.log(err);
+                    toErrorPage(navigate);
                     return [];
                 });
         }
     };
 
-    /**
-     * Gestisce il cambiamento dello stato di utilizzo dei punti fedeltà.
-     */
+    //Change if the user is using is point for discount
     const handlePointUsageChange = () => {
-        const newUsePoint = !usingPoint; // Inverte lo stato di utilizzo dei punti
+        const newUsePoint = !usingPoint;
         backendServer.fc.setPointUsage(appState.user.user.documentId, newUsePoint)
             .then(() => {
-                setUsingPoint(newUsePoint); // Aggiorna lo stato locale
-                reloadTotal(); // Ricarica il totale e lo sconto
+                setUsingPoint(newUsePoint)  //Setting state only after success
+                reloadTotal();              //Reload the total
             })
             .catch(e => {
-                console.log(e); // Logga eventuali errori
-                toErrorPage(navigate); // Reindirizza alla pagina di errore
+                console.log(e);
+                toErrorPage(navigate);
             });
     };
 
-    // Testo del popup di conferma per la richiesta del conto
+    // Popup text for check request based on if can be done
     const checkText = canRequestCheck
         ? "Questa azione non può essere annullata, sei sicuro?"
         : "Impossibile richiedere il conto, non hai ancora ricevuto tutti gli ordini";
 
     return (
         <Page>
-            {/* Intestazione della pagina */}
             <Header pageName='Conto' current={Pages.Check} />
 
-            {/* Sezione per visualizzare gli ordini */}
             <section className='orders-container mt-4'>
                 {orders.map((order, index) => (
                     <OrderCard key={order.documentId} order={order} index={index + 1} />
                 ))}
             </section>
 
-            {/* CheckBox per l'utilizzo dei punti fedeltà */}
             {appState.user &&
                 <CheckBox
                     value={usingPoint}
@@ -140,15 +145,14 @@ function ContoPage() {
                 />
             }
 
-            {/* Totale e sconto */}
             <Total total={total} discount={discount} className='total' />
 
-            {/* Bottone per richiedere il conto con prompt di conferma */}
             <ButtonWithPrompt
                 onClick={checkRequest}
                 className='check-btn'
                 popupTitle='Chiedi il conto'
                 popupText={checkText}
+                confirmVariant={canRequestCheck ? "success" : "danger"}
                 confirmText={canRequestCheck ? undefined : "CHIUDI"}
                 confirmClass={canRequestCheck ? undefined : 'err-btn confirm-btn'}
                 confirmSvg={canRequestCheck ? undefined : <CloseIcon />}

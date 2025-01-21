@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import AnimatedButton from "../input/AnimatedButton.tsx"; // Pulsante con animazione
-import { Link, useNavigate } from "react-router-dom"; // Hook per navigazione e link
+import AnimatedButton from "../input/AnimatedButton.tsx";
+import { Link, useNavigate } from "react-router-dom";
 
 // Import delle immagini e icone
 import placeholder from "../../assets/pizzaPlacehoder.webp";
@@ -10,21 +10,19 @@ import { ReactComponent as CartIcon } from "../../assets/shoppingCart.svg";
 import { ReactComponent as TicIcon } from "../../assets/tic.svg";
 import { ReactComponent as EditIcon } from "../../assets/edit.svg";
 
-import "./productCard.css"; // Stile della scheda prodotto
-import { AppStateCtx } from "../../App.tsx"; // Contesto globale dell'applicazione
-import { formatPrice, toErrorPage } from "../../utility/generic.ts"; // Utilità generiche
-import CollapseElement from "../utility/CollapseElement.tsx"; // Componente per la gestione delle sezioni a scomparsa
-import { Allergen, Ingredient, Product } from "../../server/server.ts"; // Tipi e interfacce per i dati
-import { backendServer } from '../../App.tsx'; // Connettore del backend
+import "./productCard.css";
+import { AppStateCtx } from "../../App.tsx";
+import { formatPrice, toErrorPage } from "../../utility/generic.ts";
+import CollapseElement from "../utility/CollapseElement.tsx";
+import { Allergen, Ingredient, Product } from "../../server/server.ts";
+import { backendServer } from '../../App.tsx';
 
-// Interfaccia per le proprietà del componente
 interface PropType {
-    product: Product; // Informazioni sul prodotto
-    editable?: boolean; // Flag per abilitare la modifica del prodotto
-    imgUrl?: string; // URL immagine del prodotto
-    ingredients?: Ingredient[]; // Lista degli ingredienti
-    allergens?: Allergen[]; // Lista degli allergeni
-    setErr?: Function; // Funzione opzionale per gestire errori
+    product: Product;           //product detail
+    editable?: boolean;         //The product can be edited
+    imgUrl?: string;            //Image url, uses placeholder if none passed
+    ingredients?: Ingredient[]; //Product Ingredient List if any
+    allergens?: Allergen[];     //Product allergen list if any
 }
 
 /**
@@ -35,65 +33,55 @@ interface PropType {
  * @param {Allergen[]} [allergens] - Lista degli allergeni.
  * @param {boolean} [editable] - Abilita la modifica del prodotto.
  * @param {string} [imgUrl] - URL immagine del prodotto (default: placeholder).
- * @param {Function} [setErr] - Funzione per gestire errori.
  */
-function ProductCard({ product, ingredients, allergens, editable, imgUrl = placeholder, setErr }: PropType) {
-    const navigate = useNavigate(); // Hook per la navigazione
+function ProductCard({ product, ingredients, allergens, editable, imgUrl = placeholder}: PropType) {
+    
+    const navigate = useNavigate();
     // eslint-disable-next-line
-    const [appState, _] = useContext(AppStateCtx); // Recupera lo stato globale
-    const [showAllergen, setShowAllergen] = useState(false); // Stato per mostrare/nascondere gli allergeni
+    const [appState, _] = useContext(AppStateCtx);
+    const [showAllergen, setShowAllergen] = useState(false);
 
-    // Descrizione generata dagli ingredienti
+    //Generate list of ingredient as description if any are present
     let description = "";
     if (ingredients) {
         description = ingredients
-            .sort((a, b) => -a.type.localeCompare(b.type)) // Ordina gli ingredienti per tipo
-            .reduce((desc, ig) => desc + ig.name + ", ", ""); // Crea una stringa con i nomi degli ingredienti
+            .sort((a, b) => -a.type.localeCompare(b.type))      //Order by type
+            .reduce((desc, ig) => desc + ig.name + ", ", ""); 
     }
 
-    /**
-     * Alterna la visibilità della sezione allergeni.
-     */
     function toggleAllergen() {
         setShowAllergen(s => !s);
     }
 
-    /**
-     * Aggiunge il prodotto al carrello.
-     */
+    //Add product to the cart
     function buyItem() {
         backendServer.products.addProductToCart(
             appState.table,
             product.documentId,
-            appState.user ? appState.user.user.documentId : undefined // Aggiunge l'utente se presente
+            appState.user ? appState.user.user.documentId : undefined //If present add the user detail for FC
         ).then(() => {
-            console.log(product.name, "Acquistata"); // Conferma di acquisto
+            console.log(product.name, "Acquistata");
         }).catch((err) => {
-            toErrorPage(navigate); // Reindirizza alla pagina di errore in caso di errore
-            console.log("Error:\n", err); // Logga l'errore
+            console.log("Error:\n", err);
+            toErrorPage(navigate);
         });
     }
 
     return (
-        <div className="my-card"> {/* Contenitore principale della scheda prodotto */}
-            {/* Intestazione del prodotto */}
+        <div className="my-card">
             <div className="product-header">
-                <img src={imgUrl} alt="Foto del prodotto" /> {/* Immagine del prodotto */}
-                <h3 className="product-name luckiest-font">{product.name}</h3> {/* Nome del prodotto */}
-                <h3 className="product-price">{formatPrice(product.price)} €</h3> {/* Prezzo del prodotto */}
+                <img src={imgUrl} alt="Foto del prodotto" />
+                <h3 className="product-name luckiest-font">{product.name}</h3>
+                <h3 className="product-price">{formatPrice(product.price)} €</h3>
             </div>
 
-            {/* Descrizione del prodotto */}
             {description && <p className="product-description">{description}</p>}
 
-            {/* Pulsanti associati al prodotto */}
             <div className="product-buttons">
-                {/* Pulsante per mostrare/nascondere gli allergeni */}
                 <button className="allergen-btn" onClick={toggleAllergen}>
                     {showAllergen ? <DownIcon /> : <UpIcon />} Allergeni
                 </button>
 
-                {/* Pulsante per acquistare il prodotto */}
                 <AnimatedButton
                     className={editable ? "buy-btn" : "buy-btn double-col-size"}
                     animationClass="buy-anim"
@@ -103,7 +91,6 @@ function ProductCard({ product, ingredients, allergens, editable, imgUrl = place
                     <TicIcon className="tic-icon" />
                 </AnimatedButton>
 
-                {/* Pulsante per modificare il prodotto (se abilitato) */}
                 {editable && (
                     <Link className="edit-btn" to={"/creazionepizza/".concat(product.documentId)}>
                         <EditIcon /> Modifica
@@ -111,16 +98,15 @@ function ProductCard({ product, ingredients, allergens, editable, imgUrl = place
                 )}
             </div>
 
-            {/* Sezione a scomparsa per gli allergeni */}
             <CollapseElement open={showAllergen} className="product-allergen">
                 {allergens && allergens?.length > 0 ? (
                     <ul>
                         {allergens.map(a => (
-                            <li key={a.documentId}>{a.name}</li> // Elenco degli allergeni
+                            <li key={a.documentId}>{a.name}</li>
                         ))}
                     </ul>
                 ) : (
-                    <p>Nessun allergene comune presente</p> // Messaggio in caso di assenza di allergeni
+                    <p>Nessun allergene comune presente</p> // Default message for no allergen
                 )}
             </CollapseElement>
         </div>
