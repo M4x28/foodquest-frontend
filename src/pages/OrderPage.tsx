@@ -92,6 +92,7 @@ const OrderPage: React.FC = () => {
                                     key={categoryId}
                                     title={category.name}
                                     items={category.items}
+                                    orderID={orderDocumentId || ''}
                                 /> // Componente per mostrare gli elementi della categoria
                             );
                         })}

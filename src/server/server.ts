@@ -52,7 +52,7 @@ export interface Product {
  */
 export interface DetailProduct extends Product {
     imgUrl?: string,
-    ingredientsId?: string[];
+    ingredientsId?: Ingredient[];
     allergensId?: string[];
 }
 
@@ -113,6 +113,7 @@ export interface OrderEndpoint {
     fetchOrdersDone: (table: Table) => Promise<Order[]>
     fetchCurrentOrder: (table: Table) => Promise<Order>
     confirmOrder: (documentID: string, allCoursesTogetherFlag: boolean) => Promise<void>
+    removeProductFromOrder: (orderDocumentID: string, productDocumentID: string) => Promise<boolean>
 }
 
 /**

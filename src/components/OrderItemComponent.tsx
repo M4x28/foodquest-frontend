@@ -1,50 +1,72 @@
-import React from "react"; // Importa la libreria React per creare componenti.
-import './OrderItemComponent.css'; // Importa il file CSS per gli stili specifici del componente.
-import { Ingredient } from "../server/server"; // Importa il tipo Ingredient dal modulo server.
+import React, { useEffect, useState } from "react";
+import { backendServer } from "../App.tsx";
+import { Ingredient } from "../server/server";
+import './OrderItemComponent.css';
 
 // Interfaccia per gli elementi dell'ordine
-interface OrderItemProps { // Definisce la struttura delle proprietà che il componente accetta.
-    name: string; // Nome dell'elemento.
-    quantity: number; // Quantità dell'elemento.
-    price: number; // Prezzo per unità dell'elemento.
-    ingredients?: Ingredient[]; // Opzionale: lista di ingredienti con prezzi aggiuntivi.
+interface OrderItemProps {
+    documentId: string;
+    name: string;
+    quantity: number;
+    price: number;
+    ingredients?: Ingredient[];
+    orderID: string;
 }
 
 // Componente per un singolo elemento dell'ordine
-export const OrderItemComponent: React.FC<OrderItemProps> = ({ name, quantity, price, ingredients }) => {
+export const OrderItemComponent: React.FC<OrderItemProps> = ({ name, quantity, price, ingredients, orderID, documentId }) => {
+    const [loadedIngredients, setLoadedIngredients] = useState<Ingredient[] | undefined>(ingredients); // Stato per gli ingredienti caricati
+
+    // Effetto per caricare gli ingredienti se non sono già presenti
+    useEffect(() => {
+        if (!ingredients || ingredients.length === 0) {
+            backendServer.products.getProductIngredients(documentId)
+                .then((fetchedIngredients) => {
+                    setLoadedIngredients(fetchedIngredients || []); // Aggiorna lo stato con gli ingredienti caricati
+                })
+                .catch((err) => {
+                    console.error("Errore nel caricamento degli ingredienti:", err);
+                });
+        }
+    }, [ingredients, documentId]);
+
     return (
-        <div className="row py-2 align-items-center"> {/* Contenitore flessibile allineato verticalmente con padding */}
+        <div className="row py-2 align-items-center">
             {/* Bottone e nome pizza */}
-            <div
-                className="col-8 text-start alimbox"> {/* orderItemComponent.css(alimbox) */}
-                {/* Colonna per il bottone e il nome della pizza, allineati a sinistra */}
+            <div className="col-8 text-start alimbox">
                 <button
-                    className="custom-button" // orderItemComponent.css(custom-button)
-                    type="submit" // Specifica che il bottone invia un modulo.
-                    onClick={(e) => { // Funzione click per aggiungere e rimuovere una classe animata.
-                        const button = e.currentTarget; // Ottiene l'elemento del bottone cliccato.
-                        button.classList.add('button-animate'); // Aggiunge una classe per l'animazione.
-                        setTimeout(() => button.classList.remove('button-animate'), 300); // Rimuove la classe dopo l'animazione.
+                    className="custom-button"
+                    type="submit"
+                    onClick={(e) => {
+                        const button = e.currentTarget;
+                        button.classList.add('button-animate'); // Aggiunge l'animazione
+                        setTimeout(() => button.classList.remove('button-animate'), 300); // Rimuove l'animazione
+                        backendServer.orders.removeProductFromOrder(orderID, documentId) // Rimuove il prodotto dal backend
+                            .then(() => {
+                                window.location.reload();
+                            })
+                            .catch((err) => {
+                                console.error("Errore nella rimozione del prodotto:", err);
+                            });
                     }}
                 >
-                    <b className="text-danger">-</b> {/* bootstrap.css(col-12,text-start) */}
-                    {/* Bottone con testo rosso per ridurre la quantità */}
+                    <b className="text-danger">-</b>
                 </button>
                 <span>{`${name} x ${quantity}`}</span> {/* Mostra il nome e la quantità dell'elemento */}
             </div>
             {/* Prezzo */}
-            <div className="col-4 text-end price-style"> {/* orderItemComponent.css(price-style) */}
-                <span>{`${price * quantity}€`}</span> {/* Calcola e mostra il prezzo totale */}
+            <div className="col-4 text-end price-style">
+                <span>{`${price * quantity}€`}</span>
             </div>
             {/* Lista ingredienti */}
-            {ingredients && ingredients.length > 0 && ( // Mostra gli ingredienti se sono definiti e non vuoti.
-                <div className="col-12 text-start"> {/* bootstrap.css(col-12,text-start) */}
-                    <ul style={{ fontSize: '0.9rem' }}> {/* Lista non ordinata con font ridotto */}
-                        {ingredients.map((ingredient) => ( // Cicla attraverso la lista degli ingredienti.
+            {loadedIngredients && loadedIngredients.length > 0 && (
+                <div className="col-12 text-start">
+                    <ul style={{ fontSize: '0.9rem' }}>
+                        {loadedIngredients.map((ingredient) => (
                             <li
-                                className="ingrendient-list"
-                                key={ingredient.documentId} // Chiave unica per ogni elemento della lista.
-                            >{`${ingredient.name} (+${ingredient.price}€)`}</li> // Mostra il nome e il prezzo aggiuntivo dell'ingrediente.
+                                className="ingrendient-list" // Aggiunta classe per gli stili
+                                key={ingredient.documentId}
+                            >{`${ingredient.name} (+${ingredient.price}€)`}</li>
                         ))}
                     </ul>
                 </div>
@@ -54,20 +76,25 @@ export const OrderItemComponent: React.FC<OrderItemProps> = ({ name, quantity, p
 };
 
 // OrderCategoryComponent
-interface OrderCategoryProps { // Definisce la struttura delle proprietà per la categoria degli ordini.
-    title: string; // Titolo della categoria.
-    items: OrderItemProps[]; // Lista degli elementi della categoria.
+interface OrderCategoryProps {
+    title: string;
+    items: OrderItemProps[];
+    orderID: string;
 }
 
-export const OrderCategoryComponent: React.FC<OrderCategoryProps> = ({ title, items }) => {
+export const OrderCategoryComponent: React.FC<OrderCategoryProps> = ({ title, items, orderID }) => {
     return (
-        <div className="mb-3 rounded cat-box" >  {/* orderItemComponent.css(cat-box), bootstrap.css(mb-3,rounded) */}
-            {/* Contenitore con margine e bordi arrotondati */}
-            <h5 className="bg-success text-white p-2 m-0 item-style" >{title}</h5> {/* orderItemComponent.css(item-style), bootstrap.css(bg-success,text-white,p-2,m-0) */}
-            {/* Titolo della categoria con sfondo verde, testo bianco e padding */}
-            <div className="bg-light p-2"> {/* Contenitore interno con sfondo chiaro e padding */}
-                {items.map((item, index) => ( // Cicla attraverso la lista degli elementi della categoria.
-                    <OrderItemComponent key={index} {...item} /> // Usa il componente OrderItemComponent per ogni elemento.
+        <div className="mb-3 rounded cat-box">
+            {/* Titolo della categoria */}
+            <h5 className="bg-success text-white p-2 m-0 item-style">{title}</h5>
+            {/* Contenitore per gli elementi */}
+            <div className="bg-light p-2">
+                {items.map((item, index) => (
+                    <OrderItemComponent
+                        key={index}
+                        orderID={orderID}
+                        {...item}
+                    />
                 ))}
             </div>
         </div>

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import CollapseElement from "../utility/CollapseElement.tsx"; // Importa il componente per gestire l'elemento a scomparsa
-import { DetailIngredient } from "../../server/server.ts"; // Importa il tipo `DetailIngredient`
 import { backendServer } from "../../App.tsx"; // Importa il connettore del backend
+import { ReactComponent as Up } from "../../assets/up.svg";
+import { DetailIngredient } from "../../server/server.ts"; // Importa il tipo `DetailIngredient`
+import { Button } from "../input/Button.tsx";
+import CollapseElement from "../utility/CollapseElement.tsx"; // Importa il componente per gestire l'elemento a scomparsa
 
 // Interfaccia per le proprietà accettate dal componente `BaseDropdown`
 interface BaseDropdownProps {
@@ -19,6 +21,7 @@ const BaseDropdown: React.FC<BaseDropdownProps> = ({
 }) => {
     // Stato per gestire le basi disponibili
     const [bases, setBases] = useState<DetailIngredient[]>([]);
+    const [selectedBase, setSelectedBase] = useState<DetailIngredient>();
     const [loading, setLoading] = useState<boolean>(true); // Stato per indicare il caricamento
     const [elementState, setElementState] = useState<boolean>(false); // Stato per gestire l'apertura del menu a tendina
 
@@ -29,6 +32,7 @@ const BaseDropdown: React.FC<BaseDropdownProps> = ({
                 // Recupera gli ingredienti base dal backend
                 const baseIngredients = await backendServer.ingredient.getBaseIngredients();
                 setBases(baseIngredients); // Aggiorna lo stato con le basi caricate
+                setSelectedBase(baseIngredients[0]); // Imposta la base classica come base predefinita
             } catch (error) {
                 console.error("Errore durante il caricamento delle basi:", error); // Log degli errori
             } finally {
@@ -51,13 +55,16 @@ const BaseDropdown: React.FC<BaseDropdownProps> = ({
         >
             {/* Bottone per aprire o chiudere il menu a tendina */}
             <div className="position-absolute">
-                <button
-                    className="btn btn-warning dropdown-toggle" // Stile del bottone
-                    type="button"
+                <Button
+                    variant="warning text-LG"
+                    size="xl"
                     onClick={() => setElementState(!elementState)} // Cambia lo stato di visibilità del menu
                 >
-                    {loading ? "Caricamento..." : "Sostituisci Impasto"} {/* Testo dinamico */}
-                </button>
+                    <h3>
+                        {loading ? "Caricamento..." : selectedBase ? `${selectedBase.name} ${selectedBase.price}` : "Seleziona una base"} {/* Testo dinamico */}
+                        <Up/>
+                    </h3>
+                </Button>
             </div>
 
             {/* Menu a tendina per selezionare una base */}
@@ -75,6 +82,7 @@ const BaseDropdown: React.FC<BaseDropdownProps> = ({
                                 onClick={() => {
                                     handleReplaceBaseIngredient(base); // Chiama la funzione per sostituire la base
                                     setElementState(!elementState); // Chiude il menu
+                                    setSelectedBase(base); // Imposta il valore della base selezionata
                                 }}
                             >
                                 <h5>

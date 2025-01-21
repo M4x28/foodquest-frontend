@@ -137,4 +137,29 @@ export default class StrapiOrderAPI implements OrderEndpoint {
             }
         }).then(() => console.log("Order Confirmed"));
     }
+
+    /**
+    * Rimuove un prodotto da un ordine esistente.
+    * 
+    * @param {string} orderDocumentID - ID del documento dell'ordine.
+    * @param {string} productDocumentID - ID del documento del prodotto.
+    * @returns {Promise<boolean>} Promise risolta con true se il prodotto è stato rimosso con successo.
+    */
+    removeProductFromOrder(orderDocumentID: string, productDocumentID: string): Promise<boolean> {
+        return AxiosSingleton.getInstance().post(`${this.__endpoint__}/remove-product`, {
+            data: {
+                orderId: orderDocumentID,  // ID dell'ordine
+                productId: productDocumentID, // ID del prodotto
+            }
+        })
+            .then((response) => {
+                console.log("Product removed from order:", response.data.message);
+                return true; // Restituisce true se l'operazione è riuscita
+            })
+            .catch((error) => {
+                console.error("Error removing product from order:", error);
+                return false; // Restituisce false in caso di errore
+            });
+    }
+
 }
