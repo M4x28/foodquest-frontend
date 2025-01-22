@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header, { Pages } from "../components/utility/Header.tsx"; // Assicurati di aggiornare il percorso corretto per Header.tsx
+import { AppStateCtx, backendServer } from "../App.tsx"; // Importa il contesto globale e il server backend
 import "../bootstrap.css"; // Assicurati di aggiornare il percorso del file bootstrap.css
-import "./login-registrazione.css"; // File CSS per la pagina di registrazione
 import { Button } from '../components/input/Button.tsx'; // Importa il componente Button
 import Input from "../components/input/Input.tsx"; // Importa il nuovo componente Input
-import { AppStateCtx, backendServer } from "../App.tsx"; // Importa il contesto globale e il server backend
+import Header, { Pages } from "../components/utility/Header.tsx"; // Assicurati di aggiornare il percorso corretto per Header.tsx
+import "./login-registrazione.css"; // File CSS per la pagina di registrazione
+// Importa il componente logo
+import Logo from '../components/logo.tsx';
 
 const RegisterPage: React.FC = () => {
 
@@ -59,11 +61,8 @@ const RegisterPage: React.FC = () => {
 
                 <div className="fixed-image">
                     {/* Contenitore per l'immagine fissa, login-registrazione.css(fixed-image) */}
-                    <img
-                        src="/pizza.png"
-                        alt="Pizza Logo"
-                        className="pizza-logo mb-4"
-                    />
+                    <Logo alt="Pizza Logo" className="pizza-logo mb-4" />
+
                     {/* Logo della pizza, login-registrazione.css(pizza-logo), bootstrap.css(mb-4) */}
                 </div>
 

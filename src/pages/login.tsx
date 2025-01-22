@@ -1,11 +1,15 @@
 import React, { useContext, useEffect, useState } from "react"; // Importa React, i contesti, gli effetti e lo stato
 import { useNavigate } from "react-router-dom"; // Hook per la navigazione tra pagine
-import Header, { Pages } from "../components/utility/Header.tsx"; // Importa il componente Header e il tipo Pages
+import { AppStateCtx, backendServer } from "../App.tsx"; // Importa il contesto globale e il server backend
 import "../bootstrap.css"; // Importa lo stile di Bootstrap
-import "./login-registrazione.css"; // Importa lo stile personalizzato per la pagina di registrazione
 import { Button } from '../components/input/Button.tsx'; // Importa il componente Button
 import Input from "../components/input/Input.tsx"; // Importa il nuovo componente Input
-import { AppStateCtx, backendServer } from "../App.tsx"; // Importa il contesto globale e il server backend
+import Header, { Pages } from "../components/utility/Header.tsx"; // Importa il componente Header e il tipo Pages
+import "./login-registrazione.css"; // Importa lo stile personalizzato per la pagina di registrazione
+
+// Importa il componente logo
+import Logo from '../components/logo.tsx';
+
 
 //Formato per la specifica delle classi css: nomefile1.css(nomeclasse-1,nomeclasse-1,...,nomeclasse-n), nomefile2.css(nomeclasse-2,nomeclasse-2,...,nomeclasse-k)
 
@@ -57,11 +61,8 @@ const RegisterPage: React.FC = () => {
                 {/* Immagine fissa */}
                 <div className="fixed-image">
                     {/* Contenitore per l'immagine fissa, login-registrazione.css(fixed-image) */}
-                    <img
-                        src="/pizza.png"
-                        alt="Pizza Logo"
-                        className="pizza-logo mb-4"
-                    />
+                    <Logo alt="Pizza Logo" className="pizza-logo mb-4" />
+
                     {/* Logo della pizza, login-registrazione.css(pizza-logo), bootstrap.css(mb-4) */}
                 </div>
 

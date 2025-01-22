@@ -1,16 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { AppStateCtx, backendServer } from "../App.tsx";
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { AppStateCtx, backendServer } from "../App.tsx";
 import { Button } from '../components/input/Button.tsx';
-import { toErrorPage } from '../utility/generic.ts';
 import Input from '../components/input/Input.tsx';
+import { toErrorPage } from '../utility/generic.ts';
 
-import mario from "../assets/Home/mario.png";
 import bigMario from "../assets/Home/big-mario.png";
-import pizza from '../assets/Home/pizza.png';
+import mario from "../assets/Home/mario.png";
 
-import "./page.css";
+// Importa il componente logo
+import Logo from '../components/logo.tsx';
+
+
 import "./landing.css";
+import "./page.css";
 
 /**
  * Componente per la pagina di atterraggio (Landing Page).
@@ -18,22 +21,21 @@ import "./landing.css";
  */
 function Landing() {
 
-    const [appState,updateAppState] = useContext(AppStateCtx);
+    const [appState, updateAppState] = useContext(AppStateCtx);
     // eslint-disable-next-line
-    const [param,_] = useSearchParams();
+    const [param, _] = useSearchParams();
 
     //See if there are input in the query, if so not show input field and automatically load table
     const inputInQuery = param.has("accessCode");
 
-    const [accessCode,setAccessCode] = useState<string>(param.get("accessCode") || "");
-    const [error,setError] = useState<string|undefined>();      //Error message to display on input
+    const [accessCode, setAccessCode] = useState<string>(param.get("accessCode") || "");
+    const [error, setError] = useState<string | undefined>();      //Error message to display on input
 
     const navigate = useNavigate();
 
     // eslint-disable-next-line
-    const [name, setName] = useState("Pizzeria da Mimmo"); // Nome del ristorante
+    const [name] = useState("Pizzeria da Mimmo"); // Nome del ristorante
     // eslint-disable-next-line
-    const [logoUrl, setLogoUrl] = useState(pizza); // URL del logo del ristorante
 
     //Use accessCode to log to the table
     const accessTable = () => {
@@ -48,27 +50,27 @@ function Landing() {
      * Effettua automaticamente l'accesso al tavolo se il codice è presente nella query string.
      */
     useEffect(() => {
-        if(inputInQuery)    //If input was provided in query access table
+        if (inputInQuery)    //If input was provided in query access table
             accessTable()
-            .catch(e => {
-                console.log(e)
-                toErrorPage(navigate);
-            })
-    },[]);
+                .catch(e => {
+                    console.log(e)
+                    toErrorPage(navigate);
+                })
+    }, []);
 
     //Tries to log to table when accessCode in inserted manually
     const tryLog = () => {
         const trimCode = accessCode.trim(); // Rimuove eventuali spazi bianchi dal codice
         if (trimCode !== "") {
             accessTable()
-            .then(() => {
-                navigate('/home')
-            })
-            .catch((e) => {
-                console.log(e);
-                //Display error message to user
-                setError("Il codice inserito non è valido");
-            })
+                .then(() => {
+                    navigate('/home')
+                })
+                .catch((e) => {
+                    console.log(e);
+                    //Display error message to user
+                    setError("Il codice inserito non è valido");
+                })
         }
     }
 
@@ -107,25 +109,25 @@ function Landing() {
 
             {/* Sezione del logo */}
             <section id="logo">
-                <img src={logoUrl} alt={"Logo " + name} /> {/* Mostra il logo */}
+                <Logo alt={`Logo ${name}`} /> {/* Mostra il logo con il componente */}
                 <h1>{name}</h1> {/* Mostra il nome del ristorante */}
             </section>
 
             {/* Sezione di call-to-action */}
             <section className='call-to-action'>
-            {!inputInQuery && //Display input field only if was not provided in query
-                <Input type='text' placeholder='Inserisci il codice' className='cta-input' 
-                    style={{maxWidth: "400px",width:"80vw"}}
-                    error={error} value={accessCode} onChange={handleCodeChange}/>
-            }
-            <Button
-                variant={btnVariant}
-                size="lg"
-                className='cta-btn'
-                onClick={inputInQuery ? toHome : tryLog}>
-                        {inputInQuery ? "INIZIA A ORDINARE" : "ACCEDI"}
-            </Button>
-            </section>               
+                {!inputInQuery && //Display input field only if was not provided in query
+                    <Input type='text' placeholder='Inserisci il codice' className='cta-input'
+                        style={{ maxWidth: "400px", width: "80vw" }}
+                        error={error} value={accessCode} onChange={handleCodeChange} />
+                }
+                <Button
+                    variant={btnVariant}
+                    size="lg"
+                    className='cta-btn'
+                    onClick={inputInQuery ? toHome : tryLog}>
+                    {inputInQuery ? "INIZIA A ORDINARE" : "ACCEDI"}
+                </Button>
+            </section>
         </>
     );
 }

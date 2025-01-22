@@ -1,0 +1,11 @@
+.logo-shadow {
+
+    border-radius: 8px;
+    /* Opzionale per bordi arrotondati */
+    transition: transform 0.3s ease-in-out;
+}
+
+.logo-shadow:hover {
+    transform: scale(1.05);
+    /* Effetto zoom al passaggio del mouse */
+}

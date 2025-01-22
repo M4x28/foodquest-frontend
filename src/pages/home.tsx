@@ -1,14 +1,14 @@
 import React from 'react';
 
-// Importa l'immagine del logo della pizza
-import pizzaLogo from '../assets/Home/pizza.png';
+// Importa il componente logo
+import Logo from '../components/logo.tsx';
 
 // Importa il componente Header e le pagine disponibili
 import Header, { Pages } from "../components/utility/Header.tsx";
 
 // Importa le icone per "Ordine" e "Conto"
-import { ReactComponent as OrderIcon } from "../assets/order.svg";
 import { ReactComponent as CartIcon } from "../assets/cart.svg";
+import { ReactComponent as OrderIcon } from "../assets/order.svg";
 
 // Importa il componente per la lista delle categorie
 import CategoriesList from "../components/CategoriesList.tsx";
@@ -36,7 +36,7 @@ const Home: React.FC = () => {
 
             {/* Contenitore del logo */}
             <div className="logo-container my-5">
-                <img src={pizzaLogo} alt="Pizza Logo" /> {/* Mostra il logo della pizza */}
+                <Logo /> {/* Mostra il logo della pizza */}
             </div>
 
             {/* Lista delle categorie */}

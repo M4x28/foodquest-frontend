@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from "react"; // Importa React, i contesti, gli effetti e lo stato
 import { useNavigate } from "react-router-dom"; // Hook per la navigazione tra pagine
-import Header, { Pages } from "../components/utility/Header.tsx"; // Importa il componente Header e il tipo Pages
-import "../bootstrap.css"; // Importa lo stile di Bootstrap
-import "./account.css"; // Importa lo stile personalizzato per la pagina account
-import { ReactComponent as PizzaIcon } from "../assets/pizza.svg"; // Importa il file SVG dell'icona pizza
-import { ReactComponent as LogoutIcon } from "../assets/logout.svg"; // Importa il file SVG dell'icona logout
-import { Button } from '../components/input/Button.tsx'; // Importa il componente Button personalizzato
 import { AppStateCtx } from "../App.tsx"; // Importa il contesto globale dell'applicazione
+import { ReactComponent as LogoutIcon } from "../assets/logout.svg"; // Importa il file SVG dell'icona logout
+import { ReactComponent as PizzaIcon } from "../assets/pizza.svg"; // Importa il file SVG dell'icona pizza
+import "../bootstrap.css"; // Importa lo stile di Bootstrap
+import { Button } from '../components/input/Button.tsx'; // Importa il componente Button personalizzato
+import Header, { Pages } from "../components/utility/Header.tsx"; // Importa il componente Header e il tipo Pages
+import "./account.css"; // Importa lo stile personalizzato per la pagina account
+// Importa il componente logo
+import Logo from '../components/logo.tsx';
 
 //Formato per la specifica delle classi css: nomefile1.css(nomeclasse-1,nomeclasse-1,...,nomeclasse-n), nomefile2.css(nomeclasse-2,nomeclasse-2,...,nomeclasse-k)
 
@@ -42,7 +44,8 @@ const AccountPage: React.FC = () => {
                 {/* Immagine fissa */}
                 <div className="fixed-image">
                     {/* Contenitore per l'immagine fissa, account.css(fixed-image) */}
-                    <img src="/pizza.png" alt="Pizza Logo" className="pizza-logo mb-4" />
+                    <Logo alt="Pizza Logo" className="pizza-logo mb-4" />
+
                     {/* Logo della pizza, account.css(pizza-logo), bootstrap.css(mb-4) */}
                 </div>
 
