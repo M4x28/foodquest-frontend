@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'; // Importa React e i suoi hook principali
+import { useNavigate } from 'react-router-dom'; // Hook per la navigazione tra pagine
+import { AppStateCtx, backendServer } from '../App.tsx'; // Importa il contesto dell'app e il server backend
+import { ReactComponent as ConfirmIcon } from "../assets/confirm.svg"; // Importa un'icona SVG per la conferma
 import '../bootstrap.css'; // Importa gli stili di Bootstrap
-import Header, { Pages } from "../components/utility/Header.tsx"; // Importa il componente Header e l'oggetto Pages
+import CheckBox from '../components/input/CheckBox.tsx'; // Importa un componente per la checkbox
 import { OrderCategoryComponent } from '../components/OrderItemComponent.tsx'; // Importa il componente per mostrare gli elementi dell'ordine
 import ButtonWithPrompt from '../components/popup/ButtonWithPrompt.tsx'; // Importa un pulsante con popup di conferma
-import { ReactComponent as ConfirmIcon } from "../assets/confirm.svg"; // Importa un'icona SVG per la conferma
-import CheckBox from '../components/input/CheckBox.tsx'; // Importa un componente per la checkbox
+import Header, { Pages } from "../components/utility/Header.tsx"; // Importa il componente Header e l'oggetto Pages
 import { countProduct } from '../utility/generic.ts'; // Importa una funzione per contare i prodotti
-import { AppStateCtx, backendServer } from '../App.tsx'; // Importa il contesto dell'app e il server backend
-import { useNavigate } from 'react-router-dom'; // Hook per la navigazione tra pagine
 
 // Componente principale per la pagina dell'ordine
 const OrderPage: React.FC = () => {
@@ -53,6 +53,7 @@ const OrderPage: React.FC = () => {
                 }
 
                 if (item.name === 'Custom') {
+                    console.log(item);
                     const ingredients = await fetchIngredientsInternal(item.documentId); // Ottieni gli ingredienti
                     item.ingredientsId = ingredients.map(ingredient => ingredient.documentId); // Aggiungi gli ID degli ingredienti
                 }
@@ -81,8 +82,8 @@ const OrderPage: React.FC = () => {
     return (
         <>
             <Header pageName="Ordine" current={Pages.Order} /> {/* Header della pagina con il titolo "Ordine" */}
-            <div className="p-4" style={{ marginTop: '100px' }}> {/* Contenitore principale con padding e margine */}
-                <div style={{ maxHeight: '70%', overflowY: 'scroll' }}> {/* Contenitore scrollabile per gli elementi */}
+            <div className="p-4" style={{ marginTop: '80px' }}> {/* Contenitore principale con padding e margine */}
+                <div style={{ maxHeight: '50rem', overflowY: 'scroll' }}> {/* Contenitore scrollabile per gli elementi */}
                     {Object.keys(itemsByCategory)
                         .sort((a, b) => antFirst ? b.localeCompare(a) : a.localeCompare(b)) // Ordina le categorie in base a `antFirst`
                         .map(categoryId => {

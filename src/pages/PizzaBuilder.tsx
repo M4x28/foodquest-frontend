@@ -18,25 +18,33 @@ import Popup from "../components/popup/Popup.tsx";
 import { toErrorPage } from "../utility/generic.ts";
 
 const PizzaBuilder: React.FC = () => {
+    // Ottieni lo stato dell'applicazione dal contesto
     const [appState, _] = useContext(AppStateCtx);
+    // Hook per la navigazione
     const navigate = useNavigate();
 
+    // Ottieni l'ID del prodotto dai parametri dell'URL
     const { productID } = useParams();
 
+    // Stato per tutti gli ingredienti
     const [allIngredients, setAllIngredients] = useState<DetailIngredient[]>([]);
+    // Stato per la visibilità del popup
     const [popupState, setPopupState] = useState<boolean>(false);
+    // Stato per gli ingredienti raccomandati
     const [recommendedIngredients, setRecommendedIngredients] = useState<DetailIngredient[] | undefined>(undefined);
+    // Stato per l'ingrediente con raccomandazione
     const [ingredientWithRecommendation, setIngredientWithRecommendation] = useState<DetailIngredient | null>(null);
 
     useEffect(() => {
         const fetchIngredients = async () => {
             try {
                 if (productID) {
-                    // Carica gli ingredienti specifici del prodotto
+                    // Carica gli ingredienti specifici del prodotto se presente
                     const ingredients = await backendServer.products.getProductIngredients(productID);
                     if (ingredients && Array.isArray(ingredients)) {
                         setAllIngredients(ingredients);
                     } else {
+                        // Avviso warning in console se la risposta non contiene un array di ingredienti valido
                         console.warn("La risposta del backend non contiene un array di ingredienti valido.");
                     }
                 } else {
@@ -53,14 +61,17 @@ const PizzaBuilder: React.FC = () => {
         fetchIngredients();
     }, [productID]); // Eseguito ogni volta che productID cambia
 
-
+    // Funzione per aggiungere nuovi ingredienti
     const handleAddIngredients = (newIngredients: DetailIngredient[]) => {
+        // Filtra gli ingredienti unici
         const uniqueIngredients = newIngredients.filter(
+            // some() restituisce true se almeno un elemento soddisfa la condizione
             (newIng) => !allIngredients.some((ing) => ing.documentId === newIng.documentId)
         );
         setAllIngredients((prev) => [...prev, ...uniqueIngredients]);
 
         // Controlla se gli ingredienti hanno raccomandazioni
+        // flatMap
         const recommendations = [
             ...(recommendedIngredients || []), // Mantieni gli ingredienti raccomandati già esistenti
             ...newIngredients.flatMap((newIng) => newIng.recommended_ingredient || []),
@@ -86,6 +97,7 @@ const PizzaBuilder: React.FC = () => {
         }
     };
 
+    // Funzione per aggiungere ingredienti raccomandati
     const handleAddRecommendedIngredients = () => {
         if (recommendedIngredients && recommendedIngredients.length > 0) {
             handleAddIngredients(recommendedIngredients);
@@ -94,8 +106,9 @@ const PizzaBuilder: React.FC = () => {
         }
     };
 
+    // Funzione per rimuovere ingredienti
     const handleRemoveIngredients = (ingredientIds: string[]) => {
-        // Filtra gli ingredienti attuali rimuovendo quelli specificati
+        // Filtra gli ingredienti attuali rimuovendo quelli specificati, capace di rimuovere più ingredienti contemporaneamente
         setAllIngredients((prev) =>
             prev.filter((item) => !ingredientIds.includes(item.documentId))
         );
@@ -112,6 +125,7 @@ const PizzaBuilder: React.FC = () => {
         }
     };
 
+    // Sostituisci l'ingrediente base con quello nuovo
     const handleReplaceBaseIngredient = (newBaseIngredient: DetailIngredient) => {
         setAllIngredients((prev) => [
             newBaseIngredient,
@@ -125,7 +139,8 @@ const PizzaBuilder: React.FC = () => {
         return allIngredients.reduce((total, ingredient) => total + ingredient.price, 0).toFixed(2);
     }, [allIngredients]);
 
-    function addProductToCart(table: Table, productId: string): void {
+    // Funzione per aggiungere un prodotto al carrello
+    const addProductToCart = (table: Table, productId: string): void => {
         backendServer.products.addProductToCart(table, productId, appState.user ? appState.user.user.documentId : undefined)
             .then(() => {
                 console.log(productId, "Acquistata");
@@ -136,20 +151,21 @@ const PizzaBuilder: React.FC = () => {
             })
     }
 
+    // Funzione per creare un nuovo prodotto personalizzato
     async function createNewProductHandler(): Promise<string> {
         try {
             // Ottieni l'ID della categoria 'pizza'
             const pizzaCategoryId = await backendServer.categories.getPizzaCategoryId();
             if (!pizzaCategoryId) {
-                throw new Error("Categoria 'pizza' non trovata.");
+                console.error("Categoria 'pizza' non trovata.");
             }
 
             // Trova l'ingrediente base
             const baseIngredient = allIngredients.find((ing) => ing.type === "pizza-base");
             if (!baseIngredient) {
-                throw new Error("Nessun ingrediente di tipo 'pizza-base' trovato.");
+                console.error("Nessun ingrediente di tipo 'pizza-base' trovato.");
             }
-            const baseId = baseIngredient.documentId;
+            const baseId = baseIngredient ? baseIngredient.documentId : undefined;
 
             // Filtra e mappa gli ID degli ingredienti extra
             const ingredientsId = allIngredients
@@ -159,7 +175,7 @@ const PizzaBuilder: React.FC = () => {
             // Crea un prodotto personalizzato con gli ingredienti
             const newProductId = await backendServer.products.createCustomProductFromIngredients(appState.table, pizzaCategoryId, baseId, ingredientsId);
             if (!newProductId) {
-                throw new Error("Errore durante la creazione del prodotto personalizzato.");
+                console.error("Errore durante la creazione del prodotto personalizzato.");
             }
 
             return newProductId;
