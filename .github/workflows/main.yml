@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-workflow_dispatch: # Aggiunto per eseguire manualmente il workflow
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
