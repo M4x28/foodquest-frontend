@@ -1,15 +1,20 @@
+// React e backendConnector
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppStateCtx, backendServer } from "../App.tsx";
+// Style
 import "../bootstrap.css";
-import BaseDropdown from "../components/PizzaBuilder/BaseDropdown.tsx";
+// Components
+import RecommendedIngredient from "../components/PizzaBuilder/RaccomandedIngredient.tsx";
 import ExtraIngredientsList from "../components/PizzaBuilder/ExtraIngredientsList.tsx";
-import ImageStack from "../components/PizzaBuilder/ImageStack.tsx";
 import IngredientSearchList from "../components/PizzaBuilder/IngredientSearchList.tsx";
-import { Button } from "../components/input/Button.tsx";
-import Popup from "../components/popup/Popup.tsx";
+import BaseDropdown from "../components/PizzaBuilder/BaseDropdown.tsx";
+import ImageStack from "../components/PizzaBuilder/ImageStack.tsx";
 import Header, { Pages } from "../components/utility/Header.tsx";
 import { DetailIngredient, Table } from "../server/server.ts";
+import { Button } from "../components/input/Button.tsx";
+import Popup from "../components/popup/Popup.tsx";
+// Utility
 import { toErrorPage } from "../utility/generic.ts";
 
 const PizzaBuilder: React.FC = () => {
@@ -182,33 +187,12 @@ const PizzaBuilder: React.FC = () => {
                     <h3><b>Totale: {totalPrice}€</b></h3>
                 </div>
 
-                {recommendedIngredients && ingredientWithRecommendation && !allIngredients.some((ing) => ing.documentId === recommendedIngredients.slice(-1)[0]?.documentId) && (
-                    <div className="px-3 py-1">
-                        <div className="d-flex justify-content-between align-items-center">
-                            <h5>
-                                Abbina {ingredientWithRecommendation.name} con un tocco speciale di
-                                {recommendedIngredients.slice(-1).map((recIng) => (
-                                    <span
-                                        key={recIng.documentId}
-                                        className="text-LG text-info mx-1"
-                                        onClick={() => handleAddIngredients([recIng])}
-                                    >
-                                        {recIng.name}
-                                    </span>
-                                ))}
-                                <Button
-                                    variant="info"
-                                    className="rounded-3"
-                                    size="sm"
-                                    onClick={handleAddRecommendedIngredients}
-                                    style={{ marginLeft: '10px' }}
-                                >
-                                    +
-                                </Button>
-                            </h5>
-                        </div>
-                    </div>
-                )}
+                <RecommendedIngredient
+                    ingredientWithRecommendation={ingredientWithRecommendation}
+                    recommendedIngredients={recommendedIngredients}
+                    handleAddIngredients={handleAddIngredients}
+                    handleAddRecommendedIngredients={handleAddRecommendedIngredients}
+                ></RecommendedIngredient>
             </div>
 
             <div
