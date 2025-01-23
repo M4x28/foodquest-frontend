@@ -1,0 +1,44 @@
+.central-div {
+    max-width: 350px;
+    /* Larghezza massima del contenitore centrale */
+    position: fixed;
+    /* Mantiene il contenitore in una posizione fissa nella finestra */
+    top: 40%;
+    /* Posiziona il contenitore al 40% dal bordo superiore */
+    z-index: 1;
+    /* Priorità di sovrapposizione */
+}
+
+.welcome-text {
+    font-family: 'Luckiest Guy', cursive;
+    /* Font decorativo per il titolo */
+    font-size: 2.5rem;
+    /* Dimensione del testo grande */
+    letter-spacing: 0.1rem;
+    /* Aumenta la spaziatura tra i caratteri */
+}
+
+.points-container {
+    background-color: rgb(255, 255, 255);
+    /* Sfondo bianco per il contenitore dei punti */
+    color: black;
+    /* Testo nero */
+    border-radius: 0.5rem;
+    /* Angoli arrotondati del contenitore */
+    padding: 1rem;
+    /* Spazio interno intorno al testo */
+    margin: 1.5rem 0;
+    /* Margine verticale per separare il contenitore dagli altri elementi */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    /* Aggiunge un'ombra leggera sotto il contenitore */
+}
+
+.points {
+    font-size: 2rem;
+    /* Dimensione del testo dei punti */
+}
+
+.points-description {
+    font-size: 1.4rem;
+    /* Dimensione del testo della descrizione */
+}

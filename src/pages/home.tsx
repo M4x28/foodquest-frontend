@@ -52,7 +52,7 @@ const Home: React.FC = () => {
                     className="footer-button"
                 >
                     <i className="bi bi-wallet2"></i> {/* Icona del portafoglio */}
-                    <CartIcon /> {/* Icona del conto */}
+                    <OrderIcon /> {/* Icona del conto */}
                     Conto
                 </Button>
 
@@ -64,7 +64,7 @@ const Home: React.FC = () => {
                     onClick={() => navigate("/order")} // Naviga alla pagina "Ordine"
                 >
                     <i className="bi bi-cart-fill"></i> {/* Icona del carrello */}
-                    <OrderIcon /> {/* Icona dell'ordine */}
+                    <CartIcon /> {/* Icona dell'ordine */}
                     Ordine
                 </Button>
             </div>
