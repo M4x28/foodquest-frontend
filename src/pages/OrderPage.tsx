@@ -19,8 +19,15 @@ const OrderPage: React.FC = () => {
     const [antFirst, setAntFirst] = useState(false); // Stato per controllare l'ordinamento (antipasti per primi)
 
     useEffect(() => {
-        fetchOrderData(); // Richiama i dati dell'ordine quando la tabella cambia
-    }, [appState.table]); // Esegui l'effetto ogni volta che `appState.table` cambia
+        // Definisce l'intervallo per richiamare la funzione fetchOrderData ogni 10 secondi
+        const intervalId = setInterval(() => {
+            fetchOrderData(); // Richiama i dati dell'ordine
+        }, 5000);
+
+        // Cancella l'intervallo quando il componente viene smontato o cambia la tabella
+        return () => clearInterval(intervalId);
+    }, [appState.table]); // Dipendenza per cambiare il comportamento quando cambia la tabella
+
 
     // Funzione per ottenere i dati dell'ordine dal server
     const fetchOrderData = async () => {
