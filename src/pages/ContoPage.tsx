@@ -136,7 +136,7 @@ function ContoPage() {
                 ))}
             </section>
 
-            {appState.user &&
+            {(appState.user && point > 0) &&
                 <CheckBox
                     value={usingPoint}
                     text={"Usa i tuoi " + point + " punti"}

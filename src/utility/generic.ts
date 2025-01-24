@@ -1,8 +1,15 @@
 import { DetailProduct, Product } from "../server/server";
 
-// Funzione per interrompere la propagazione dell'evento
 export const stopPropagation = (e) => {
     e.stopPropagation();
+}
+
+export const handleSubmitFactory = (handler: (e:React.SyntheticEvent<HTMLFormElement>) => void) => {
+    
+    return (e:React.SyntheticEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        handler(e);
+    }
 }
 
 /**
@@ -13,9 +20,9 @@ export const stopPropagation = (e) => {
  */
 export const formatPrice = (price: number): string => {
     if (isNaN(price)) {
-        return "Nan"; // Restituisce "Nan" se il valore non è un numero
+        return "Nan";
     }
-    return price.toFixed(2); // Formatta il numero a due decimali
+    return price.toFixed(2); 
 }
 
 /**

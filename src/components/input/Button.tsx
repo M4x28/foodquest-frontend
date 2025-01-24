@@ -8,6 +8,7 @@ interface ButtonProps { // Definisce l'interfaccia delle proprietà accettate da
     className?: string; // Classe aggiuntiva per personalizzazioni.
     children?: React.ReactNode; // Contenuto da mostrare all'interno del bottone.
     [key: string]: any; // Permette proprietà aggiuntive dinamiche (es. data-* o aria-*).
+    type?: "button" | "submit" | "reset"; //Tipo di bottone
 }
 
 export const Button: React.FC<ButtonProps> = ({ // Definizione del componente funzionale Button.
@@ -15,7 +16,8 @@ export const Button: React.FC<ButtonProps> = ({ // Definizione del componente fu
     size, // Opzionale: dimensione del bottone.
     onClick, // Opzionale: funzione da chiamare al click del bottone.
     className = '', // Imposta una stringa vuota come valore predefinito per la classe aggiuntiva.
-    children, // Contenuto del bottone (es. testo o altri elementi React).
+    type = "button", // Imposta il tipo del bottone come "button".
+    children,
     ...props // Raccoglie tutte le altre proprietà passate al componente.
 }) => {
     const sizeClass = size ? `btn-${size}` : ''; // Calcola la classe Bootstrap per la dimensione, se specificata.
@@ -23,7 +25,7 @@ export const Button: React.FC<ButtonProps> = ({ // Definizione del componente fu
     return (
         <button
             className={`btn ${variantClass} ${sizeClass} ${className}`} // Applica le classi CSS dinamiche di Bootstrap e personalizzate.
-            type="button" // Specifica che il bottone è di tipo "button" (non invia un modulo).
+            type={type} // Specifica che il bottone è di tipo "button" (non invia un modulo).
             onClick={onClick} // Associa la funzione callback all'evento click, se fornita.
             style={{
                 fontFamily: "Luckiest Guy, cursive", // Imposta il font per il testo del bottone.

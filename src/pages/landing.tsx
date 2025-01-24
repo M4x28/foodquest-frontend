@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AppStateCtx, backendServer } from "../App.tsx";
 import { Button } from '../components/input/Button.tsx';
 import Input from '../components/input/Input.tsx';
-import { toErrorPage } from '../utility/generic.ts';
+import { handleSubmitFactory, toErrorPage } from '../utility/generic.ts';
 
 import bigMario from "../assets/Home/big-mario.png";
 import mario from "../assets/Home/mario.png";
@@ -114,7 +114,8 @@ function Landing() {
             </section>
 
             {/* Sezione di call-to-action */}
-            <section className='call-to-action'>
+            <form className='call-to-action' onSubmit={
+                inputInQuery ? handleSubmitFactory(toHome) : handleSubmitFactory(tryLog)}>
                 {!inputInQuery && //Display input field only if was not provided in query
                     <Input type='text' placeholder='Inserisci il codice' className='cta-input'
                         style={{ maxWidth: "400px", width: "80vw" }}
@@ -124,10 +125,10 @@ function Landing() {
                     variant={btnVariant}
                     size="lg"
                     className='cta-btn'
-                    onClick={inputInQuery ? toHome : tryLog}>
-                    {inputInQuery ? "INIZIA A ORDINARE" : "ACCEDI"}
+                    type='submit'>
+                    {inputInQuery ? "INIZIA A ORDINARE" : "ACCEDI AL TAVOLO"}
                 </Button>
-            </section>
+            </form>
         </>
     );
 }
