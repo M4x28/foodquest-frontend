@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { DetailIngredient } from "../../server/server.ts"; // Importa il tipo `DetailIngredient`
+import React, { useEffect, useState } from "react";
 import { backendServer } from "../../App.tsx"; // Importa il connettore del backend
+import { DetailIngredient } from "../../server/server.ts"; // Importa il tipo `DetailIngredient`
 
 // Proprietà accettate dal componente `IngredientSearchList`
 interface IngredientSearchListProps {
@@ -82,10 +82,10 @@ const IngredientSearchList: React.FC<IngredientSearchListProps> = ({
     return (
         <div className="container mt-4">
             {/* Input per cercare gli ingredienti */}
-            <div className="mb-3 mt-5">
+            <div className="mb-3 mt-5 pt-3">
                 <input
                     type="text"
-                    className="form-control"
+                    className="form-control form-control-lg"
                     placeholder="Cerca Ingrediente" // Placeholder per l'input
                     value={searchTerm} // Stato del termine di ricerca
                     onChange={(e) => setSearchTerm(e.target.value)} // Aggiorna il termine di ricerca

@@ -59,7 +59,7 @@ export const OrderItemComponent: React.FC<OrderItemProps> = ({ name, quantity, p
                 <span>{`${price * quantity}€`}</span>
             </div>
             {/* Lista ingredienti */}
-            {loadedIngredients && loadedIngredients.length > 0 && (
+            {name === "Custom" && loadedIngredients && loadedIngredients.length > 0 && (
                 <div className="col-12 text-start">
                     <ul style={{ fontSize: '0.9rem' }}>
                         {loadedIngredients.map((ingredient) => (
@@ -88,6 +88,7 @@ export const OrderCategoryComponent: React.FC<OrderCategoryProps> = ({ title, it
             {/* Titolo della categoria */}
             <h5 className="bg-success text-white p-2 m-0 item-style">{title}</h5>
             {/* Contenitore per gli elementi */}
+
             <div className="bg-light p-2">
                 {items.map((item, index) => (
                     <OrderItemComponent

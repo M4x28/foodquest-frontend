@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppStateCtx, backendServer } from "../App.tsx"; // Importa il contesto globale e il server backend
 import "../bootstrap.css"; // Assicurati di aggiornare il percorso del file bootstrap.css
-import { Button } from '../components/input/Button.tsx'; // Importa il componente Button
 import Input from "../components/input/Input.tsx"; // Importa il nuovo componente Input
 import Header, { Pages } from "../components/utility/Header.tsx"; // Assicurati di aggiornare il percorso corretto per Header.tsx
 import "./login-registrazione.css"; // File CSS per la pagina di registrazione
 // Importa il componente logo
+import ToggleButtons from "../components/input/accountButton.tsx";
 import Logo from '../components/logo.tsx';
 
 const RegisterPage: React.FC = () => {
@@ -101,33 +101,12 @@ const RegisterPage: React.FC = () => {
                     </form>
                 </div>
 
-                <div className="button-container">
-                    {/* Contenitore per i pulsanti, login-registrazione.css(button-container) */}
-                    <Button
-                        type="submit"
-                        variant="success w-100"
-                        // Stile Bootstrap per un bottone grande e verde, bootstrap.css(success,w-100)
-                        className="action-button mb-2"
-                        // Classe personalizzata per stile aggiuntivo, login-registrazione.css(action-button), bootstrap.css(mb-2)
-                        size="lg"
-                        onClick={handleRegister} // Azione al click: registra un nuovo utente
-                    >
-                        REGISTRAZIONE
-                    </Button>
-                    <p className="separator-text">Oppure</p>
-                    {/* Testo separatore, login-registrazione.css(separator-text) */}
-                    <Button
-                        type="button"
-                        variant="light w-100"
-                        // Stile Bootstrap per un bottone grande e chiaro, bootstrap.css(light,w-100)
-                        className="action-button"
-                        // Classe personalizzata per stile aggiuntivo, login-registrazione.css(action-button)
-                        size="lg"
-                        onClick={() => navigate("/login")} // Azione al click: naviga alla pagina di login
-                    >
-                        LOGIN
-                    </Button>
-                </div>
+                <ToggleButtons
+                    primaryButton="register"
+                    onLogin={() => navigate("/login")}
+                    onRegister={handleRegister}
+                    navigateTo={navigate}
+                />
             </div>
         </>
     );

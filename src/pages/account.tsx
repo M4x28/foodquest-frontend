@@ -8,6 +8,7 @@ import { Button } from '../components/input/Button.tsx'; // Importa il component
 import Header, { Pages } from "../components/utility/Header.tsx"; // Importa il componente Header e il tipo Pages
 import "./account.css"; // Importa lo stile personalizzato per la pagina account
 // Importa il componente logo
+import BoxPunti from "../components/card/pointCard.tsx";
 import Logo from '../components/logo.tsx';
 
 //Formato per la specifica delle classi css: nomefile1.css(nomeclasse-1,nomeclasse-1,...,nomeclasse-n), nomefile2.css(nomeclasse-2,nomeclasse-2,...,nomeclasse-k)
@@ -49,23 +50,8 @@ const AccountPage: React.FC = () => {
                     {/* Logo della pizza, account.css(pizza-logo), bootstrap.css(mb-4) */}
                 </div>
 
-                {/* Testo centrale */}
-                <div className="text-center central-div">
-                    {/* Contenitore centrale con il testo di benvenuto, bootstrap.css(text-center), account.css(central-div) */}
-                    <h2 className="welcome-text">Benvenut@ {username}</h2>
-                    {/* Mostra il nome utente, account.css(welcome-text) */}
-                    <div className="points-container">
-                        {/* Contenitore per i punti dell'utente, account.css(points-container) */}
-                        <h4 className="points">
-                            Hai <span className="text-success">{points} punti</span>
-                            {/* Mostra il numero di punti, account.css(points), bootstrap.css(text-success) */}
-                        </h4>
-                        <p className="points-description">
-                            Ottieni punti acquistando da noi e poi convertili in sconti esclusivi
-                            {/* Descrizione sui punti, account.css(points-description) */}
-                        </p>
-                    </div>
-                </div>
+                {/* Usa il componente BoxPunti */}
+                <BoxPunti username={username} points={points} />
 
                 {/* Bottoni */}
                 <div className="button-container">
