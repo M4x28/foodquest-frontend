@@ -52,7 +52,7 @@ export interface Product {
  */
 export interface DetailProduct extends Product {
     imgUrl?: string,
-    ingredientsId?: Ingredient[];
+    ingredientsId?: string[];
     allergensId?: string[];
 }
 

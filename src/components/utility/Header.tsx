@@ -59,10 +59,10 @@ function Header({ pageName, current }: PropType) {
                         <PizzaIcon /> Ordina
                     </Link>
                     <Link className={"dropdown-voice" + (current === Pages.Order ? " current" : "")} to={"/order"}>
-                        <OrderIcon /> Visualizza il tuo ordine
+                        <CartIcon /> Visualizza il tuo ordine
                     </Link>
                     <Link className={"dropdown-voice" + (current === Pages.Check ? " current" : "")} to={"/conto"}>
-                        <CartIcon /> Resoconto ordini
+                        <OrderIcon /> Resoconto ordini
                     </Link>
                     <Link className={"dropdown-voice" + (current === Pages.FC ? " current" : "")} to={"/account"}>
                         <AccountIcon /> Fidelity Card

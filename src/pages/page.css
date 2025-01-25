@@ -1,7 +1,3 @@
-.page{
-    padding-top: calc(var(--header-height) + 3px);
-}
-
 .page-box-bg {
     background-color: var(--very-light-col);
     border-bottom: 5px solid var(--dark-col);

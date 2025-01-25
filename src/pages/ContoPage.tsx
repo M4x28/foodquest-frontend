@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Page from './Page.tsx';
 import Header, { Pages } from '../components/utility/Header.tsx';
 import useRefresh from '../utility/useRefresh.ts';
 import { AppStateCtx } from '../App.tsx';
@@ -48,7 +47,7 @@ function ContoPage() {
 
     // Periodically fetch orders done (20s)
     // eslint-disable-next-line
-    const [orders, __] = useRefresh<Order[]>(async () => {
+    const [orders, __] = useRefresh<Order[]|null>(async () => {
         
         //Go to error page if table is not specified
         if (!appState.table) {
@@ -64,7 +63,7 @@ function ContoPage() {
                 return [];
             });
 
-    }, [], 20000);
+    }, null, 20000);
 
     // Periodically fetch total (20s)
     // Separate from order to allow separate refresh when needed (Point usage change)
@@ -87,7 +86,7 @@ function ContoPage() {
     }, { total: 0, discount: 0 }, 20000, [appState.table]);
 
     //See if is possible to request check (Must be at least one order and all must be completed)
-    const canRequestCheck = orders.length > 0 && orders.filter(o => o.status !== "Done").length === 0;
+    const canRequestCheck = orders && orders.length > 0 && orders.filter(o => o.status !== "Done").length === 0;
 
     //Ask for check
     const checkRequest = async () => {
@@ -127,13 +126,16 @@ function ContoPage() {
         : "Impossibile richiedere il conto, non hai ancora ricevuto tutti gli ordini";
 
     return (
-        <Page>
+        <div className='page'>
             <Header pageName='Conto' current={Pages.Check} />
 
-            <section className='orders-container mt-4'>
-                {orders.map((order, index) => (
+            <section className='orders-container'>
+                {orders && (orders.length > 0 ? 
+                orders.map((order, index) => (
                     <OrderCard key={order.documentId} order={order} index={index + 1} />
-                ))}
+                )):
+                    <h3 className='total'> Nessun ordine trovato </h3>
+                )}
             </section>
 
             {(appState.user && point > 0) &&
@@ -159,7 +161,7 @@ function ContoPage() {
             >
                 Chiedi il conto
             </ButtonWithPrompt>
-        </Page>
+        </div>
     );
 }
 

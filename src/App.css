@@ -8,6 +8,10 @@
     letter-spacing: 0.1rem;
 }
 
+.page{
+    padding-top: calc(var(--header-height) + 3px);
+}
+
 .my-btn{
     display: block;
     margin: 20px auto;

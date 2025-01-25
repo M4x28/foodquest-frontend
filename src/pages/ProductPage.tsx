@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Page from "./Page.tsx";
 import Header, { Pages } from "../components/utility/Header.tsx";
 import { useNavigate, useParams } from "react-router-dom";
 import ProductCard from "../components/card/ProductCard.tsx";
@@ -69,7 +68,7 @@ function ProductPage() {
     }, [categoryID]);
 
     return (
-        <Page>
+        <div className="page">
             <Header pageName={catName} current={Pages.Home} />
 
             <section className="products">
@@ -102,7 +101,7 @@ function ProductPage() {
                     </Button>
                 </section>
             }
-        </Page>
+        </div>
     );
 }
 

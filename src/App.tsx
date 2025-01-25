@@ -6,7 +6,6 @@ import ButtonWithPrompt from './components/popup/ButtonWithPrompt.tsx';
 import Header, { Pages } from "./components/utility/Header.tsx"
 
 import './App.css';
-import Page from './pages/Page.tsx';
 import ProductPage from './pages/ProductPage.tsx';
 import OrderPage from './pages/OrderPage.tsx';
 import Home from './pages/home.tsx';
@@ -162,7 +161,7 @@ function Test() {
     const test = () => { alert("Ciao sono una azione irreversibile") }
 
     return (
-        <Page>
+        <div className='page'>
             <Header pageName='Test' current={Pages.FC} />
             <h1>{formatDate(time)}</h1>
 
@@ -191,6 +190,6 @@ function Test() {
                 Error
             </button>
 
-        </Page>
+        </div>
     )
 }
