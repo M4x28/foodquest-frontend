@@ -5,15 +5,15 @@ import { AppStateCtx, backendServer } from "../App.tsx";
 // Style
 import "../bootstrap.css";
 // Components
-import RecommendedIngredient from "../components/PizzaBuilder/RaccomandedIngredient.tsx";
-import ExtraIngredientsList from "../components/PizzaBuilder/ExtraIngredientsList.tsx";
-import IngredientSearchList from "../components/PizzaBuilder/IngredientSearchList.tsx";
+import { Button } from "../components/input/Button.tsx";
 import BaseDropdown from "../components/PizzaBuilder/BaseDropdown.tsx";
+import ExtraIngredientsList from "../components/PizzaBuilder/ExtraIngredientsList.tsx";
 import ImageStack from "../components/PizzaBuilder/ImageStack.tsx";
+import IngredientSearchList from "../components/PizzaBuilder/IngredientSearchList.tsx";
+import RecommendedIngredient from "../components/PizzaBuilder/RaccomandedIngredient.tsx";
+import Popup from "../components/popup/Popup.tsx";
 import Header, { Pages } from "../components/utility/Header.tsx";
 import { DetailIngredient, Table } from "../server/server.ts";
-import { Button } from "../components/input/Button.tsx";
-import Popup from "../components/popup/Popup.tsx";
 // Utility
 import { toErrorPage } from "../utility/generic.ts";
 
@@ -191,7 +191,7 @@ const PizzaBuilder: React.FC = () => {
 
             <ImageStack allIngredients={allIngredients} height={"400px"} />
 
-            <BaseDropdown handleReplaceBaseIngredient={handleReplaceBaseIngredient} />
+            <BaseDropdown initialSelectedBase={allIngredients.find((ing) => ing.type == "pizza-base")} handleReplaceBaseIngredient={handleReplaceBaseIngredient} />
 
             <div className="bg-white pb-1 rounded-4 mx-3 border border-4 border-info shadow-lg">
                 <ExtraIngredientsList

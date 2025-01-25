@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { backendServer } from "../../App.tsx"; // Importa il connettore del backend
 import { ReactComponent as Up } from "../../assets/up.svg";
 import { DetailIngredient } from "../../server/server.ts"; // Importa il tipo `DetailIngredient`
@@ -7,6 +7,7 @@ import CollapseElement from "../utility/CollapseElement.tsx"; // Importa il comp
 
 // Interfaccia per le proprietà accettate dal componente `BaseDropdown`
 interface BaseDropdownProps {
+    initialSelectedBase?: DetailIngredient; // Base iniziale selezionata se presente
     handleReplaceBaseIngredient: (newBaseIngredient: DetailIngredient) => void; // Funzione per sostituire la base
 }
 
@@ -15,24 +16,32 @@ interface BaseDropdownProps {
  * Consente all'utente di selezionare e sostituire la base di un prodotto tramite un menu a tendina.
  * 
  * @param {Function} handleReplaceBaseIngredient - Metodo per sostituire la base selezionata.
+ * @param {DetailIngredient} initialSelectedBase - Base iniziale selezionata.
  */
 const BaseDropdown: React.FC<BaseDropdownProps> = ({
+    initialSelectedBase,
     handleReplaceBaseIngredient,
 }) => {
     // Stato per gestire le basi disponibili
     const [bases, setBases] = useState<DetailIngredient[]>([]);
-    const [selectedBase, setSelectedBase] = useState<DetailIngredient>();
+    const [selectedBase, setSelectedBase] = useState<DetailIngredient | undefined>(initialSelectedBase);
     const [loading, setLoading] = useState<boolean>(true); // Stato per indicare il caricamento
     const [elementState, setElementState] = useState<boolean>(false); // Stato per gestire l'apertura del menu a tendina
+    const fetchExecuted = useRef<boolean>(false); // Ref per tenere traccia se il fetch è stato eseguito
 
     // Effetto per caricare le basi all'avvio del componente
     useEffect(() => {
+        if (fetchExecuted.current) return; // Evita di eseguire il fetch più di una volta
+        fetchExecuted.current = true; // Imposta il ref a true per indicare che il fetch è stato eseguito
+
         const fetchBases = async () => {
             try {
                 // Recupera gli ingredienti base dal backend
                 const baseIngredients = await backendServer.ingredient.getBaseIngredients();
                 setBases(baseIngredients); // Aggiorna lo stato con le basi caricate
-                setSelectedBase(baseIngredients[0]); // Imposta la base classica come base predefinita
+                if (!initialSelectedBase) {
+                    setSelectedBase(baseIngredients[0]); // Imposta la base classica come base predefinita se non è presente initialSelectedBase
+                }
             } catch (error) {
                 console.error("Errore durante il caricamento delle basi:", error); // Log degli errori
             } finally {
@@ -40,7 +49,14 @@ const BaseDropdown: React.FC<BaseDropdownProps> = ({
             }
         };
         fetchBases(); // Esegue la funzione per recuperare le basi
-    }, []); // Dipendenze vuote: viene eseguito solo al montaggio del componente
+    }, [initialSelectedBase]); // Dipendenze: viene eseguito solo al montaggio del componente
+
+    // Effetto per aggiornare la base selezionata quando initialSelectedBase cambia
+    useEffect(() => {
+        if (initialSelectedBase) {
+            setSelectedBase(initialSelectedBase);
+        }
+    }, [initialSelectedBase]); // Dipendenze: viene eseguito quando initialSelectedBase cambia
 
     return (
         <div
@@ -62,7 +78,7 @@ const BaseDropdown: React.FC<BaseDropdownProps> = ({
                 >
                     <h3>
                         {loading ? "Caricamento..." : selectedBase ? `${selectedBase.name} ${selectedBase.price}` : "Seleziona una base"} {/* Testo dinamico */}
-                        <Up/>
+                        <Up />
                     </h3>
                 </Button>
             </div>
