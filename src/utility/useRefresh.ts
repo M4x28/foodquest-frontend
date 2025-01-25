@@ -19,27 +19,23 @@ function useRefresh<T>(
 
     const [value, setValue] = useState<T>(defaultValue);
 
-    /**
-     * Funzione per eseguire il refresh del valore.
-     * Gestisce sia chiamate sincrone che asincrone utilizzando `await`.
-     */
+    //Handle refresh callback, use asyinc to handle both sync and async call
     const refreshCallback = async () => {
-        let newVal = await refresh(value); // Esegue la funzione di refresh sul valore corrente
-        setValue(newVal); // Aggiorna lo stato con il nuovo valore
+        let newVal = await refresh(value);
+        setValue(newVal);
     };
 
     useEffect(() => {
-        // Esegue un refresh iniziale quando il componente è montato
+        // Execute first load of value on mount
         refreshCallback();
 
-        // Se è specificato un intervallo di tempo, avvia un refresh automatico periodico
+        // If time was specified begin the period update cicle
         if (time) {
-            const intervalID = setInterval(refreshCallback, time); // Imposta l'intervallo di aggiornamento
-            return () => clearInterval(intervalID); // Cancella l'intervallo quando il componente viene smontato
+            const intervalID = setInterval(refreshCallback, time);
+            return () => clearInterval(intervalID); // Clear interval on unmount
         }
-    }, dependencies); // Il refresh automatico è legato alle dipendenze specificate
+    }, dependencies);
 
-    // Restituisce il valore corrente e una funzione per forzare manualmente il refresh
     return [value, refreshCallback];
 }
 
