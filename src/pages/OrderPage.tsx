@@ -19,7 +19,10 @@ const OrderPage: React.FC = () => {
     const [antFirst, setAntFirst] = useState(false); // Stato per controllare l'ordinamento (antipasti per primi)
 
     useEffect(() => {
-        // Definisce l'intervallo per richiamare la funzione fetchOrderData ogni 10 secondi
+        // Richiama immediatamente i dati dell'ordine al primo avvio
+        fetchOrderData();
+
+        // Definisce l'intervallo per richiamare la funzione fetchOrderData ogni 5 secondi
         const intervalId = setInterval(() => {
             fetchOrderData(); // Richiama i dati dell'ordine
         }, 5000);
@@ -91,19 +94,25 @@ const OrderPage: React.FC = () => {
             <Header pageName="Ordine" current={Pages.Order} /> {/* Header della pagina con il titolo "Ordine" */}
             <div className="p-4" style={{ marginTop: '80px' }}> {/* Contenitore principale con padding e margine */}
                 <div style={{ maxHeight: '50rem', overflowY: 'scroll' }}> {/* Contenitore scrollabile per gli elementi */}
-                    {Object.keys(itemsByCategory)
-                        .sort((a, b) => antFirst ? b.localeCompare(a) : a.localeCompare(b)) // Ordina le categorie in base a `antFirst`
-                        .map(categoryId => {
-                            const category = itemsByCategory[categoryId]; // Ottieni la categoria corrente
-                            return category.items.length > 0 && ( // Mostra solo le categorie con elementi
-                                <OrderCategoryComponent
-                                    key={categoryId}
-                                    title={category.name}
-                                    items={category.items}
-                                    orderID={orderDocumentId || ''}
-                                /> // Componente per mostrare gli elementi della categoria
-                            );
-                        })}
+                    {Object.keys(itemsByCategory).length === 0 ? (
+                        <div className='text-center text-LG mt-5 pt-5'>
+                            <h1>Il carrello è vuoto.</h1>
+                        </div>
+                    ) : (
+                        Object.keys(itemsByCategory)
+                            .sort((a, b) => antFirst ? b.localeCompare(a) : a.localeCompare(b)) // Ordina le categorie in base a `antFirst`
+                            .map(categoryId => {
+                                const category = itemsByCategory[categoryId]; // Ottieni la categoria corrente
+                                return category.items.length > 0 && ( // Mostra solo le categorie con elementi
+                                    <OrderCategoryComponent
+                                        key={categoryId}
+                                        title={category.name}
+                                        items={category.items}
+                                        orderID={orderDocumentId || ''}
+                                    /> // Componente per mostrare gli elementi della categoria
+                                );
+                            })
+                    )}
                 </div>
 
                 <div style={{

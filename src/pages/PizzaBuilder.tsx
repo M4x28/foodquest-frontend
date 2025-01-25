@@ -35,6 +35,7 @@ const PizzaBuilder: React.FC = () => {
     // Stato per l'ingrediente con raccomandazione
     const [ingredientWithRecommendation, setIngredientWithRecommendation] = useState<DetailIngredient | null>(null);
 
+    // Carica gli ingredienti iniziali
     useEffect(() => {
         const fetchIngredients = async () => {
             try {
