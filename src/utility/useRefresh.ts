@@ -25,6 +25,7 @@ function useRefresh<T>(
         setValue(newVal);
     };
 
+    
     useEffect(() => {
         // Execute first load of value on mount
         refreshCallback();
@@ -34,7 +35,7 @@ function useRefresh<T>(
             const intervalID = setInterval(refreshCallback, time);
             return () => clearInterval(intervalID); // Clear interval on unmount
         }
-    }, dependencies);
+    }, dependencies); // eslint-disable-line
 
     return [value, refreshCallback];
 }

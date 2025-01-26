@@ -21,30 +21,17 @@ import Server from './server/server.ts';
 import CheckBox from './components/input/CheckBox.tsx';
 import { toErrorPage } from './utility/generic.ts';
 import Landing from './pages/landing.tsx';
+import useAppState, { AppStateHook } from './utility/useAppState.ts';
 
 export const backendServer: Server = new StrapiServerConnector(process.env.REACT_APP_API_URL);
 
-interface AppState { [key: string]: any };
+export const AppStateCtx = createContext<AppStateHook>([{}, () => {}]);
 
-export const AppStateCtx = createContext<[AppState, (key:string,value:any) => void]>([{}, () => 0]);
-
-//Check if browser support storage 
-//eslint-disable-next-line
-const hasStorage = typeof (Storage) !== undefined;
-
-const loadAppState = () => {
-    if (hasStorage) {
-        const item = sessionStorage.getItem("appState");
-        if (item) {
-            return (JSON.parse(item));
-        }
-    }
-    return {};
-}
 function App() {
 
-    const [appState, setAppState] = useState<AppState>(loadAppState);
+    const [appState, editAppState] = useAppState(sessionStorage);
 
+    //Periodically Fetch table status
     //eslint-disable-next-line 
     const [tableStatus, _] = useRefresh<string>(async () => {
 
@@ -68,8 +55,9 @@ function App() {
 
     }, "", 5000, [appState.table]);
 
+    //When table Status change move to correct page
     useEffect(() => {
-        //When table Status change move to correct page
+        //Origin url to avoid continuos redirection
         const url: string = window.location.pathname;
 
         if (tableStatus === "CHECK" && url !== "/check") {
@@ -80,27 +68,8 @@ function App() {
         }
     }, [tableStatus])
 
-    //Updater function: updete [key] in state to be [value]
-    const editState = (key: string, value: any): void => {
-
-        setAppState(currState => {
-
-            if (currState[key] === value) {
-                return currState;
-            }
-
-            const newState = { ...currState, [key]: value };
-
-            //Store State in browser session storage
-            if (hasStorage) {
-                sessionStorage.setItem("appState", JSON.stringify(newState));
-            }
-            return newState;
-        });
-    }
-
     return (
-        <AppStateCtx.Provider value={[appState, editState]}>
+        <AppStateCtx.Provider value={[appState, editAppState]}>
             <BrowserRouter>
                 <Routes>
                     <Route index element={ <Landing/> }/>
@@ -172,7 +141,7 @@ function Test() {
                 setCheck(c => !c)
             }} />
 
-            <button className="light-btn btn" onClick={refreshTime}> Che ore sono? </button>
+            <button className="light-btn my-btn" onClick={refreshTime}> Che ore sono? </button>
 
             <ButtonWithPrompt className="dark-btn my-btn" onClick={test} popupTitle='Azione Irreversibile'
                 popupText='Questa azione non può essere annullata, proseguire?'>
