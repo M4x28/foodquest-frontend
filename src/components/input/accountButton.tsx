@@ -32,7 +32,6 @@ const ToggleButtons: React.FC<ToggleButtonsProps> = ({
                     >
                         LOGIN
                     </Button>
-                    <p className="separator-text">Oppure</p>
                     {/* Testo separatore, login-registrazione.css(separator-text) */}
                     <Button
                         type="button"
@@ -50,7 +49,7 @@ const ToggleButtons: React.FC<ToggleButtonsProps> = ({
                 <>
                     <Button
                         type="submit"
-                        variant="light w-100"
+                        variant="success w-100"
                         className="action-button mb-2"
                         size="lg"
                         style={{ backgroundColor: "#28b62c", color: "#fff" }}
@@ -58,11 +57,10 @@ const ToggleButtons: React.FC<ToggleButtonsProps> = ({
                     >
                         REGISTRAZIONE
                     </Button>
-                    <p className="separator-text">Oppure</p>
                     {/* Testo separatore, login-registrazione.css(separator-text) */}
                     <Button
                         type="button"
-                        variant="success w-100"
+                        variant="light w-100"
                         className="action-button"
                         size="lg"
                         style={{ backgroundColor: "#f6f6f6", color: "#000" }}

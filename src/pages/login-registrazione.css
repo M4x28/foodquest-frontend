@@ -21,7 +21,7 @@
 .form-container {
     position: fixed;
     /* Posiziona il contenitore in un punto fisso nella pagina */
-    top: 35vh;
+    top: 40vh;
     /* Distanza dal bordo superiore */
     z-index: 1;
     /* Priorità di sovrapposizione */

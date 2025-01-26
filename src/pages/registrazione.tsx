@@ -10,13 +10,14 @@ import ToggleButtons from "../components/input/accountButton.tsx";
 import Logo from '../components/logo.tsx';
 
 const RegisterPage: React.FC = () => {
-
     const [appState, updateAppState] = useContext(AppStateCtx); // Usa il contesto globale per accedere allo stato dell'app
 
     const navigate = useNavigate(); // Inizializza il navigatore per il reindirizzamento
-    const [email, setEmail] = useState(""); // Stato per memorizzare l'email
+    const [username, setUsername] = useState(""); // Stato per memorizzare l'username
     const [password, setPassword] = useState(""); // Stato per memorizzare la password
     const [confirmPassword, setConfirmPassword] = useState(""); // Stato per memorizzare la conferma della password
+    const [usernameError, setUsernameError] = useState(""); // Stato per l'errore dell'username
+    const [passwordError, setPasswordError] = useState(""); // Stato per l'errore della password
 
     useEffect(() => {
         const userData = appState.user; // Estrae i dati dell'utente dallo stato globale
@@ -26,13 +27,39 @@ const RegisterPage: React.FC = () => {
     }, [navigate, appState.user]); // Esegue l'effetto quando `navigate` o `appState.user` cambiano
 
     const handleRegister = async () => {
-        if (password !== confirmPassword) {
-            alert("Le password non coincidono"); // Messaggio d'errore se le password non coincidono
-            return;
+        let hasError = false;
+
+        if (username.length < 3) {
+            setUsernameError("Il nome utente deve essere di almeno 3 caratteri.");
+            hasError = true;
+        } else {
+            setUsernameError("");
         }
 
+        const validatePassword = (password: string) => {
+            const lengthCheck = password.length >= 6;
+            const upperCaseCheck = /[A-Z]/.test(password);
+            const lowerCaseCheck = /[a-z]/.test(password);
+            const specialCharCheck = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+            return lengthCheck && upperCaseCheck && lowerCaseCheck && specialCharCheck;
+        };
+
+        if (!validatePassword(password)) {
+            setPasswordError("La password deve essere lunga almeno 6 caratteri e contenere una maiuscola, una minuscola e un carattere speciale.");
+            hasError = true;
+        } else {
+            setPasswordError("");
+        }
+
+        if (password !== confirmPassword) {
+            alert("Le password non coincidono");
+            hasError = true;
+        }
+
+        if (hasError) return;
+
         try {
-            const username = email.split("@")[0]; // Genera un nome utente base dall'email
+            const email = `${username}@i.i`;
             const response = await backendServer.user.register(username, email, password); // Registra l'utente
             const fc = await backendServer.fc.createFidelityCard(response.user.documentId); // Crea una carta fedeltà per l'utente
 
@@ -72,12 +99,13 @@ const RegisterPage: React.FC = () => {
                     {/* Titolo del form, login-registrazione.css(form-title) */}
                     <form className="w-100"> {/* Form principale, bootstrap.css(w-100) */}
                         <div className="mb-3">
-                            {/* Campo di input per l'email, bootstrap.css(mb-3) */}
+                            {/* Campo di input per l'username, bootstrap.css(mb-3) */}
                             <Input
-                                type="email"
-                                placeholder="Inserisci email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                type="text"
+                                placeholder="Inserisci username"
+                                value={username}
+                                error={usernameError}
+                                onChange={(e) => setUsername(e.target.value)}
                             />
                         </div>
                         <div className="mb-3">
@@ -86,6 +114,7 @@ const RegisterPage: React.FC = () => {
                                 type="password"
                                 placeholder="Inserisci Password"
                                 value={password}
+                                error={passwordError}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>

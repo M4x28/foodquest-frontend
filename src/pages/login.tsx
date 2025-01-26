@@ -19,7 +19,7 @@ const RegisterPage: React.FC = () => {
     const [appState, updateAppState] = useContext(AppStateCtx); // Usa il contesto globale per accedere allo stato dell'app
 
     const navigate = useNavigate(); // Inizializza il navigatore per il reindirizzamento
-    const [email, setEmail] = useState(""); // Stato per memorizzare l'email
+    const [username, setUsername] = useState(""); // Stato per memorizzare l'email
     const [password, setPassword] = useState(""); // Stato per memorizzare la password
 
     useEffect(() => {
@@ -31,7 +31,7 @@ const RegisterPage: React.FC = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await backendServer.user.login(email, password); // Effettua il login con email e password
+            const response = await backendServer.user.login(username, password); // Effettua il login con email e password
             const userPoints = (await backendServer.fc.fetchUserFC(response.user.documentId)).Points; // Recupera i punti dell'utente
 
             // Aggiungi userPoints come proprietà dell'oggetto user
@@ -74,10 +74,10 @@ const RegisterPage: React.FC = () => {
                         <div className="mb-3">
                             {/* Campo di input per l'email, bootstrap.css(mb-3) */}
                             <Input
-                                type="email"
-                                placeholder="Inserisci email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                type="text"
+                                placeholder="Inserisci l'username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
                             />
                         </div>
                         <div className="mb-3">

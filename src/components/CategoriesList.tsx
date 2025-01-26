@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom"; // Componente per la navigazione tra le pagine
-import { Button } from "./input/Button.tsx"; // Importa il componente personalizzato `Button`
 import { backendServer } from "../App.tsx"; // Backend server per effettuare chiamate API
 import { Category } from "../server/server.ts"; // Tipo `Category` per tipizzare i dati
 import './CategoryList.css'; // Importa il file CSS per lo stile del componente
+import { Button } from "./input/Button.tsx"; // Importa il componente personalizzato `Button`
 
 /**
  * Componente `CategoriesList`.

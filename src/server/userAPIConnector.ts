@@ -1,5 +1,5 @@
-import { UserEndpoint } from "./server";
 import AxiosSingleton from "../utility/AxiosSingleton.ts";
+import { UserEndpoint } from "./server";
 
 // Classe per gestire le operazioni relative agli utenti tramite API Strapi
 export default class StrapiUserAPI implements UserEndpoint {

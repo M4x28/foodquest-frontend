@@ -11,7 +11,7 @@ const BoxPunti: React.FC<BoxPuntiProps> = ({ username, points }) => {
     return (
         <div className="text-center central-div">
             {/* Contenitore centrale */}
-            <h2 className="welcome-text">Benvenut@ {username}</h2>
+            <h2 className="welcome-text">Ciao {username}</h2>
             {/* Testo di benvenuto */}
             <div className="points-container">
                 {/* Contenitore per i punti */}

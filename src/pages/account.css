@@ -1,7 +1,7 @@
 .fixed-image {
     position: fixed;
     /* Posiziona l'immagine in un punto fisso nella pagina */
-    top: 10%;
+    top: 3%;
     /* Imposta la distanza dal bordo superiore al 10% della finestra */
     z-index: 1;
     /* Imposta la priorità di sovrapposizione (più alto è il valore, più in alto sarà nell'ordine di rendering) */

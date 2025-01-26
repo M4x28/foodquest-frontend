@@ -157,13 +157,13 @@ export interface UserEndpoint {
  * Interfaccia per la gestione delle fidelity card.
  */
 export interface FCEndpoint {
-    fetchUserFC:(userID: string) => Promise<FidelityCard>
+    fetchUserFC: (userID: string) => Promise<FidelityCard>
     setPointUsage: (userID: string, isUsingPoint: boolean) => Promise<void>
-    addFidelityPoints:(userID: string, productIDs: string[]) => Promise<void>
-    calculateTableDiscount:(tableNumber: number) => Promise<number>
-    createFidelityCard:(userID: string) => Promise<FidelityCard>
-    deleteFidelityCard:(userID: string) => Promise<void>
-    resetPoints:(users: string[]) => Promise<void>
+    addFidelityPoints: (userID: string, productIDs: string[]) => Promise<void>
+    calculateTableDiscount: (tableNumber: number) => Promise<number>
+    createFidelityCard: (userID: string) => Promise<FidelityCard>
+    deleteFidelityCard: (userID: string) => Promise<void>
+    resetPoints: (users: string[]) => Promise<void>
 }
 
 /**
