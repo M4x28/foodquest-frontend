@@ -93,7 +93,7 @@ const OrderPage: React.FC = () => {
         <>
             <Header pageName="Ordine" current={Pages.Order} /> {/* Header della pagina con il titolo "Ordine" */}
             <div className="p-4" style={{ marginTop: '80px' }}> {/* Contenitore principale con padding e margine */}
-                <div style={{ maxHeight: '50rem', overflowY: 'scroll' }}> {/* Contenitore scrollabile per gli elementi */}
+                <div style={{ maxHeight: '50rem', overflowY: 'scroll', paddingBottom: '100px' }}> {/* Contenitore scrollabile per gli elementi */}
                     {Object.keys(itemsByCategory).length === 0 ? (
                         <div className='text-center text-LG mt-5 pt-5'>
                             <h1>Il carrello è vuoto.</h1>
