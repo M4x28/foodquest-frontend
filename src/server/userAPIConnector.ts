@@ -18,7 +18,7 @@ export default class StrapiUserAPI implements UserEndpoint {
     }
 
     /**
-     * Effettua il login di un utente utilizzando email e password.
+     * Effettua il login di un utente utilizzando username e password.
      * 
      * @param {string} identifier - Identificativo dell'utente (email o username).
      * @param {string} password - Password dell'utente.

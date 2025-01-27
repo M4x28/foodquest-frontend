@@ -19,7 +19,6 @@ const RegisterPage: React.FC = () => {
     const [confirmPassword, setConfirmPassword] = useState(""); // Stato per memorizzare la conferma della password
     const [usernameError, setUsernameError] = useState(""); // Stato per l'errore dell'username
     const [passwordError, setPasswordError] = useState(""); // Stato per l'errore della password
-
     useEffect(() => {
         const userData = appState.user; // Estrae i dati dell'utente dallo stato globale
         if (userData) {
@@ -33,8 +32,6 @@ const RegisterPage: React.FC = () => {
         if (username.length < 3) {
             setUsernameError("Il nome utente deve essere di almeno 3 caratteri.");
             hasError = true;
-        } else {
-            setUsernameError("");
         }
 
         const validatePassword = (password: string) => {
@@ -46,10 +43,8 @@ const RegisterPage: React.FC = () => {
         };
 
         if (!validatePassword(password)) {
-            setPasswordError("La password deve essere lunga almeno 6 caratteri e contenere una maiuscola, una minuscola e un carattere speciale.");
+            setPasswordError("Lunghezza almeno 6 caratteri e contenente una maiuscola, una minuscola e un carattere speciale.");
             hasError = true;
-        } else {
-            setPasswordError("");
         }
 
         if (password !== confirmPassword) {
@@ -94,7 +89,7 @@ const RegisterPage: React.FC = () => {
                     {/* Logo della pizza, login-registrazione.css(pizza-logo), bootstrap.css(mb-4) */}
                 </div>
 
-                <div className="form-container">
+                <div className="form-container-register">
                     {/* Contenitore del form, login-registrazione.css(form-container) */}
                     <h2 className="form-title">Crea un nuovo account</h2>
                     {/* Titolo del form, login-registrazione.css(form-title) */}

@@ -17,11 +17,25 @@
     /* Altezza proporzionata */
 }
 
-/* Stile per il contenitore del form */
-.form-container {
+/* Stile per il contenitore del form del login */
+.form-container-login {
     position: fixed;
     /* Posiziona il contenitore in un punto fisso nella pagina */
     top: 40vh;
+    /* Distanza dal bordo superiore */
+    z-index: 1;
+    /* Priorità di sovrapposizione */
+    width: 90vw;
+    /* Larghezza relativa alla finestra */
+    max-width: 300px;
+    /* Larghezza massima */
+}
+
+/* Stile per il contenitore del form della registrazione */
+.form-container-register {
+    position: fixed;
+    /* Posiziona il contenitore in un punto fisso nella pagina */
+    top: 32vh;
     /* Distanza dal bordo superiore */
     z-index: 1;
     /* Priorità di sovrapposizione */

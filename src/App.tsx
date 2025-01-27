@@ -1,35 +1,66 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import useRefresh from './utility/useRefresh.ts';
 
 import ButtonWithPrompt from './components/popup/ButtonWithPrompt.tsx';
-import Header, { Pages } from "./components/utility/Header.tsx"
+import Header, { Pages } from "./components/utility/Header.tsx";
 
 import './App.css';
-import ProductPage from './pages/ProductPage.tsx';
-import OrderPage from './pages/OrderPage.tsx';
-import Home from './pages/home.tsx';
-import Login from './pages/login.tsx';
-import RegisterPage from './pages/registrazione.tsx';
+import CheckBox from './components/input/CheckBox.tsx';
 import Account from './pages/account.tsx';
 import CheckPage from './pages/CheckPage.tsx';
-import ErrorPage from './pages/ErrorPage.tsx';
 import ContoPage from './pages/ContoPage.tsx';
+import ErrorPage from './pages/ErrorPage.tsx';
+import Home from './pages/home.tsx';
+import Landing from './pages/landing.tsx';
+import Login from './pages/login.tsx';
+import OrderPage from './pages/OrderPage.tsx';
 import PizzaBuilder from './pages/PizzaBuilder.tsx';
+import ProductPage from './pages/ProductPage.tsx';
+import ProvaPage from './pages/prova.tsx';
+import RegisterPage from './pages/registrazione.tsx';
 import StrapiServerConnector from './server/backendServerConnector.ts';
 import Server from './server/server.ts';
-import CheckBox from './components/input/CheckBox.tsx';
 import { toErrorPage } from './utility/generic.ts';
-import Landing from './pages/landing.tsx';
 import useAppState, { AppStateHook } from './utility/useAppState.ts';
 
 export const backendServer: Server = new StrapiServerConnector(process.env.REACT_APP_API_URL);
 
-export const AppStateCtx = createContext<AppStateHook>([{}, () => {}]);
+export const AppStateCtx = createContext<AppStateHook>([{}, () => { }]);
 
 function App() {
 
     const [appState, editAppState] = useAppState(sessionStorage);
+
+    const inactivityTimeout = useRef<NodeJS.Timeout | null>(null);
+
+    useEffect(() => {
+        const resetInactivityTimeout = () => {
+            if (inactivityTimeout.current) {
+                clearTimeout(inactivityTimeout.current);
+            }
+            inactivityTimeout.current = setTimeout(() => {
+                handleLogout();
+            }, 30 * 60 * 1000); // 30 minuti in millisecondi
+        };
+
+        const handleLogout = () => {
+            editAppState("user", undefined);
+            window.location.href = "/login"; // Reindirizza alla pagina di login
+        };
+
+        const events = ["mousemove", "keydown", "click"];
+        events.forEach(event => window.addEventListener(event, resetInactivityTimeout));
+
+        resetInactivityTimeout();
+
+        return () => {
+            if (inactivityTimeout.current) {
+                clearTimeout(inactivityTimeout.current);
+            }
+            events.forEach(event => window.removeEventListener(event, resetInactivityTimeout));
+        };
+    }, [editAppState]);
 
     //Periodically Fetch table status
     //eslint-disable-next-line 
@@ -72,7 +103,8 @@ function App() {
         <AppStateCtx.Provider value={[appState, editAppState]}>
             <BrowserRouter>
                 <Routes>
-                    <Route index element={ <Landing/> }/>
+                    <Route index element={<Landing />} />
+                    <Route path="/prova" element={<ProvaPage />} />
                     <Route path="/products/:categoryID" element={<ProductPage />} />
                     <Route path="/orders" element={<OrderPage />} />
                     <Route path='/creazionepizza/:productID?' element={<PizzaBuilder></PizzaBuilder>} />
@@ -85,12 +117,12 @@ function App() {
                     <Route path='/test' element={<Test></Test>} />
                     <Route path='/check' element={<CheckPage />} />
                     <Route path='/expired' element={<ErrorPage errorTitle='Sessione Scaduta' retryBtn={false}
-                        errorMessage='Sembra che la tua sessione di acquisto sia terminta, se ritieni sia un errore chiedi ad un cameriere' />} 
+                        errorMessage='Sembra che la tua sessione di acquisto sia terminta, se ritieni sia un errore chiedi ad un cameriere' />}
                     />
 
                     <Route path='/error' element={<ErrorPage></ErrorPage>} />
                     <Route path='*' element={<ErrorPage errorTitle='Errore 404' retryBtn={false}
-                        errorMessage='La pagina che cerchi non è disponibile' />} 
+                        errorMessage='La pagina che cerchi non è disponibile' />}
                     />
                 </Routes>
             </BrowserRouter>
@@ -137,7 +169,7 @@ function Test() {
             <CheckBox text='Ciao' value={check} onChange={(e) => {
                 console.log("click")
                 backendServer.orders.fetchCurrentOrder({ accessCode: "abcd", sessionCode: "3", number: 3 })
-                .then((res) => console.log(res));
+                    .then((res) => console.log(res));
                 setCheck(c => !c)
             }} />
 
@@ -148,7 +180,7 @@ function Test() {
                 <p style={{ margin: "0px" }}> Test Irreversibile </p>
             </ButtonWithPrompt>
 
-            <button className='dark-btn-inverse my-btn' onClick={() => setState("table", { accessCode: "abcd", sessionCode: "3", number:3 })}>
+            <button className='dark-btn-inverse my-btn' onClick={() => setState("table", { accessCode: "abcd", sessionCode: "3", number: 3 })}>
                 Log to table
             </button>
             <button className='err-btn my-btn' onClick={() => setState("table", { accessCode: "abcd", sessionCode: "4" })}>

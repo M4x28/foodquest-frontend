@@ -45,7 +45,7 @@ const Input: React.FC<InputProps> = ({
     // Stile predefinito per il messaggio di errore
     const errorDefaultStyle: React.CSSProperties = {
         color: "#b30000", // Colore rosso per evidenziare l'errore
-        fontSize: "1.2rem", // Dimensione del font del messaggio di errore
+        fontSize: "1rem", // Dimensione del font del messaggio di errore
         fontWeight: "bold", // Testo in grassetto
         padding: "0px 1rem", // Spaziatura interna orizzontale
         width: "90vw", // Adattamento dinamico alla larghezza dello schermo
