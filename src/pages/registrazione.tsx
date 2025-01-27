@@ -6,6 +6,7 @@ import Input from "../components/input/Input.tsx"; // Importa il nuovo component
 import Header, { Pages } from "../components/utility/Header.tsx"; // Assicurati di aggiornare il percorso corretto per Header.tsx
 import "./login-registrazione.css"; // File CSS per la pagina di registrazione
 // Importa il componente logo
+//test
 import ToggleButtons from "../components/input/accountButton.tsx";
 import Logo from '../components/logo.tsx';
 
