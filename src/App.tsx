@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import useRefresh from './utility/useRefresh.ts';
 
 import ButtonWithPrompt from './components/popup/ButtonWithPrompt.tsx';
@@ -29,6 +29,8 @@ export const backendServer: Server = new StrapiServerConnector(process.env.REACT
 export const AppStateCtx = createContext<AppStateHook>([{}, () => { }]);
 
 function App() {
+
+    const navigate = useNavigate();
 
     const [appState, editAppState] = useAppState(sessionStorage);
 
@@ -66,8 +68,6 @@ function App() {
     //eslint-disable-next-line 
     const [tableStatus, _] = useRefresh<string>(async () => {
 
-        const url: string = window.location.pathname;
-
         //Stop if no table is selected
         if (!appState.table) {
             return "";
@@ -78,8 +78,7 @@ function App() {
             .catch(e => {
                 console.log(e);
 
-                if (url !== "/error")
-                    window.location.replace('/error');
+                toErrorPage(navigate);
 
                 return "";
             });
@@ -88,44 +87,43 @@ function App() {
 
     //When table Status change move to correct page
     useEffect(() => {
-        //Origin url to avoid continuos redirection
-        const url: string = window.location.pathname;
 
-        if (tableStatus === "CHECK" && url !== "/check") {
-            window.location.replace('/check');
+        console.log(tableStatus);
+        if (tableStatus === "CHECK") {
+            navigate("/check")
         }
-        if (tableStatus === "EXPIRED" && url !== "/expired") {
-            window.location.replace('/expired');
+        if (tableStatus === "EXPIRED") {
+            navigate('/expired');
         }
     }, [tableStatus])
 
     return (
         <AppStateCtx.Provider value={[appState, editAppState]}>
-            <BrowserRouter>
-                <Routes>
-                    <Route index element={<Landing />} />
-                    <Route path="/prova" element={<ProvaPage />} />
-                    <Route path="/products/:categoryID" element={<ProductPage />} />
-                    <Route path="/orders" element={<OrderPage />} />
-                    <Route path='/creazionepizza/:productID?' element={<PizzaBuilder></PizzaBuilder>} />
-                    <Route path='/home' element={<Home></Home>} />
-                    <Route path='/login' element={<Login></Login>} />
-                    <Route path='/register' element={<RegisterPage></RegisterPage>} />
-                    <Route path='/order' element={<OrderPage></OrderPage>} />
-                    <Route path='/conto' element={<ContoPage></ContoPage>} />
-                    <Route path='/account' element={<Account></Account>} />
-                    <Route path='/test' element={<Test></Test>} />
-                    <Route path='/check' element={<CheckPage />} />
-                    <Route path='/expired' element={<ErrorPage errorTitle='Sessione Scaduta' retryBtn={false}
-                        errorMessage='Sembra che la tua sessione di acquisto sia terminta, se ritieni sia un errore chiedi ad un cameriere' />}
-                    />
 
-                    <Route path='/error' element={<ErrorPage></ErrorPage>} />
-                    <Route path='*' element={<ErrorPage errorTitle='Errore 404' retryBtn={false}
-                        errorMessage='La pagina che cerchi non è disponibile' />}
-                    />
-                </Routes>
-            </BrowserRouter>
+            <Routes>
+                <Route index element={<Landing />} />
+                <Route path="/prova" element={<ProvaPage />} />
+                <Route path="/products/:categoryID" element={<ProductPage />} />
+                <Route path="/orders" element={<OrderPage />} />
+                <Route path='/creazionepizza/:productID?' element={<PizzaBuilder></PizzaBuilder>} />
+                <Route path='/home' element={<Home></Home>} />
+                <Route path='/login' element={<Login></Login>} />
+                <Route path='/register' element={<RegisterPage></RegisterPage>} />
+                <Route path='/order' element={<OrderPage></OrderPage>} />
+                <Route path='/conto' element={<ContoPage></ContoPage>} />
+                <Route path='/account' element={<Account></Account>} />
+                <Route path='/test' element={<Test></Test>} />
+                <Route path='/check' element={<CheckPage />} />
+                <Route path='/expired' element={<ErrorPage errorTitle='Sessione Scaduta' retryBtn={false}
+                    errorMessage='Sembra che la tua sessione di acquisto sia terminta, se ritieni sia un errore chiedi ad un cameriere' />}
+                />
+
+                <Route path='/error' element={<ErrorPage></ErrorPage>} />
+                <Route path='*' element={<ErrorPage errorTitle='Errore 404' retryBtn={false}
+                    errorMessage='La pagina che cerchi non è disponibile' />}
+                />
+            </Routes>
+
         </AppStateCtx.Provider>
 
     );
