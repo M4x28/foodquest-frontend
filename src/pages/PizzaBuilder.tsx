@@ -190,11 +190,11 @@ const PizzaBuilder: React.FC = () => {
         <>
             <Header pageName="Crea Pizza" current={Pages.Home} />
 
-            <ImageStack allIngredients={allIngredients} height={"400px"} />
+            <ImageStack allIngredients={allIngredients} />
 
-            <BaseDropdown initialSelectedBase={allIngredients.find((ing) => ing.type == "pizza-base")} handleReplaceBaseIngredient={handleReplaceBaseIngredient} />
+            <BaseDropdown initialSelectedBase={allIngredients.find((ing) => ing.type === "pizza-base")} handleReplaceBaseIngredient={handleReplaceBaseIngredient} />
 
-            <div className="bg-white pb-1 rounded-4 mx-3 border border-4 border-info shadow-lg">
+            <div className="bg-white pb-1 rounded-4 mx-3 border border-4 border-info shadow-lg mx-auto" style={{ maxWidth: "90%" }}>
                 <ExtraIngredientsList
                     extraIngredients={allIngredients.filter((ing) => ing.type !== "pizza-base")}
                     handleRemoveIngredient={(ingredientId) => handleRemoveIngredients([ingredientId])}
