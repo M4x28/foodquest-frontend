@@ -1,7 +1,7 @@
 import React from "react";
-import { Button } from "../input/Button.tsx"; // Import del componente `Button`
 import { DetailIngredient } from "../../server/server.ts"; // Import del tipo `DetailIngredient`
 import { sortIngredients } from "../../utility/ingredientSorter.ts"; // Import della funzione per ordinare gli ingredienti
+import { Button } from "../input/Button.tsx"; // Import del componente `Button`
 
 // Interfaccia per le proprietà accettate dal componente `ExtraIngredientsList`
 interface ExtraIngredientsListProps {

@@ -1,4 +1,5 @@
 import React from "react";
+import "../../App.css"; // Importa il file CSS per lo stile dell'applicazione
 import "../../bootstrap.css"; // Importa il file CSS di Bootstrap per il layout
 import { DetailIngredient } from "../../server/server.ts"; // Importa il tipo `DetailIngredient`
 import { sortIngredients } from "../../utility/ingredientSorter.ts"; // Importa la funzione per ordinare gli ingredienti
@@ -8,7 +9,7 @@ interface ImageStackProps {
     allIngredients: DetailIngredient[]; // Lista di tutti gli ingredienti
     baseSize?: string;                  // Dimensione degli ingredienti base (opzionale, default: "70%")
     extraSize?: string;                 // Dimensione degli ingredienti extra (opzionale, default: "60%")
-    height: string;                     // Altezza dello stack delle immagini
+    height?: string;                     // Altezza dello stack delle immagini
 }
 
 /**
@@ -39,8 +40,8 @@ const ImageStack: React.FC<ImageStackProps> = ({
         <div className="d-flex flex-column align-items-center justify-content-center">
             {/* Contenitore principale per lo stack delle immagini */}
             <div
-                className="position-relative mt-5"
-                style={{ width: "100%", height }} // Altezza e larghezza impostate dinamicamente
+                className="position-relative mt-5 image-stack-container" // Posizionamento relativo per gli elementi assoluti
+                
             >
                 {/* Mostra l'ingrediente base se presente */}
                 {baseIngredient && (

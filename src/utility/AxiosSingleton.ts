@@ -28,8 +28,6 @@ class AxiosSingleton {
                 // Headers di default per tutte le richieste
                 headers: {
                     "Content-Type": "application/json",
-                    // Usa il token di autenticazione dall'ambiente
-                    Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
                 },
                 // Timeout di default per le richieste
                 timeout: 10000,
