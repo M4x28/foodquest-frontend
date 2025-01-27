@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react"; // Importa React, i contesti, gli effetti, lo stato e useRef
+import React, { useContext, useEffect, useState } from "react"; // Importa React, i contesti, gli effetti e lo stato
 import { useNavigate } from "react-router-dom"; // Hook per la navigazione tra pagine
 import { AppStateCtx, backendServer } from "../App.tsx"; // Importa il contesto globale e il server backend
 import "../bootstrap.css"; // Importa lo stile di Bootstrap
@@ -9,13 +9,14 @@ import "./login-registrazione.css"; // Importa lo stile personalizzato per la pa
 import ToggleButtons from "../components/input/accountButton.tsx"; // Pulsanti di toggle per Login e Registrazione
 import Logo from "../components/logo.tsx"; // Componente per il logo
 
+// Formato per la specifica delle classi CSS: nomefile1.css(nomeclasse-1, nomeclasse-2, ..., nomeclasse-n)
+
 const RegisterPage: React.FC = () => {
     const [appState, updateAppState] = useContext(AppStateCtx); // Usa il contesto globale per accedere allo stato dell'app
     const navigate = useNavigate(); // Inizializza il navigatore per il reindirizzamento
     const [username, setUsername] = useState(""); // Stato per memorizzare l'email
     const [password, setPassword] = useState(""); // Stato per memorizzare la password
     const [authErr, setAuthErr] = useState(""); // Stato per l'errore dell'username
-    const inactivityTimeout = useRef<NodeJS.Timeout | null>(null); // Riferimento per il timeout di inattività
 
     useEffect(() => {
         const userData = appState.user; // Estrae i dati dell'utente dallo stato globale
@@ -23,34 +24,6 @@ const RegisterPage: React.FC = () => {
             navigate("/account"); // Reindirizza alla pagina account se l'utente è già loggato
         }
     }, [navigate, appState.user]); // Esegue l'effetto quando `navigate` o `appState.user` cambiano
-
-    useEffect(() => {
-        const resetInactivityTimeout = () => {
-            if (inactivityTimeout.current) {
-                clearTimeout(inactivityTimeout.current); // Resetta il timeout di inattività
-            }
-            inactivityTimeout.current = setTimeout(() => {
-                handleLogout(); // Disconnette l'utente dopo 30 minuti di inattività
-            }, 2); // 30 minuti in millisecondi
-        };
-
-        const handleLogout = () => {
-            updateAppState("user", null); // Rimuove i dati dell'utente dallo stato globale
-            navigate("/login"); // Reindirizza alla pagina di login
-        };
-
-        const events = ["mousemove", "keydown", "click"]; // Eventi che resettano il timeout di inattività
-        events.forEach(event => window.addEventListener(event, resetInactivityTimeout));
-
-        resetInactivityTimeout(); // Inizializza il timeout di inattività
-
-        return () => {
-            if (inactivityTimeout.current) {
-                clearTimeout(inactivityTimeout.current); // Pulisce il timeout di inattività al dismount del componente
-            }
-            events.forEach(event => window.removeEventListener(event, resetInactivityTimeout));
-        };
-    }, [navigate, updateAppState]);
 
     const handleLogin = async () => {
         try {
@@ -68,7 +41,6 @@ const RegisterPage: React.FC = () => {
             };
 
             updateAppState("user", userData); // Salva i dati dell'utente nello stato globale
-            navigate("/account"); // Reindirizza l'utente alla pagina account
         } catch (error) {
             setAuthErr("Errore durante il login. Controlla le tue credenziali e riprova."); // Mostra un messaggio d'errore
             console.error(error); // Logga l'errore nella console
@@ -88,6 +60,7 @@ const RegisterPage: React.FC = () => {
             - `justify-content-center`: Centra il contenuto verticalmente.
             - `text-white`: Imposta il colore del testo a bianco.
         */}
+
                 {/* Immagine fissa */}
                 <div className="fixed-image">
                     {/* Contenitore per l'immagine fissa, login-registrazione.css(fixed-image) */}
@@ -97,6 +70,7 @@ const RegisterPage: React.FC = () => {
               - `mb-4`: Margine inferiore di 1.5rem.
           */}
                 </div>
+
                 {/* Form fisso */}
                 <div className="form-container-login">
                     {/* Contenitore del form, login-registrazione.css(form-container) */}
@@ -127,6 +101,7 @@ const RegisterPage: React.FC = () => {
                         </div>
                     </form>
                 </div>
+
                 <ToggleButtons
                     primaryButton="login"
                     onLogin={handleLogin}

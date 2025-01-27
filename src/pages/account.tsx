@@ -1,21 +1,24 @@
-import React, { useContext, useEffect, useRef, useState } from "react"; // Importa React, i contesti, gli effetti, lo stato e useRef
+import React, { useContext, useEffect, useState } from "react"; // Importa React, i contesti, gli effetti e lo stato
 import { useNavigate } from "react-router-dom"; // Hook per la navigazione tra pagine
 import { AppStateCtx } from "../App.tsx"; // Importa il contesto globale dell'applicazione
 import { ReactComponent as LogoutIcon } from "../assets/logout.svg"; // Importa il file SVG dell'icona logout
 import { ReactComponent as PizzaIcon } from "../assets/pizza.svg"; // Importa il file SVG dell'icona pizza
 import "../bootstrap.css"; // Importa lo stile di Bootstrap
-import BoxPunti from "../components/card/pointCard.tsx"; // Importa il componente BoxPunti
 import { Button } from '../components/input/Button.tsx'; // Importa il componente Button personalizzato
-import Logo from '../components/logo.tsx'; // Importa il componente Logo
 import Header, { Pages } from "../components/utility/Header.tsx"; // Importa il componente Header e il tipo Pages
 import "./account.css"; // Importa lo stile personalizzato per la pagina account
+// Importa il componente logo
+import BoxPunti from "../components/card/pointCard.tsx";
+import Logo from '../components/logo.tsx';
+
+//Formato per la specifica delle classi css: nomefile1.css(nomeclasse-1,nomeclasse-1,...,nomeclasse-n), nomefile2.css(nomeclasse-2,nomeclasse-2,...,nomeclasse-k)
 
 const AccountPage: React.FC = () => {
     const [appState, updateAppState] = useContext(AppStateCtx); // Usa il contesto globale per accedere allo stato dell'app
+
     const navigate = useNavigate(); // Inizializza il navigatore per il reindirizzamento
     const [username, setUsername] = useState<string>(""); // Stato per memorizzare il nome utente
     const [points, setPoints] = useState<number>(0); // Stato per memorizzare i punti dell'utente
-    const inactivityTimeout = useRef<NodeJS.Timeout | null>(null); // Riferimento per il timeout di inattività
 
     useEffect(() => {
         const userData = appState.user; // Estrae i dati dell'utente dallo stato globale
@@ -26,38 +29,13 @@ const AccountPage: React.FC = () => {
 
         setUsername(userData.user.username || "Utente"); // Imposta il nome utente o un valore di default
         setPoints(userData.user.Points || 0); // Imposta i punti dell'utente o un valore di default
-
-        const resetInactivityTimeout = () => {
-            if (inactivityTimeout.current) {
-                clearTimeout(inactivityTimeout.current); // Resetta il timeout di inattività
-            }
-            inactivityTimeout.current = setTimeout(() => {
-                handleLogout(); // Disconnette l'utente dopo 30 minuti di inattività
-            }, 30 * 60 * 1000); // 30 minuti in millisecondi
-        };
-
-        const handleLogout = () => {
-            updateAppState("user", undefined); // Rimuove l'utente dallo stato globale
-            navigate("/login"); // Reindirizza alla pagina di login
-        };
-
-        const events = ["mousemove", "keydown", "click"]; // Eventi che resettano il timeout di inattività
-        events.forEach(event => window.addEventListener(event, resetInactivityTimeout));
-
-        resetInactivityTimeout(); // Inizializza il timeout di inattività
-
-        return () => {
-            if (inactivityTimeout.current) {
-                clearTimeout(inactivityTimeout.current); // Pulisce il timeout di inattività al dismount del componente
-            }
-            events.forEach(event => window.removeEventListener(event, resetInactivityTimeout));
-        };
-    }, [navigate, appState.user, updateAppState]);
+    }, [navigate, appState.user]); // Esegue l'effetto quando `navigate` o `appState.user` cambiano
 
     const handleLogout = () => {
         updateAppState("user", undefined); // Rimuove l'utente dallo stato globale
         navigate("/login"); // Reindirizza alla pagina di login
     };
+
     return (
         <>
             <Header pageName="FIDELITY CARD" current={Pages.FC} /> {/* Aggiunge l'header con il titolo "FIDELITY CARD" */}
