@@ -1,9 +1,11 @@
 import { DetailProduct, Product } from "../server/server";
 
+// Helper event handler that stop event bubbling
 export const stopPropagation = (e) => {
     e.stopPropagation();
 }
 
+//Create a submit handler that stop default handler from executing
 export const handleSubmitFactory = (handler: (e:React.SyntheticEvent<HTMLFormElement>) => void) => {
     
     return (e:React.SyntheticEvent<HTMLFormElement>) => {
@@ -31,7 +33,10 @@ export const formatPrice = (price: number): string => {
  * @param {function} navigator - Funzione per la navigazione.
  */
 export const toErrorPage = (navigator) => {
-    navigator("/error"); // Reindirizza l'utente alla pagina "/error"
+    // Check if not already on error page
+    if(window.location.pathname != "/error"){
+        navigator("/error");
+    }
 }
 
 // Interfaccia che estende `DetailProduct` con una proprietà `quantity`
@@ -46,21 +51,18 @@ export interface productsWithQuantity extends DetailProduct {
  * @returns {productsWithQuantity[]} Array di prodotti con quantità incluse.
  */
 export const countProduct = (products: Product[]): productsWithQuantity[] => {
-    // Mappa per tracciare i prodotti e le loro quantità
+    // Product map for counting
     const productMap: { [key: string]: productsWithQuantity } = {};
 
-    // Itera su ogni prodotto nella lista
     products.forEach((p) => {
         if (productMap[p.documentId]) {
-            // Incrementa la quantità se il prodotto è già nella mappa
-            productMap[p.documentId].quantity += 1;
+            productMap[p.documentId].quantity += 1;             //Update existing product
         } else {
-            // Aggiunge il prodotto alla mappa con quantità iniziale pari a 1
-            productMap[p.documentId] = { ...p, quantity: 1 };
+            productMap[p.documentId] = { ...p, quantity: 1 };   //Add prod to map
         }
     });
 
-    // Restituisce i valori della mappa come array
+    // Return Map Values as Array
     return Object.values(productMap);
 }
 

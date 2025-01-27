@@ -56,7 +56,7 @@ function Landing() {
                     console.log(e)
                     toErrorPage(navigate);
                 })
-    }, []);
+    }, []); // eslint-disable-line
 
     //Tries to log to table when accessCode in inserted manually
     const tryLog = () => {

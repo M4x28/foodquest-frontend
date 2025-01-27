@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import useRefresh from './utility/useRefresh.ts';
 
 import ButtonWithPrompt from './components/popup/ButtonWithPrompt.tsx';
@@ -29,13 +29,13 @@ export const AppStateCtx = createContext<AppStateHook>([{}, () => {}]);
 
 function App() {
 
+    const navigate = useNavigate();
+
     const [appState, editAppState] = useAppState(sessionStorage);
 
     //Periodically Fetch table status
     //eslint-disable-next-line 
     const [tableStatus, _] = useRefresh<string>(async () => {
-
-        const url: string = window.location.pathname;
 
         //Stop if no table is selected
         if (!appState.table) {
@@ -47,8 +47,7 @@ function App() {
             .catch(e => {
                 console.log(e);
 
-                if (url !== "/error")
-                    window.location.replace('/error');
+                toErrorPage(navigate);
 
                 return "";
             });
@@ -57,20 +56,19 @@ function App() {
 
     //When table Status change move to correct page
     useEffect(() => {
-        //Origin url to avoid continuos redirection
-        const url: string = window.location.pathname;
 
-        if (tableStatus === "CHECK" && url !== "/check") {
-            window.location.replace('/check');
+        console.log(tableStatus);
+        if (tableStatus === "CHECK") {
+            navigate("/check")
         }
-        if (tableStatus === "EXPIRED" && url !== "/expired") {
-            window.location.replace('/expired');
+        if (tableStatus === "EXPIRED") {
+            navigate('/expired');
         }
     }, [tableStatus])
 
     return (
         <AppStateCtx.Provider value={[appState, editAppState]}>
-            <BrowserRouter>
+
                 <Routes>
                     <Route index element={ <Landing/> }/>
                     <Route path="/products/:categoryID" element={<ProductPage />} />
@@ -93,7 +91,7 @@ function App() {
                         errorMessage='La pagina che cerchi non è disponibile' />} 
                     />
                 </Routes>
-            </BrowserRouter>
+
         </AppStateCtx.Provider>
 
     );
