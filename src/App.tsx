@@ -17,7 +17,6 @@ import Login from './pages/login.tsx';
 import OrderPage from './pages/OrderPage.tsx';
 import PizzaBuilder from './pages/PizzaBuilder.tsx';
 import ProductPage from './pages/ProductPage.tsx';
-import ProvaPage from './pages/prova.tsx';
 import RegisterPage from './pages/registrazione.tsx';
 import StrapiServerConnector from './server/backendServerConnector.ts';
 import Server from './server/server.ts';
@@ -102,7 +101,6 @@ function App() {
 
             <Routes>
                 <Route index element={<Landing />} />
-                <Route path="/prova" element={<ProvaPage />} />
                 <Route path="/products/:categoryID" element={<ProductPage />} />
                 <Route path="/orders" element={<OrderPage />} />
                 <Route path='/creazionepizza/:productID?' element={<PizzaBuilder></PizzaBuilder>} />
