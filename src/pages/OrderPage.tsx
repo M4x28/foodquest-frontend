@@ -72,7 +72,21 @@ const OrderPage: React.FC = () => {
             }
         }
 
-        setItemsByCategory(itemsMap); // Aggiorna lo stato con gli elementi organizzati
+        // Ordina le categorie in base a `antFirst`
+        const sortedItemsMap = {};
+        if (antFirst) {
+            Object.keys(itemsMap).sort((a, b) => itemsMap[a].name === 'Antipasti' ? 1 : itemsMap[b].name === 'Antipasti' ? -1 : 0)
+                .forEach(key => {
+                    sortedItemsMap[key] = itemsMap[key];
+                });
+        } else {
+            Object.keys(itemsMap).sort((a, b) => itemsMap[a].name === 'Antipasti' ? -1 : itemsMap[b].name === 'Antipasti' ? 1 : 0)
+                .forEach(key => {
+                    sortedItemsMap[key] = itemsMap[key];
+                });
+        }
+
+        setItemsByCategory(sortedItemsMap); // Aggiorna lo stato con gli elementi organizzati
     };
 
     // Funzione per ottenere gli ingredienti di un prodotto
