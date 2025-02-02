@@ -1,0 +1,51 @@
+.loading-icon{
+    fill: var(--dark-col);
+    height: 4rem;
+    width: 4rem;
+    animation: 1s linear infinite spin;
+}
+
+.loading-icon path{
+    fill: var(--dark-col);
+}
+
+@keyframes spin{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+.loading-text{
+    font-size: 2rem;
+    font-weight: bold;
+    margin-left: 1rem;
+}
+
+.loading-text::after{
+    content: "";
+    animation: 2s ease-out infinite dot;
+}
+
+@keyframes dot {
+    0%{
+        content: "";
+    }
+    33%{
+        content: ".";
+    }
+    66%{
+        content: "..";
+    }
+    100%{
+        content: "...";
+    }
+}
+
+.load{
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+}

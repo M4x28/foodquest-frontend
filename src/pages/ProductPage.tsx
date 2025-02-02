@@ -9,6 +9,8 @@ import { backendServer } from '../App.tsx';
 import { Allergen, DetailProduct, Ingredient } from "../server/server.ts";
 import { toErrorPage } from "../utility/generic.ts";
 import { Button } from "../components/input/Button.tsx";
+import useLoading from "../utility/useLoading.ts";
+import LoadingPopup from "../components/popup/LoadingPopup.tsx";
 
 /**
  * Componente per la visualizzazione della pagina dei prodotti per una categoria specifica.
@@ -16,6 +18,7 @@ import { Button } from "../components/input/Button.tsx";
 function ProductPage() {
     const navigate = useNavigate();
     const { categoryID } = useParams(); //Fetch categoryID from the url
+    const [loading,_,end] = useLoading(1000,true);
 
     const [catName, setCatName] = useState("Loading...");           // Category Name (For page title)
     const [products, setProducts] = useState<DetailProduct[]>([]);  // Products to show
@@ -39,7 +42,7 @@ function ProductPage() {
         backendServer.categories.fetchProductByCategory(categoryID || "")
             .then((catDetail) => {
                 setProducts(catDetail.products);
-
+                end();
                 // If any product as ingredients then fetch them from backend
                 if (catDetail.hasIg) {
                     backendServer.ingredient.fetchIngredient().then(ig => {
@@ -101,6 +104,7 @@ function ProductPage() {
                     </Button>
                 </section>
             }
+            <LoadingPopup loading={loading}/>
         </div>
     );
 }

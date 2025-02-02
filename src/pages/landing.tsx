@@ -14,6 +14,8 @@ import Logo from '../components/logo.tsx';
 
 import "./landing.css";
 import "./page.css";
+import useLoading from '../utility/useLoading.ts';
+import LoadingPopup from '../components/popup/LoadingPopup.tsx';
 
 /**
  * Componente per la pagina di atterraggio (Landing Page).
@@ -22,6 +24,7 @@ import "./page.css";
 function Landing() {
 
     const [appState, updateAppState] = useContext(AppStateCtx);
+    const [loading,start,end] = useLoading(1000,false);
     // eslint-disable-next-line
     const [param, _] = useSearchParams();
 
@@ -62,14 +65,21 @@ function Landing() {
     const tryLog = () => {
         const trimCode = accessCode.trim(); // Rimuove eventuali spazi bianchi dal codice
         if (trimCode !== "") {
+            start();
             accessTable()
                 .then(() => {
                     navigate('/home')
+                    end();
                 })
                 .catch((e) => {
                     console.log(e);
-                    //Display error message to user
-                    setError("Il codice inserito non è valido");
+                    end();
+                    if(e.status == 401){
+                        //Display error message to user
+                        setError("Il codice inserito non è valido");
+                    }else{
+                        toErrorPage(navigate);
+                    }
                 })
         }
     }
@@ -129,6 +139,7 @@ function Landing() {
                     {inputInQuery ? "INIZIA A ORDINARE" : "ACCEDI AL TAVOLO"}
                 </Button>
             </form>
+            <LoadingPopup loading={loading}/>
         </>
     );
 }

@@ -2,17 +2,11 @@ import React, { createContext, useContext, useEffect, useRef, useState } from 'r
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import useRefresh from './utility/useRefresh.ts';
 
-import ButtonWithPrompt from './components/popup/ButtonWithPrompt.tsx';
-import Header, { Pages } from "./components/utility/Header.tsx";
-
-import './App.css';
-import CheckBox from './components/input/CheckBox.tsx';
 import Account from './pages/account.tsx';
 import CheckPage from './pages/CheckPage.tsx';
 import ContoPage from './pages/ContoPage.tsx';
 import ErrorPage from './pages/ErrorPage.tsx';
 import Home from './pages/home.tsx';
-import Landing from './pages/landing.tsx';
 import Login from './pages/login.tsx';
 import OrderPage from './pages/OrderPage.tsx';
 import PizzaBuilder from './pages/PizzaBuilder.tsx';
@@ -20,8 +14,12 @@ import ProductPage from './pages/ProductPage.tsx';
 import RegisterPage from './pages/registrazione.tsx';
 import StrapiServerConnector from './server/backendServerConnector.ts';
 import Server from './server/server.ts';
+import Landing from './pages/landing.tsx';
+import Test from './Test.tsx';
 import { toErrorPage } from './utility/generic.ts';
-import useAppState, { AppStateHook } from './utility/useAppState.ts';
+import useAppState,{ AppStateHook } from './utility/useAppState.ts';
+
+import './App.css';
 
 export const backendServer: Server = new StrapiServerConnector(process.env.REACT_APP_API_URL);
 
@@ -128,65 +126,3 @@ function App() {
 }
 
 export default App;
-
-//Test per vedere se funzionava
-function Test() {
-
-    const navigate = useNavigate();
-
-    // eslint-disable-next-line
-    const [state, setState] = useContext(AppStateCtx);
-
-    const [time, refreshTime] = useRefresh<Date>(async () => new Date(), new Date(), 1000);
-    const [check, setCheck] = useState(false);
-
-    const pad0 = (n: number, lenght: number): string => {
-        let res: string = n.toString();
-        return res.padStart(lenght, "0");
-    }
-
-    const formatDate = (date: Date): string => {
-
-        const hours = pad0(date.getHours(), 2);
-        const mins = pad0(date.getMinutes(), 2);
-        const secs = pad0(date.getSeconds(), 2);
-
-        return hours + ":" + mins + ":" + secs;
-
-    }
-
-    const test = () => { alert("Ciao sono una azione irreversibile") }
-
-    return (
-        <div className='page'>
-            <Header pageName='Test' current={Pages.FC} />
-            <h1>{formatDate(time)}</h1>
-
-            <CheckBox text='Ciao' value={check} onChange={(e) => {
-                console.log("click")
-                backendServer.orders.fetchCurrentOrder({ accessCode: "abcd", sessionCode: "3", number: 3 })
-                    .then((res) => console.log(res));
-                setCheck(c => !c)
-            }} />
-
-            <button className="light-btn my-btn" onClick={refreshTime}> Che ore sono? </button>
-
-            <ButtonWithPrompt className="dark-btn my-btn" onClick={test} popupTitle='Azione Irreversibile'
-                popupText='Questa azione non può essere annullata, proseguire?'>
-                <p style={{ margin: "0px" }}> Test Irreversibile </p>
-            </ButtonWithPrompt>
-
-            <button className='dark-btn-inverse my-btn' onClick={() => setState("table", { accessCode: "abcd", sessionCode: "3", number: 3 })}>
-                Log to table
-            </button>
-            <button className='err-btn my-btn' onClick={() => setState("table", { accessCode: "abcd", sessionCode: "4" })}>
-                Log to expired table
-            </button>
-
-            <button className='err-btn my-btn' onClick={() => toErrorPage(navigate)}>
-                Error
-            </button>
-
-        </div>
-    )
-}

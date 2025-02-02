@@ -13,6 +13,8 @@ import { ReactComponent as CloseIcon } from "../assets/close.svg";
 import "./contoPage.css";
 import CheckBox from '../components/input/CheckBox.tsx';
 import { toErrorPage } from '../utility/generic.ts';
+import useLoading from '../utility/useLoading.ts';
+import LoadingPopup from '../components/popup/LoadingPopup.tsx';
 
 /**
  * Componente per la pagina del conto, che consente di visualizzare gli ordini,
@@ -27,6 +29,10 @@ function ContoPage() {
     // State for handling fc point usage
     const [usingPoint, setUsingPoint] = useState(false);
     const [point, setPoint] = useState(0);
+
+    //Loader states
+    const [loadingOrders,startLoadOrders,endLoadOrders] = useLoading(1000,true);
+    const [loadingTotal,startLoadTotal,endLoadTotal] = useLoading(1000,true);
 
     // Fecth user detail for handling fc card
     useEffect(() => {
@@ -47,7 +53,7 @@ function ContoPage() {
 
     // Periodically fetch orders done (20s)
     // eslint-disable-next-line
-    const [orders, __] = useRefresh<Order[]|null>(async () => {
+    const [orders, __] = useRefresh<Order[]>(async () => {
         
         //Go to error page if table is not specified
         if (!appState.table) {
@@ -56,14 +62,17 @@ function ContoPage() {
         }
 
         //Fetch order from backend server
-        return await backendServer.orders.fetchOrdersDone(appState.table)
+        const orders = await backendServer.orders.fetchOrdersDone(appState.table)
             .catch((err) => {
                 console.log(err);
                 toErrorPage(navigate);
                 return [];
             });
 
-    }, null, 20000);
+        endLoadOrders();
+        return orders;
+
+    }, [], 20000);
 
     // Periodically fetch total (20s)
     // Separate from order to allow separate refresh when needed (Point usage change)
@@ -77,11 +86,15 @@ function ContoPage() {
         }
 
         //Fetch total from backend server
-        return await backendServer.table.fetchTotal(appState.table).catch((err) => {
+        const total = await backendServer.table.fetchTotal(appState.table)
+        .catch((err) => {
             console.log(err);
             toErrorPage(navigate);
             return { total: 0, discount: 0 };
         });
+
+        endLoadTotal();
+        return total;
 
     }, { total: 0, discount: 0 }, 20000, [appState.table]);
 
@@ -130,7 +143,7 @@ function ContoPage() {
             <Header pageName='Conto' current={Pages.Check} />
 
             <section className='orders-container'>
-                {orders && (orders.length > 0 ? 
+                {!loadingOrders && (orders.length > 0 ? 
                 orders.map((order, index) => (
                     <OrderCard key={order.documentId} order={order} index={index + 1} />
                 )):
@@ -161,6 +174,7 @@ function ContoPage() {
             >
                 Chiedi il conto
             </ButtonWithPrompt>
+            <LoadingPopup loading={loadingOrders || loadingTotal}></LoadingPopup>
         </div>
     );
 }
