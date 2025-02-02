@@ -32,7 +32,7 @@ const Home: React.FC = () => {
     return (
         <div className="d-flex flex-column align-items-center">
             {/* Intestazione della pagina */}
-            <Header pageName="HOME" current={Pages.Home} />
+            <Header pageName="BENVENUTO" current={Pages.Home} />
 
             {/* Contenitore del logo */}
             <div className="logo-container my-5">

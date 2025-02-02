@@ -67,7 +67,7 @@ const ToggleButtons: React.FC<ToggleButtonsProps> = ({
                         onClick={() => navigateTo("/login")}
                     // Azione: naviga alla pagina login
                     >
-                        LOGIN
+                        ACCEDI
                     </Button>
                 </>
             )}
