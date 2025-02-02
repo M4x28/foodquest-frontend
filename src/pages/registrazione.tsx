@@ -78,7 +78,7 @@ const RegisterPage: React.FC = () => {
 
     return (
         <>
-            <Header pageName="FIDELITY CARD" current={Pages.FC} /> {/* Header per la pagina di registrazione */}
+            <Header pageName="CARTA FEDELTÁ" current={Pages.FC} /> {/* Header per la pagina di registrazione */}
             <div className="container-fluid vh-100 d-flex flex-column align-items-center justify-content-center text-white">
                 {/* Layout principale, bootstrap.css(container-fluid,vh-100,d-flex,flex-column,align-items-center,justify-content-center,text-white) */}
 

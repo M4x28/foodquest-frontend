@@ -49,7 +49,7 @@ const RegisterPage: React.FC = () => {
 
     return (
         <>
-            <Header pageName="FIDELITY CARD" current={Pages.FC} /> {/* Aggiunge l'header con il titolo "Fidelity Card" */}
+            <Header pageName="CARTA FEDELTÁ" current={Pages.FC} /> {/* Aggiunge l'header con il titolo "Fidelity Card" */}
             <div className="container-fluid vh-100 d-flex flex-column align-items-center justify-content-center text-white">
                 {/* Layout principale, bootstrap.css(container-fluid, vh-100, d-flex, flex-column, align-items-center, justify-content-center, text-white)
             - `container-fluid`: Contenitore fluido al 100%.

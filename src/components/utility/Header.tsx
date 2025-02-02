@@ -40,7 +40,7 @@ function Header({ pageName, current }: PropType) {
 
     return (
         <div className="header-container">
-            
+
             <header>
                 <Link to="/home" className="home-btn">
                     <HomeIcon />
@@ -65,7 +65,7 @@ function Header({ pageName, current }: PropType) {
                         <OrderIcon /> Resoconto ordini
                     </Link>
                     <Link className={"dropdown-voice" + (current === Pages.FC ? " current" : "")} to={"/account"}>
-                        <AccountIcon /> Fidelity Card
+                        <AccountIcon /> Carta Fedeltà
                     </Link>
                 </nav>
             </div>

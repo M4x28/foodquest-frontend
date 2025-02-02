@@ -38,7 +38,7 @@ const AccountPage: React.FC = () => {
 
     return (
         <>
-            <Header pageName="FIDELITY CARD" current={Pages.FC} /> {/* Aggiunge l'header con il titolo "FIDELITY CARD" */}
+            <Header pageName="CARTA FEDELTÁ" current={Pages.FC} /> {/* Aggiunge l'header con il titolo "FIDELITY CARD" */}
             <div className="container-fluid vh-100 d-flex flex-column align-items-center justify-content-center text-white">
                 {/* Sezione principale, layout a schermo intero con Bootstrap, bootstrap.css(container-fluid,vh-100,d-flex,flex-column,align-items-center,justify-content-center,text-white) */}
 
@@ -80,7 +80,7 @@ const AccountPage: React.FC = () => {
                     >
                         <LogoutIcon className="icon me-2" />
                         {/* Icona del logout, account.css(icon), bootstrap.css(me-2) */}
-                        LOGOUT {/* Testo del bottone */}
+                        ESCI {/* Testo del bottone */}
                     </Button>
                 </div>
             </div>

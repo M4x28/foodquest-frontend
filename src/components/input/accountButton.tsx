@@ -30,7 +30,7 @@ const ToggleButtons: React.FC<ToggleButtonsProps> = ({
                         style={{ backgroundColor: "#28b62c", color: "#fff" }}
                         onClick={onLogin} // Azione login
                     >
-                        LOGIN
+                        ACCEDI
                     </Button>
                     {/* Testo separatore, login-registrazione.css(separator-text) */}
                     <Button
