@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppStateCtx, backendServer } from "../App.tsx";
+import { ReactComponent as CartIcon } from "./../assets/shoppingCart.svg";
 // Style
 import "../bootstrap.css";
 // Components
@@ -194,6 +195,31 @@ const PizzaBuilder: React.FC = () => {
 
             <BaseDropdown initialSelectedBase={allIngredients.find((ing) => ing.type === "pizza-base")} handleReplaceBaseIngredient={handleReplaceBaseIngredient} />
 
+            <div className="d-flex justify-content-center my-3">
+                <Button
+                    className="gradient-button py-2"
+                    variant="info"
+                    onClick={() => setPopupState(!popupState)}
+                >
+                    <h3 className="text-LG my-0">Aggiungi Ingrediente <span className="h2">+</span></h3>
+                </Button>
+            </div>
+            <style>{`
+                .gradient-button {
+                    background: linear-gradient(90deg, #00c6ff, #0072ff, #e67818);
+                    background-size: 300% 300%;
+                    animation: gradient-animation 7s ease infinite;
+                    border: none;
+                    color: white;
+                }
+
+                @keyframes gradient-animation {
+                    0% { background-position: 0% 50%; }
+                    50% { background-position: 100% 50%; }
+                    100% { background-position: 0% 50%; }
+                }
+            `}</style>
+
             <div className="bg-white pb-1 rounded-4 mx-3 border border-4 border-info shadow-lg mx-auto" style={{ maxWidth: "90%" }}>
                 <ExtraIngredientsList
                     extraIngredients={allIngredients.filter((ing) => ing.type !== "pizza-base")}
@@ -217,18 +243,14 @@ const PizzaBuilder: React.FC = () => {
                 style={{
                     position: "fixed",
                     bottom: 10,
+                    left: 0,
+                    right: 0,
                 }}
             >
-                <div className="col-6">
-                    <Button className="border border-3 border-white" variant="info" onClick={() => setPopupState(!popupState)}>
-                        <h5 className="text-LG">Aggiungi Ingrediente</h5>
-                    </Button>
-                </div>
-                <div className="col-6">
+                <div className="col-12">
                     <Button
-                        className="border border-3 border-white"
+                        className="w-100 py-2"
                         variant="success"
-                        size="xl"
                         onClick={async () => {
                             try {
                                 addProductToCart(appState.table, await createNewProductHandler()); // Passa l'ID del prodotto a addProductToCart
@@ -238,7 +260,7 @@ const PizzaBuilder: React.FC = () => {
                             }
                         }}
                     >
-                        <h5 className="text-LG">Aggiungi al Carrello</h5>
+                        <h3 className="text-LG my-2"><CartIcon className="cart-icon" /> Aggiungi al Carrello</h3>
                     </Button>
                 </div>
             </div>

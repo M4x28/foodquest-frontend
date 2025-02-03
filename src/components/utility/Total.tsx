@@ -9,7 +9,7 @@ import { formatPrice } from "../../utility/generic.ts";
  * @param {number} [discount=0] - Sconto applicato al totale. Default: 0.
  * @param {string} [className] - Classe CSS opzionale per lo stile del componente.
  */
-export default function Total({ total, discount = 0, className }: { total: number, discount: number, className?: string }) {
+export default function Total({ total, discount = 0, className }: { total: number, discount?: number, className?: string }) {
 
     if (!discount || discount === 0) {
         // if discount is not present

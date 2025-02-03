@@ -8,6 +8,7 @@ import { OrderCategoryComponent } from '../components/OrderItemComponent.tsx'; /
 import ButtonWithPrompt from '../components/popup/ButtonWithPrompt.tsx'; // Importa un pulsante con popup di conferma
 import Header, { Pages } from "../components/utility/Header.tsx"; // Importa il componente Header e l'oggetto Pages
 import { countProduct } from '../utility/generic.ts'; // Importa una funzione per contare i prodotti
+import Total from '../components/utility/Total.tsx';
 
 // Componente principale per la pagina dell'ordine
 const OrderPage: React.FC = () => {
@@ -17,6 +18,7 @@ const OrderPage: React.FC = () => {
     const [orderDocumentId, setOrderDocumentId] = useState<string | null>(null); // Stato per memorizzare l'ID dell'ordine
     const [itemsByCategory, setItemsByCategory] = useState({}); // Stato per memorizzare gli elementi raggruppati per categoria
     const [antFirst, setAntFirst] = useState(false); // Stato per controllare l'ordinamento (antipasti per primi)
+    const [orderTotal, setOrderTotal] = useState(0); // Stato per memorizzare il totale dell'ordine
 
     useEffect(() => {
         // Richiama immediatamente i dati dell'ordine al primo avvio
@@ -49,8 +51,8 @@ const OrderPage: React.FC = () => {
     // Funzione per organizzare i prodotti in categorie
     const organizeItems = async (items) => {
         const itemsMap = {}; // Mappa per organizzare gli elementi per categoria
-
         const countedItems = countProduct(items); // Conta le quantità dei prodotti
+        let total = 0; // Inizializza il totale dell'ordine
 
         for (const item of countedItems) {
             const categoryId = item.category.documentId; // Ottieni l'ID della categoria
@@ -69,8 +71,10 @@ const OrderPage: React.FC = () => {
                 }
 
                 itemsMap[categoryId].items.push(item); // Aggiungi l'elemento alla categoria
+                total += item.price * item.quantity;
             }
         }
+        setOrderTotal(total); // Aggiorna il totale dell'ordine
 
         // Ordina le categorie in base a `antFirst`
         const sortedItemsMap = {};
@@ -132,6 +136,7 @@ const OrderPage: React.FC = () => {
                 <div style={{
                     position: 'fixed', bottom: 0, width: '90%'
                 }}> {/* Contenitore fisso in basso per il checkbox e il pulsante */}
+                    <Total total={orderTotal} className='total' />
                     <CheckBox value={antFirst} text="Prima gli antipasti." onChange={toggleAnt} /> {/* Checkbox per invertire l'ordine */}
                     <ButtonWithPrompt
                         className='dark-btn check-btn'

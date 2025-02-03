@@ -89,7 +89,7 @@ const RegisterPage: React.FC = () => {
                     {/* Logo della pizza, login-registrazione.css(pizza-logo), bootstrap.css(mb-4) */}
                 </div>
 
-                <div className="form-container-register">
+                <div className="form-container-register mt-3">
                     {/* Contenitore del form, login-registrazione.css(form-container) */}
                     <h2 className="form-title">Crea un nuovo account</h2>
                     {/* Titolo del form, login-registrazione.css(form-title) */}
@@ -123,6 +123,9 @@ const RegisterPage: React.FC = () => {
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
                         </div>
+                        <h5 className="text-secondary">
+                            La password deve avere almeno 6 caratteri, una maiuscola e un numero.
+                        </h5>
                     </form>
                 </div>
 

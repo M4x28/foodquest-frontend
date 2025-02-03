@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import Header, { Pages } from "../components/utility/Header.tsx";
 import { useNavigate, useParams } from "react-router-dom";
-import ProductCard from "../components/card/ProductCard.tsx";
 import { ReactComponent as PizzaIcon } from "../assets/pizzaFull.svg";
+import ProductCard from "../components/card/ProductCard.tsx";
+import Header, { Pages } from "../components/utility/Header.tsx";
 
-import "./productPage.css";
 import { backendServer } from '../App.tsx';
+import { Button } from "../components/input/Button.tsx";
+import LoadingPopup from "../components/popup/LoadingPopup.tsx";
 import { Allergen, DetailProduct, Ingredient } from "../server/server.ts";
 import { toErrorPage } from "../utility/generic.ts";
-import { Button } from "../components/input/Button.tsx";
 import useLoading from "../utility/useLoading.ts";
-import LoadingPopup from "../components/popup/LoadingPopup.tsx";
+import "./productPage.css";
 
 /**
  * Componente per la visualizzazione della pagina dei prodotti per una categoria specifica.
@@ -18,7 +18,7 @@ import LoadingPopup from "../components/popup/LoadingPopup.tsx";
 function ProductPage() {
     const navigate = useNavigate();
     const { categoryID } = useParams(); //Fetch categoryID from the url
-    const [loading,_,end] = useLoading(1000,true);
+    const [loading, _, end] = useLoading(1000, true);
 
     const [catName, setCatName] = useState("Loading...");           // Category Name (For page title)
     const [products, setProducts] = useState<DetailProduct[]>([]);  // Products to show
@@ -27,7 +27,7 @@ function ProductPage() {
     const [customizable, setCustomizable] = useState(false);        // Product allow customization (The product have ingredient)
 
     useEffect(() => {
-        
+
         //Fetch category detail
         backendServer.categories.fetchCatergoryDetail(categoryID || "")
             .then(catDetail => {
@@ -97,14 +97,14 @@ function ProductPage() {
 
             {customizable &&
                 <section className="create-btn-container">
-                    <Button className="create-btn" variant="success" 
+                    <Button className="create-btn rounded rounded-4" variant="success"
                         onClick={() => navigate("/creazionepizza")}>
                         <PizzaIcon />
                         Crea la tua pizza
                     </Button>
                 </section>
             }
-            <LoadingPopup loading={loading}/>
+            <LoadingPopup loading={loading} />
         </div>
     );
 }
