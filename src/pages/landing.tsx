@@ -12,10 +12,10 @@ import mario from "../assets/Home/mario.png";
 import Logo from '../components/logo.tsx';
 
 
+import LoadingPopup from '../components/popup/LoadingPopup.tsx';
+import useLoading from '../utility/useLoading.ts';
 import "./landing.css";
 import "./page.css";
-import useLoading from '../utility/useLoading.ts';
-import LoadingPopup from '../components/popup/LoadingPopup.tsx';
 
 /**
  * Componente per la pagina di atterraggio (Landing Page).
@@ -24,14 +24,14 @@ import LoadingPopup from '../components/popup/LoadingPopup.tsx';
 function Landing() {
 
     const [appState, updateAppState] = useContext(AppStateCtx);
-    const [loading,start,end] = useLoading(1000,false);
+    const [loading, start, end] = useLoading(1000, false);
     // eslint-disable-next-line
     const [param, _] = useSearchParams();
 
     //See if there are input in the query, if so not show input field and automatically load table
-    const inputInQuery = param.has("accessCode");
+    const inputInQuery = param.has("accesscode");
 
-    const [accessCode, setAccessCode] = useState<string>(param.get("accessCode") || "");
+    const [accesscode, setaccesscode] = useState<string>(param.get("accesscode") || "");
     const [error, setError] = useState<string | undefined>();      //Error message to display on input
 
     const navigate = useNavigate();
@@ -40,11 +40,11 @@ function Landing() {
     const [name] = useState("Pizzeria da Mimmo"); // Nome del ristorante
     // eslint-disable-next-line
 
-    //Use accessCode to log to the table
+    //Use accesscode to log to the table
     const accessTable = () => {
-        return backendServer.table.logToTable(accessCode)
+        return backendServer.table.logToTable(accesscode)
             .then(table => {
-                table.accessCode = accessCode; // Assegna il codice di accesso al tavolo
+                table.accessCode = accesscode; // Assegna il codice di accesso al tavolo
                 updateAppState("table", table); // Aggiorna lo stato globale con i dettagli del tavolo
             });
     };
@@ -61,9 +61,9 @@ function Landing() {
                 })
     }, []); // eslint-disable-line
 
-    //Tries to log to table when accessCode in inserted manually
+    //Tries to log to table when accesscode in inserted manually
     const tryLog = () => {
-        const trimCode = accessCode.trim(); // Rimuove eventuali spazi bianchi dal codice
+        const trimCode = accesscode.trim(); // Rimuove eventuali spazi bianchi dal codice
         if (trimCode !== "") {
             start();
             accessTable()
@@ -74,10 +74,10 @@ function Landing() {
                 .catch((e) => {
                     console.log(e);
                     end();
-                    if(e.status == 401){
+                    if (e.status == 401) {
                         //Display error message to user
                         setError("Il codice inserito non è valido");
-                    }else{
+                    } else {
                         toErrorPage(navigate);
                     }
                 })
@@ -91,13 +91,13 @@ function Landing() {
         }
     };
 
-    //Handle user input to change accessCode (when maually inserted)
+    //Handle user input to change accesscode (when maually inserted)
     const handleCodeChange = (e) => {
-        setAccessCode(e.target.value)
+        setaccesscode(e.target.value)
     }
 
     //Set cta variant based on the login state
-    const btnVariant = inputInQuery ? (appState.table ? "success" : "secondary") : (accessCode.trim() !== "" ? "success" : "secondary");
+    const btnVariant = inputInQuery ? (appState.table ? "success" : "secondary") : (accesscode.trim() !== "" ? "success" : "secondary");
 
     return (
         <>
@@ -129,7 +129,7 @@ function Landing() {
                 {!inputInQuery && //Display input field only if was not provided in query
                     <Input type='text' placeholder='Inserisci il codice' className='cta-input'
                         style={{ maxWidth: "400px", width: "80vw" }}
-                        error={error} value={accessCode} onChange={handleCodeChange} />
+                        error={error} value={accesscode} onChange={handleCodeChange} />
                 }
                 <Button
                     variant={btnVariant}
@@ -139,7 +139,7 @@ function Landing() {
                     {inputInQuery ? "INIZIA A ORDINARE" : "ACCEDI AL TAVOLO"}
                 </Button>
             </form>
-            <LoadingPopup loading={loading}/>
+            <LoadingPopup loading={loading} />
         </>
     );
 }
