@@ -1,4 +1,4 @@
-#table{
+#table {
     position: absolute;
     right: 1rem;
     font-size: 1.5rem;
@@ -8,13 +8,13 @@
     color: var(--dark-col);
 }
 
-#welcome-msg{
+#welcome-msg {
     display: grid;
     grid-template-columns: 25% auto;
 }
 
 @media (min-width: 500px) {
-    #welcome-msg{
+    #welcome-msg {
         max-width: 500px;
         display: grid;
         grid-template-columns: 100px auto;
@@ -22,47 +22,46 @@
     }
 }
 
-#welcome-msg img{
+#welcome-msg img {
     width: 100%;
 }
 
-#welcome-msg h3{
+#welcome-msg h3 {
     font-size: 2rem;
     margin: auto;
     font-weight: bold;
     padding-left: 2rem;
 }
 
-#logo{
+#logo {
     max-width: 400px;
     position: absolute;
     left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-
+    top: 45%;
+    transform: translate(-50%, -50%);
     width: 100%;
 }
 
-#logo img{
+#logo img {
     width: 80%;
     max-width: 320px;
     display: block;
     margin: auto;
 }
 
-#logo h1{
+#logo h1 {
     font-size: 2.5rem;
     font-weight: bolder;
     text-align: center;
 }
 
 @media (max-height: 700px) {
-    #logo img{
+    #logo img {
         max-width: 250px;
     }
 }
 
-.call-to-action{
+.call-to-action {
 
     width: fit-content;
 
@@ -73,11 +72,11 @@
     bottom: 2rem;
 }
 
-.cta-input{
+.cta-input {
     margin-bottom: 0.5rem;
 }
 
-.cta-btn{
+.cta-btn {
     width: 80vw;
     max-width: 400px;
     font-size: 2rem;

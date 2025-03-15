@@ -5,8 +5,6 @@ import { Button } from '../components/input/Button.tsx';
 import Input from '../components/input/Input.tsx';
 import { handleSubmitFactory, toErrorPage } from '../utility/generic.ts';
 
-import bigMario from "../assets/Home/big-mario.png";
-import mario from "../assets/Home/mario.png";
 
 // Importa il componente logo
 import Logo from '../components/logo.tsx';
@@ -102,25 +100,16 @@ function Landing() {
     return (
         <>
             {/* Intestazione della pagina */}
-            <header className='page-box-bg'>
-                <h4 id="table" className='luckiest-font'>
+            <header className=''>
+                <h4 id="table" className='luckiest-font mt-5 bg-white'>
                     Tavolo {appState.table ? appState.table.number : "..."} {/* Mostra il numero del tavolo */}
                 </h4>
-                <div id='welcome-msg'>
-                    {/* Mostra l'immagine di Mario (grande o piccola in base alla larghezza dello schermo) */}
-                    <picture>
-                        <source media='(min-width: 500px)' srcSet={bigMario}></source>
-                        <source media="(max-width: 499px)" srcSet={mario}></source>
-                        <img src={mario} alt='Mascotte foodquest'></img>
-                    </picture>
-                    <h3>Foodquest ti da il benvenuto da</h3> {/* Messaggio di benvenuto */}
-                </div>
             </header>
 
             {/* Sezione del logo */}
             <section id="logo">
-                <Logo alt={`Logo ${name}`} /> {/* Mostra il logo con il componente */}
                 <h1>{name}</h1> {/* Mostra il nome del ristorante */}
+                <Logo alt={`Logo ${name}`} /> {/* Mostra il logo con il componente */}
             </section>
 
             {/* Sezione di call-to-action */}
