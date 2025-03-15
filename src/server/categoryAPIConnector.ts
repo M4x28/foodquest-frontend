@@ -52,21 +52,21 @@ export default class StrapiCategoryAPI implements CategoryEndpoint {
     }
 
     /**
-     * Recupera gli ID e i nomi di tutte le categorie.
+     * Recupera gli ID, i nomi e l'ordine di visualizzazione di tutte le categorie.
      * 
-     * @returns {Promise<Category[]>} Array di oggetti `Category` contenenti ID e nome delle categorie.
+     * @returns {Promise<Category[]>} Array di oggetti `Category` contenenti ID, nome e ordine di visualizzazione delle categorie.
      */
-    fetchCategoriesIdAndName(): Promise<Category[]> {
-        return AxiosSingleton.getInstance()
-            .get(`${this.__endpoint__}?fields=documentId%2C%20Name`) // Recupera solo i campi `documentId` e `Name`
-            .then(response =>
-                // Mappa i dati per creare oggetti `Category`
-                response.data.data.map((item: any) => ({
-                    id: item.id,               // ID della categoria
-                    documentId: item.documentId, // ID del documento della categoria
-                    name: item.Name,           // Nome della categoria
-                }))
-            );
+    async fetchCategoriesIdAndName(): Promise<Category[]> {
+        const response = await AxiosSingleton.getInstance()
+            .get(`${this.__endpoint__}?fields=documentId%2C%20Name%2C%20ShowOrder&_sort=ShowOrder:ASC`); // Recupera solo i campi `documentId`, `Name` e `ShowOrder` e ordina per `ShowOrder` in modo crescente
+
+        // Mappa i dati per creare oggetti `Category`
+        return response.data.data.map((item: any) => ({
+            id: item.id,               // ID della categoria
+            documentId: item.documentId, // ID del documento della categoria
+            name: item.Name,           // Nome della categoria
+            showOrder: item.ShowOrder  // Ordine di visualizzazione della categoria
+        }));
     }
 
     /**
