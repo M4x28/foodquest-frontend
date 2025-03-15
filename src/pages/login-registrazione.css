@@ -52,7 +52,7 @@
     /* Dimensione del testo */
     letter-spacing: 0.1rem;
     /* Spaziatura tra le lettere */
-    color: white;
+    color: var(--very-dark-col);
     /* Colore del testo */
     text-align: center;
     /* Allinea il testo al centro */
@@ -92,7 +92,7 @@
     /* Spaziatura tra le lettere */
     font-size: 2rem;
     /* Dimensione del testo */
-    color: rgb(56, 56, 56);
+    color: var(--very-dark-col);
     /* Colore del testo */
     text-align: center;
     /* Allinea il testo al centro */

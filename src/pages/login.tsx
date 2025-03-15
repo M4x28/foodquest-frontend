@@ -74,7 +74,7 @@ const RegisterPage: React.FC = () => {
                 {/* Form fisso */}
                 <div className="form-container-login">
                     {/* Contenitore del form, login-registrazione.css(form-container) */}
-                    <h2 className="form-title">Accedi al tuo account</h2>
+                    <h2 className="form-title ">Accedi al tuo account</h2>
                     {/* Titolo del form, login-registrazione.css(form-title) */}
                     <form className="w-100">
                         {/* Form principale, bootstrap.css(w-100)

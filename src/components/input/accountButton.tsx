@@ -27,7 +27,7 @@ const ToggleButtons: React.FC<ToggleButtonsProps> = ({
                         variant="success w-100"
                         className="action-button mb-2"
                         size="lg"
-                        style={{ backgroundColor: "#28b62c", color: "#fff" }}
+                        style={{ backgroundColor: "var(--dark-col)", color: "#fff" }}
                         onClick={onLogin} // Azione login
                     >
                         ACCEDI
@@ -38,7 +38,7 @@ const ToggleButtons: React.FC<ToggleButtonsProps> = ({
                         variant="light w-100"
                         className="action-button"
                         size="lg"
-                        style={{ backgroundColor: "#f6f6f6", color: "#000" }}
+                        style={{ backgroundColor: "#f6f6f6", color: "var(--very-dark-col)" }}
                         onClick={() => navigateTo("/register")}
                     // Azione: naviga alla pagina registrazione
                     >
@@ -52,7 +52,7 @@ const ToggleButtons: React.FC<ToggleButtonsProps> = ({
                         variant="success w-100"
                         className="action-button mb-2"
                         size="lg"
-                        style={{ backgroundColor: "#28b62c", color: "#fff" }}
+                        style={{ backgroundColor: "var(--dark-col)", color: "#fff" }}
                         onClick={onRegister} // Azione registrazione
                     >
                         REGISTRAZIONE
@@ -63,7 +63,7 @@ const ToggleButtons: React.FC<ToggleButtonsProps> = ({
                         variant="light w-100"
                         className="action-button"
                         size="lg"
-                        style={{ backgroundColor: "#f6f6f6", color: "#000" }}
+                        style={{ backgroundColor: "#f6f6f6", color: "var(--very-dark-col)" }}
                         onClick={() => navigateTo("/login")}
                     // Azione: naviga alla pagina login
                     >

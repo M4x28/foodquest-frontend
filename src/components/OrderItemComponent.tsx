@@ -86,7 +86,7 @@ export const OrderCategoryComponent: React.FC<OrderCategoryProps> = ({ title, it
     return (
         <div className="mb-3 rounded cat-box">
             {/* Titolo della categoria */}
-            <h5 className="bg-success text-white p-2 m-0 item-style">{title}</h5>
+            <h5 className="text-white p-2 m-0 item-style" style={{ backgroundColor: 'var(--very-dark-col)' }}>{title}</h5>
             {/* Contenitore per gli elementi */}
 
             <div className="bg-light p-2">

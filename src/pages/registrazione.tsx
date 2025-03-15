@@ -123,7 +123,7 @@ const RegisterPage: React.FC = () => {
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
                         </div>
-                        <h5 className="text-secondary">
+                        <h5 className="text-black">
                             La password deve avere almeno 6 caratteri, una maiuscola e un numero.
                         </h5>
                     </form>

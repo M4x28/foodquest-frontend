@@ -46,7 +46,8 @@ function ProductCard({ product, ingredients, allergens, editable, imgUrl = place
     if (ingredients) {
         description = ingredients
             .sort((a, b) => -a.type.localeCompare(b.type))      //Order by type
-            .reduce((desc, ig) => desc + ig.name + ", ", ""); 
+            .reduce((desc, ig) => desc + ig.name + ", ", "")
+            .slice(0, -2); // Remove the trailing comma and space
     }
 
     function toggleAllergen() {

@@ -57,14 +57,12 @@ button.button-animate {
 }
 
 .item-style {
-    border-Bottom: 3px solid #198754;
+    border-Bottom: 3px solid ver(--dark-col);
     font-Family: Luckiest Guy, Coursive, sans-serif;
     letter-Spacing: 0.1rem;
 }
 
 .cat-box {
-
-    border: 4px solid green;
+    border: 4px solid var(--dark-col);
     overflow: hidden;
-
 }
