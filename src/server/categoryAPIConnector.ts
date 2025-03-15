@@ -58,8 +58,7 @@ export default class StrapiCategoryAPI implements CategoryEndpoint {
      */
     async fetchCategoriesIdAndName(): Promise<Category[]> {
         const response = await AxiosSingleton.getInstance()
-            .get(`${this.__endpoint__}?fields=documentId%2C%20Name%2C%20ShowOrder&_sort=ShowOrder:ASC`); // Recupera solo i campi `documentId`, `Name` e `ShowOrder` e ordina per `ShowOrder` in modo crescente
-
+            .get(`${this.__endpoint__}?fields=documentId%2C%20Name%2C%20ShowOrder&sort=ShowOrder:ASC`); // Recupera solo i campi `documentId`, `Name` e `ShowOrder` e ordina per `ShowOrder` in modo crescente
         // Mappa i dati per creare oggetti `Category`
         return response.data.data.map((item: any) => ({
             id: item.id,               // ID della categoria
