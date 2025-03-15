@@ -70,7 +70,7 @@ const AccountPage: React.FC = () => {
                         ORDINA {/* Testo del bottone */}
                     </Button>
                     <Button
-                        variant="danger w-100"
+                        variant="dark w-100"
                         // Stile Bootstrap per un bottone grande e rosso, bootstrap.css(danger,w-100)
                         className="action-button"
                         // Classe personalizzata per stile aggiuntivo, account.css(action-button)

@@ -1,20 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Header, { Pages } from '../components/utility/Header.tsx';
-import useRefresh from '../utility/useRefresh.ts';
-import { AppStateCtx } from '../App.tsx';
-import ButtonWithPrompt from '../components/popup/ButtonWithPrompt.tsx';
-import OrderCard from '../components/card/orderCard.tsx';
 import { useNavigate } from 'react-router-dom';
-import { backendServer } from '../App.tsx';
-import { Order } from '../server/server.ts';
+import { AppStateCtx, backendServer } from '../App.tsx';
+import OrderCard from '../components/card/orderCard.tsx';
+import ButtonWithPrompt from '../components/popup/ButtonWithPrompt.tsx';
+import Header, { Pages } from '../components/utility/Header.tsx';
 import Total from '../components/utility/Total.tsx';
+import { Order } from '../server/server.ts';
+import useRefresh from '../utility/useRefresh.ts';
 
 import { ReactComponent as CloseIcon } from "../assets/close.svg";
-import "./contoPage.css";
 import CheckBox from '../components/input/CheckBox.tsx';
+import LoadingPopup from '../components/popup/LoadingPopup.tsx';
 import { toErrorPage } from '../utility/generic.ts';
 import useLoading from '../utility/useLoading.ts';
-import LoadingPopup from '../components/popup/LoadingPopup.tsx';
+import "./contoPage.css";
 
 /**
  * Componente per la pagina del conto, che consente di visualizzare gli ordini,
@@ -31,8 +30,8 @@ function ContoPage() {
     const [point, setPoint] = useState(0);
 
     //Loader states
-    const [loadingOrders,startLoadOrders,endLoadOrders] = useLoading(1000,true);
-    const [loadingTotal,startLoadTotal,endLoadTotal] = useLoading(1000,true);
+    const [loadingOrders, startLoadOrders, endLoadOrders] = useLoading(1000, true);
+    const [loadingTotal, startLoadTotal, endLoadTotal] = useLoading(1000, true);
 
     // Fecth user detail for handling fc card
     useEffect(() => {
@@ -54,7 +53,7 @@ function ContoPage() {
     // Periodically fetch orders done (20s)
     // eslint-disable-next-line
     const [orders, __] = useRefresh<Order[]>(async () => {
-        
+
         //Go to error page if table is not specified
         if (!appState.table) {
             toErrorPage(navigate);
@@ -78,7 +77,7 @@ function ContoPage() {
     // Separate from order to allow separate refresh when needed (Point usage change)
     // eslint-disable-next-line
     const [{ total, discount }, reloadTotal] = useRefresh<{ total: number, discount: number }>(async () => {
-        
+
         //Go to error page if table is not specified
         if (!appState.table) {
             toErrorPage(navigate);
@@ -87,11 +86,11 @@ function ContoPage() {
 
         //Fetch total from backend server
         const total = await backendServer.table.fetchTotal(appState.table)
-        .catch((err) => {
-            console.log(err);
-            toErrorPage(navigate);
-            return { total: 0, discount: 0 };
-        });
+            .catch((err) => {
+                console.log(err);
+                toErrorPage(navigate);
+                return { total: 0, discount: 0 };
+            });
 
         endLoadTotal();
         return total;
@@ -142,11 +141,13 @@ function ContoPage() {
         <div className='page'>
             <Header pageName='Conto' current={Pages.Check} />
 
-            <section className='orders-container'>
-                {!loadingOrders && (orders.length > 0 ? 
-                orders.map((order, index) => (
-                    <OrderCard key={order.documentId} order={order} index={index + 1} />
-                )):
+            <section className='orders-container' style={{
+                height: '650px',
+            }}>
+                {!loadingOrders && (orders.length > 0 ?
+                    orders.map((order, index) => (
+                        <OrderCard key={order.documentId} order={order} index={index + 1} />
+                    )) :
                     <h3 className='total'> Nessun ordine trovato </h3>
                 )}
             </section>

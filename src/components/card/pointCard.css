@@ -16,6 +16,7 @@
     /* Dimensione del testo grande */
     letter-spacing: 0.1rem;
     /* Aumenta la spaziatura tra i caratteri */
+    color: var(--very-dark-col);
 }
 
 .points-container {

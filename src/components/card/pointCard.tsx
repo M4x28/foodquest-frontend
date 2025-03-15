@@ -16,7 +16,7 @@ const BoxPunti: React.FC<BoxPuntiProps> = ({ username, points }) => {
             <div className="points-container">
                 {/* Contenitore per i punti */}
                 <h4 className="points">
-                    Hai <span className="text-success">{points} punti</span>
+                    Hai <span style={{ color: "var(--dark-col)" }}><b>{points} punti</b></span>
                 </h4>
                 <p className="points-description">
                     Ottieni punti acquistando da noi e poi convertili in sconti esclusivi
