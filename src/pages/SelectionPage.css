@@ -1,0 +1,67 @@
+.selection-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.selection-title {
+    text-align: center;
+    margin-top: 70px;
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.selection-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.scrollable-list {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 65vh;
+    margin-bottom: 20px;
+}
+
+.selection-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: rgba(204, 204, 204, 0.562);
+    border-radius: 8px;
+    margin-bottom: 70px;
+    /* Spazio per i bottoni fissi */
+}
+
+.selection-item {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.selection-buttons.fixed-bottom {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    z-index: 10;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.selection-buttons .Button {
+    flex: 1;
+    height: 60px;
+    border-radius: 0;
+}
+
+.selection-buttons .create-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
